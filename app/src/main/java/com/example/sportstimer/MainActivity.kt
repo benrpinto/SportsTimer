@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
 
         buttonReset.setOnClickListener(){
             mainChronometer.base = SystemClock.elapsedRealtime()
+            pauseTime = mainChronometer.base
         }
 
         buttonUpLeft.setOnClickListener(){
