@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Sports Timer</string>
+    <string name="ResetButton">Reset Button</string>
+    <string name="IncreaseScore">Increase Score Button</string>
+    <string name="DecreaseScore">Decrease Score Button</string>
+    <string name="PlayPauseButton">Play or Pause Button</string>
+    <string name="ScoreSeparator">:</string>
+    <string name="InitialScore">0</string>
+</resources>
