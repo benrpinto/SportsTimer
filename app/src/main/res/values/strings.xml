@@ -6,4 +6,8 @@
     <string name="PlayPauseButton">Play or Pause Button</string>
     <string name="ScoreSeparator">:</string>
     <string name="InitialScore">0</string>
+    <string name="flag_runner">Flag Runner</string>
+    <string name="yellow2">2 Minutes</string>
+    <string name="yellow1">1 Minute</string>
+    <string name="clear_card_timer">Clear Card</string>
 </resources>
