@@ -1,7 +1,6 @@
 package com.example.sportstimer
 
 import android.os.Bundle
-import android.os.CountDownTimer
 import androidx.activity.ComponentActivity
 import android.os.SystemClock
 import android.widget.Button
@@ -9,8 +8,7 @@ import android.widget.Chronometer
 import android.widget.ImageButton
 import android.widget.TextView
 
-private const val MillisecondsPerSecond = 1000 as Long
-private const val MillisecondsPerMinute = 60000 as Long
+private const val MillisecondsPerMinute :Long = 60000
 private const val SEEKER_FLOOR = MillisecondsPerMinute * 20
 private const val NUM_CARDS = 4
 
@@ -52,8 +50,8 @@ class MainActivity : ComponentActivity() {
 
         var isRunning = false
         var pauseTime = SystemClock.elapsedRealtime()
-        var cardRunner = longArrayOf(0,0,0,0)
-        var cardPause = longArrayOf(0,0,0,0)
+        val cardRunner = longArrayOf(0,0,0,0)
+        val cardPause = longArrayOf(0,0,0,0)
 
         flagChronometer.base = SystemClock.elapsedRealtime() + SEEKER_FLOOR
 
