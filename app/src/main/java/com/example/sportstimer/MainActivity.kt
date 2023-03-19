@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
         //timers
         val mainChronometer = findViewById<Chronometer>(R.id.chronometer)
         val flagChronometer = findViewById<Chronometer>(R.id.flagCountdown)
+        val timeoutChronometer = findViewById<Chronometer>(R.id.timeoutCounter)
         val cardChronometer = arrayOf(
             findViewById<Chronometer>(R.id.cardCountdown1),
             findViewById<Chronometer>(R.id.cardCountdown2),
@@ -34,6 +35,9 @@ class MainActivity : ComponentActivity() {
         val buttonUpRight = findViewById<ImageButton>(R.id.scoreUpRight)
         val buttonDownLeft = findViewById<ImageButton>(R.id.scoreDownLeft)
         val buttonDownRight = findViewById<ImageButton>(R.id.scoreDownRight)
+        val buttonTimeout = findViewById<Button>(R.id.timeout)
+        val buttonTimeoutMinus = findViewById<Button>(R.id.minus1)
+        val buttonTimeoutPlus = findViewById<Button>(R.id.plus1)
         val button1Min = findViewById<Button>(R.id.yellow1)
         val button2Min = findViewById<Button>(R.id.yellow2)
         val cardClear = arrayOf(
@@ -49,6 +53,7 @@ class MainActivity : ComponentActivity() {
         var scoreRight = 0
 
         var isRunning = false
+        var isTimeout = false
         var pauseTime = SystemClock.elapsedRealtime()
         val cardRunner = longArrayOf(0,0,0,0)
         val cardPause = longArrayOf(0,0,0,0)
@@ -78,7 +83,6 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 buttonPlayPause.setImageResource(R.drawable.button_pause)
-
             }
             isRunning = !isRunning
         }
@@ -100,6 +104,16 @@ class MainActivity : ComponentActivity() {
                 buttonPlayPause.setImageResource(R.drawable.button_play)
                 isRunning = false
             }
+            scoreLeft = 0
+            scoreRight = 0
+            scoreLeftText.text = scoreLeft.toString()
+            scoreRightText.text = scoreRight.toString()
+            if (isTimeout) {
+                timeoutChronometer.base = SystemClock.elapsedRealtime()
+                timeoutChronometer.stop()
+                buttonTimeout.text = getString(R.string.timeout)
+                isTimeout = false
+            }
         }
 
         buttonUpLeft.setOnClickListener(){
@@ -118,6 +132,40 @@ class MainActivity : ComponentActivity() {
             scoreRight -= 10
             scoreRightText.text = scoreRight.toString()
         }
+
+        buttonTimeout.setOnClickListener() {
+            if (isTimeout) {
+                timeoutChronometer.base = SystemClock.elapsedRealtime()
+                timeoutChronometer.stop()
+                buttonTimeout.text = getString(R.string.timeout)
+            } else {
+                timeoutChronometer.base = SystemClock.elapsedRealtime() + MillisecondsPerMinute
+                timeoutChronometer.start()
+                buttonTimeout.text = getString(R.string.ClearTimeout)
+            }
+            isTimeout = !isTimeout
+        }
+
+            timeoutChronometer.setOnChronometerTickListener {
+                if (timeoutChronometer.base < SystemClock.elapsedRealtime()) {
+                    timeoutChronometer.stop()
+                    timeoutChronometer.base = SystemClock.elapsedRealtime()
+                    buttonTimeout.text = getString(R.string.timeout)
+                    isTimeout = false
+                }
+            }
+
+        buttonTimeoutMinus.setOnClickListener() {
+            if(isTimeout) {
+                timeoutChronometer.base -= MillisecondsPerMinute
+            }
+        }
+        buttonTimeoutPlus.setOnClickListener() {
+            if(isTimeout) {
+                timeoutChronometer.base += MillisecondsPerMinute
+            }
+        }
+
         button1Min.setOnClickListener(){
             var a = 0
             //search for the first available timer

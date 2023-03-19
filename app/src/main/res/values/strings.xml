@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sports Timer</string>
+    <string name="app_name">Quadball Timer</string>
     <string name="ResetButton">Reset Button</string>
     <string name="IncreaseScore">Increase Score Button</string>
     <string name="DecreaseScore">Decrease Score Button</string>
@@ -10,4 +10,8 @@
     <string name="yellow2">2 Minutes</string>
     <string name="yellow1">1 Minute</string>
     <string name="clear_card_timer">Clear Card</string>
+    <string name="timeout">TIMEOUT</string>
+    <string name="ReduceTimeout">-1</string>
+    <string name="IncreaseTimeout">+1</string>
+    <string name="ClearTimeout">CLEAR\nTIMEOUT</string>
 </resources>
