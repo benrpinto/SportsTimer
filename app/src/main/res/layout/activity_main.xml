@@ -204,109 +204,12 @@
                 android:layout_weight="1"
                 android:text="@string/yellow2" />
         </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="30sp" />
-        </TableRow>
-        <TableRow
+        <TableLayout
+            android:id="@+id/cardTable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/card1ID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:text= "1" />
-            <Chronometer
-                android:id="@+id/cardCountdown1"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:countDown="true"
-                android:textSize="30sp" />
-            <Button
-                android:id="@+id/clearCard1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/clear_card_timer" />
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/card2ID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:text= "2" />
-            <Chronometer
-                android:id="@+id/cardCountdown2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:countDown="true"
-                android:textSize="30sp" />
-
-            <Button
-                android:id="@+id/clearCard2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/clear_card_timer" />
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/card3ID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:text= "3" />
-            <Chronometer
-                android:id="@+id/cardCountdown3"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:countDown="true"
-                android:textSize="30sp" />
-            <Button
-                android:id="@+id/clearCard3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/clear_card_timer" />
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/card4ID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:text= "4" />
-            <Chronometer
-                android:id="@+id/cardCountdown4"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:countDown="true"
-                android:textSize="30sp" />
-            <Button
-                android:id="@+id/clearCard4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/clear_card_timer" />
-        </TableRow>
+            android:animateLayoutChanges="true"
+            android:paddingVertical="15sp">
+        </TableLayout>
     </TableLayout>
-
-
-
 </LinearLayout>

@@ -1,16 +1,131 @@
 package com.example.sportstimer
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import android.os.SystemClock
-import android.widget.Button
-import android.widget.Chronometer
-import android.widget.ImageButton
-import android.widget.TextView
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.activity.ComponentActivity
+import java.util.*
 
 private const val MillisecondsPerMinute :Long = 60000
 private const val SEEKER_FLOOR = MillisecondsPerMinute * 20
-private const val NUM_CARDS = 4
+
+class YellowCard(inputId:Int, inputDur:Long, isRunning:Boolean, inputContext: MainActivity){
+    private val cardRow : TableRow = TableRow(inputContext)
+    private val id : TextView = TextView(inputContext)
+    private val cardChronometer : Chronometer = Chronometer(inputContext)
+    private var cardPause : Long = SystemClock.elapsedRealtime()
+    private val cardClear : Button = Button(inputContext)
+    var isTrash : Boolean = false
+
+    init {
+        print("yellow card being initialised\n")
+        val cardTable = inputContext.findViewById<TableLayout>(R.id.cardTable)
+        cardTable.addView(cardRow)
+        //put elements into the row
+        cardRow.addView(id)
+        cardRow.addView(cardChronometer)
+        cardRow.addView(cardClear)
+        //table row
+        cardRow.layoutParams = TableLayout.LayoutParams(
+            TableLayout.LayoutParams.MATCH_PARENT,
+            TableLayout.LayoutParams.WRAP_CONTENT
+        )
+        cardRow.orientation = TableLayout.VERTICAL
+        //android:layout_width="match_parent"
+        //android:layout_height="wrap_content"
+        //android:orientation="vertical"
+
+        //id text
+        id.layoutParams = TableRow.LayoutParams(
+            TableRow.LayoutParams.WRAP_CONTENT,
+            TableRow.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+        id.textSize = 30.toFloat()
+        id.textAlignment = View.TEXT_ALIGNMENT_CENTER
+        id.text = inputId.toString()
+
+        //android:id="@+id/card1ID"
+        //android:layout_width="wrap_content"
+        //android:layout_height="wrap_content"
+        //android:textSize="30sp"
+        //android:textAlignment="center"
+        //android:layout_weight="1"
+        //android:text= "1"
+
+        //chronometer content
+        cardChronometer.layoutParams = TableRow.LayoutParams(
+            TableRow.LayoutParams.MATCH_PARENT,
+            TableRow.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+        cardChronometer.isCountDown = true
+        cardChronometer.textSize = 30.toFloat()
+        //android:id="@+id/cardCountdown1"
+        //android:layout_width="fill_parent"
+        //android:layout_height="wrap_content"
+        //android:countDown="true"
+        //android:layout_weight="1"
+        //android:textSize="30sp"
+        cardChronometer.base = SystemClock.elapsedRealtime() + inputDur
+        if (isRunning) {
+            cardChronometer.start()
+        }
+        cardChronometer.setOnChronometerTickListener {
+            if (cardChronometer.base < SystemClock.elapsedRealtime()){
+                clearOut()
+            }
+        }
+
+        //card clear button content
+        cardClear.layoutParams = TableRow.LayoutParams(
+            TableRow.LayoutParams.WRAP_CONTENT,
+            TableRow.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+        cardClear.text = inputContext.getString(R.string.clear_card_timer)
+        //android:id="@+id/clearCard1"
+        //android:layout_width="wrap_content"
+        //android:layout_height="wrap_content"
+        //android:layout_weight="1"
+        //android:text="@string/clear_card_timer"
+        cardClear.setOnClickListener {
+            clearOut()
+        }
+
+        print("yellow card finished initialising\n")
+    }
+
+    private fun clearOut() {
+        print("yellow card being cleared out\n")
+        if(!isTrash) {
+            cardChronometer.stop()
+            (cardRow.parent as ViewGroup).removeView(cardRow)
+            isTrash = true
+        }
+    }
+
+    fun pauseTimer(){
+        print("yellow card being paused\n")
+        if(!isTrash) {
+            cardPause = SystemClock.elapsedRealtime()
+            cardChronometer.stop()
+        }
+    }
+    fun resumeTimer(){
+        print("yellow card being resumed\n")
+        if(!isTrash) {
+            cardChronometer.base += SystemClock.elapsedRealtime() - cardPause
+            cardChronometer.start()
+        }
+    }
+    fun clearTimer(){
+        clearOut()
+    }
+
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,13 +136,7 @@ class MainActivity : ComponentActivity() {
         val mainChronometer = findViewById<Chronometer>(R.id.chronometer)
         val flagChronometer = findViewById<Chronometer>(R.id.flagCountdown)
         val timeoutChronometer = findViewById<Chronometer>(R.id.timeoutCounter)
-        val cardChronometer = arrayOf(
-            findViewById<Chronometer>(R.id.cardCountdown1),
-            findViewById<Chronometer>(R.id.cardCountdown2),
-            findViewById<Chronometer>(R.id.cardCountdown3),
-            findViewById<Chronometer>(R.id.cardCountdown4)
-        )
-
+        val yellowCards: Vector<YellowCard> = Vector(3,3)
         //buttons
         val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
         val buttonReset = findViewById<ImageButton>(R.id.resetButton)
@@ -40,46 +149,43 @@ class MainActivity : ComponentActivity() {
         val buttonTimeoutPlus = findViewById<Button>(R.id.plus1)
         val button1Min = findViewById<Button>(R.id.yellow1)
         val button2Min = findViewById<Button>(R.id.yellow2)
-        val cardClear = arrayOf(
-            findViewById<Button>(R.id.clearCard1),
-            findViewById<Button>(R.id.clearCard2),
-            findViewById<Button>(R.id.clearCard3),
-            findViewById<Button>(R.id.clearCard4)
-        )
 
         val scoreLeftText = findViewById<TextView>(R.id.scoreLeft)
         val scoreRightText = findViewById<TextView>(R.id.scoreRight)
         var scoreLeft = 0
         var scoreRight = 0
+        var numCards = 0
 
         var isRunning = false
         var isTimeout = false
         var pauseTime = SystemClock.elapsedRealtime()
-        val cardRunner = longArrayOf(0,0,0,0)
-        val cardPause = longArrayOf(0,0,0,0)
 
         flagChronometer.base = SystemClock.elapsedRealtime() + SEEKER_FLOOR
 
         //button listeners
-        buttonPlayPause.setOnClickListener(){
-            if(isRunning){
+        buttonPlayPause.setOnClickListener {
+            if(isRunning) {
                 pauseTime = SystemClock.elapsedRealtime()
                 mainChronometer.stop()
                 flagChronometer.stop()
                 buttonPlayPause.setImageResource(R.drawable.button_play)
-                for(a in 0..NUM_CARDS-1){
-                    cardPause[a] = SystemClock.elapsedRealtime()
-                    cardChronometer[a].stop()
+                for(a in yellowCards.indices.reversed()){
+                    if(yellowCards[a].isTrash){
+                        yellowCards.removeAt(a)
+                    }else{
+                        yellowCards[a].pauseTimer()
+                    }
                 }
-            }else {
+            }else{
                 mainChronometer.base += SystemClock.elapsedRealtime() - pauseTime
                 flagChronometer.base = mainChronometer.base + SEEKER_FLOOR
                 mainChronometer.start()
                 flagChronometer.start()
-                for(a in 0..NUM_CARDS-1){
-                    if(cardRunner[a] > 0 ) {
-                        cardChronometer[a].base += SystemClock.elapsedRealtime() - cardPause[a]
-                        cardChronometer[a].start()
+                for(a in yellowCards.indices.reversed()){
+                    if(yellowCards[a].isTrash){
+                        yellowCards.removeAt(a)
+                    }else{
+                        yellowCards[a].resumeTimer()
                     }
                 }
                 buttonPlayPause.setImageResource(R.drawable.button_pause)
@@ -87,19 +193,18 @@ class MainActivity : ComponentActivity() {
             isRunning = !isRunning
         }
 
-        buttonReset.setOnClickListener(){
+        buttonReset.setOnClickListener{
             mainChronometer.base = SystemClock.elapsedRealtime()
             mainChronometer.stop()
             flagChronometer.base = SystemClock.elapsedRealtime()
             flagChronometer.base += SEEKER_FLOOR
             flagChronometer.stop()
             pauseTime = mainChronometer.base
-            for(a in 0..NUM_CARDS-1){
-                cardChronometer[a].stop()
-                cardChronometer[a].base = SystemClock.elapsedRealtime()
-                cardPause[a] = SystemClock.elapsedRealtime()
-                cardRunner[a] = 0
+            for(a in yellowCards){
+                //timer gets cleared, but the yellowCard remains in the vector
+                a.clearTimer()
             }
+            yellowCards.clear()
             if(isRunning){
                 buttonPlayPause.setImageResource(R.drawable.button_play)
                 isRunning = false
@@ -116,24 +221,24 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        buttonUpLeft.setOnClickListener(){
+        buttonUpLeft.setOnClickListener{
             scoreLeft += 10
             scoreLeftText.text = scoreLeft.toString()
         }
-        buttonUpRight.setOnClickListener(){
+        buttonUpRight.setOnClickListener{
             scoreRight += 10
             scoreRightText.text = scoreRight.toString()
         }
-        buttonDownLeft.setOnClickListener(){
+        buttonDownLeft.setOnClickListener{
             scoreLeft -= 10
             scoreLeftText.text = scoreLeft.toString()
         }
-        buttonDownRight.setOnClickListener(){
+        buttonDownRight.setOnClickListener{
             scoreRight -= 10
             scoreRightText.text = scoreRight.toString()
         }
 
-        buttonTimeout.setOnClickListener() {
+        buttonTimeout.setOnClickListener {
             if (isTimeout) {
                 timeoutChronometer.base = SystemClock.elapsedRealtime()
                 timeoutChronometer.stop()
@@ -155,68 +260,25 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-        buttonTimeoutMinus.setOnClickListener() {
+        buttonTimeoutMinus.setOnClickListener {
             if(isTimeout) {
                 timeoutChronometer.base -= MillisecondsPerMinute
             }
         }
-        buttonTimeoutPlus.setOnClickListener() {
+        buttonTimeoutPlus.setOnClickListener {
             if(isTimeout) {
                 timeoutChronometer.base += MillisecondsPerMinute
             }
         }
 
-        button1Min.setOnClickListener(){
-            var a = 0
-            //search for the first available timer
-            while (a <= NUM_CARDS -1){
-                if(cardRunner[a] <= 0 ) {
-                    cardChronometer[a].base = SystemClock.elapsedRealtime() + MillisecondsPerMinute
-                    if (isRunning) {
-                        cardChronometer[a].start()
-                    } else {
-                        cardPause[a] = SystemClock.elapsedRealtime()
-                    }
-                    cardRunner[a] = MillisecondsPerMinute
-                    a = NUM_CARDS //exit the loop
-                }else{
-                    a++ //increment the counter
-                }
-            }        }
-
-        button2Min.setOnClickListener(){
-            var a = 0
-            while (a <= NUM_CARDS -1){
-                if(cardRunner[a] <= 0 ) {
-                    cardChronometer[a].base = SystemClock.elapsedRealtime() + 2 * MillisecondsPerMinute
-                    if (isRunning) {
-                        cardChronometer[a].start()
-                    } else {
-                        cardPause[a] = SystemClock.elapsedRealtime()
-                    }
-                    cardRunner[a] = 2 * MillisecondsPerMinute
-                    a = NUM_CARDS //exit the loop
-                }else{
-                    a++ //increment the counter
-                }
-            }
+        button1Min.setOnClickListener{
+            numCards++
+            yellowCards.add(YellowCard(numCards, MillisecondsPerMinute,isRunning,this))
         }
 
-        for (a in 0..NUM_CARDS-1){
-            cardClear[a].setOnClickListener(){
-                cardChronometer[a].stop()
-                cardChronometer[a].base = SystemClock.elapsedRealtime()
-                cardPause[a] = SystemClock.elapsedRealtime()
-                cardRunner[a] = 0
-            }
-            cardChronometer[a].setOnChronometerTickListener {
-                if (cardChronometer[a].base < SystemClock.elapsedRealtime()){
-                    cardChronometer[a].stop()
-                    cardChronometer[a].base = SystemClock.elapsedRealtime()
-                    cardPause[a] = SystemClock.elapsedRealtime()
-                    cardRunner[a] = 0
-                }
-            }
+        button2Min.setOnClickListener{
+            numCards++
+            yellowCards.add(YellowCard(numCards, 2*MillisecondsPerMinute,isRunning,this))
         }
-    }
+   }
 }
