@@ -1,5 +1,6 @@
 package com.example.sportstimer
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
@@ -11,12 +12,13 @@ import java.util.*
 private const val MillisecondsPerMinute :Long = 60000
 private const val SEEKER_FLOOR = MillisecondsPerMinute * 20
 
-class YellowCard(inputId:Int, inputDur:Long, isRunning:Boolean, inputContext: MainActivity){
+class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, isRunning:Boolean, inputContext: MainActivity){
     private val cardRow : TableRow = TableRow(inputContext)
     private val id : TextView = TextView(inputContext)
     private val cardChronometer : Chronometer = Chronometer(inputContext)
     private var cardPause : Long = SystemClock.elapsedRealtime()
     private val cardClear : Button = Button(inputContext)
+    private val audio : MediaPlayer = inputAudio
     var isTrash : Boolean = false
 
     init {
@@ -57,6 +59,7 @@ class YellowCard(inputId:Int, inputDur:Long, isRunning:Boolean, inputContext: Ma
         }
         cardChronometer.setOnChronometerTickListener {
             if (cardChronometer.base < SystemClock.elapsedRealtime()){
+                audio.start()
                 clearOut()
             }
         }
@@ -96,7 +99,6 @@ class YellowCard(inputId:Int, inputDur:Long, isRunning:Boolean, inputContext: Ma
     fun clearTimer(){
         clearOut()
     }
-
 }
 
 class MainActivity : ComponentActivity() {
@@ -129,9 +131,13 @@ class MainActivity : ComponentActivity() {
         var scoreLeft = 0
         var scoreRight = 0
 
+        //audio player
+        val auxCord = MediaPlayer.create(this,R.raw.ping)
+
         //state trackers
         var numCards = 0
         var isRunning = false
+        var flagRunning = true
         var isTimeout = false
         var pauseTime = SystemClock.elapsedRealtime()
 
@@ -153,9 +159,11 @@ class MainActivity : ComponentActivity() {
                 }
             }else{
                 mainChronometer.base += SystemClock.elapsedRealtime() - pauseTime
-                flagChronometer.base = mainChronometer.base + SEEKER_FLOOR
                 mainChronometer.start()
-                flagChronometer.start()
+                if(flagRunning) {
+                    flagChronometer.base = mainChronometer.base + SEEKER_FLOOR
+                    flagChronometer.start()
+                }
                 for(a in yellowCards.indices.reversed()){
                     if(yellowCards[a].isTrash){
                         yellowCards.removeAt(a)
@@ -169,10 +177,10 @@ class MainActivity : ComponentActivity() {
         }
 
         buttonReset.setOnClickListener{
-            mainChronometer.base = SystemClock.elapsedRealtime()
-            flagChronometer.base = mainChronometer.base
             mainChronometer.stop()
             flagChronometer.stop()
+            mainChronometer.base = SystemClock.elapsedRealtime()
+            flagChronometer.base = mainChronometer.base
             flagChronometer.base += SEEKER_FLOOR
             pauseTime = mainChronometer.base
             for(a in yellowCards){
@@ -183,6 +191,7 @@ class MainActivity : ComponentActivity() {
                 buttonPlayPause.setImageResource(R.drawable.button_play)
                 isRunning = false
             }
+            flagRunning = true
             scoreLeft = 0
             scoreRight = 0
             scoreLeftText.text = scoreLeft.toString()
@@ -225,8 +234,18 @@ class MainActivity : ComponentActivity() {
             isTimeout = !isTimeout
         }
 
+        flagChronometer.setOnChronometerTickListener {
+            if(flagChronometer.base < SystemClock.elapsedRealtime() && flagRunning && isRunning){
+                auxCord.start()
+                flagChronometer.stop()
+                flagChronometer.base = SystemClock.elapsedRealtime()
+                flagRunning = false
+            }
+        }
+
         timeoutChronometer.setOnChronometerTickListener {
             if (timeoutChronometer.base < SystemClock.elapsedRealtime()) {
+                auxCord.start()
                 timeoutChronometer.stop()
                 timeoutChronometer.base = SystemClock.elapsedRealtime()
                 buttonTimeout.text = getString(R.string.timeout)
@@ -247,12 +266,12 @@ class MainActivity : ComponentActivity() {
 
         button1Min.setOnClickListener{
             numCards++
-            yellowCards.add(YellowCard(numCards, MillisecondsPerMinute,isRunning,this))
+            yellowCards.add(YellowCard(numCards,auxCord, MillisecondsPerMinute,isRunning,this))
         }
 
         button2Min.setOnClickListener{
             numCards++
-            yellowCards.add(YellowCard(numCards, 2*MillisecondsPerMinute,isRunning,this))
+            yellowCards.add(YellowCard(numCards,auxCord, 2*MillisecondsPerMinute,isRunning,this))
         }
    }
 }
