@@ -182,31 +182,37 @@ class MainActivity : ComponentActivity() {
 
         buttonReset.setOnClickListener{
             mainChronometer.stop()
-            flagChronometer.stop()
             mainChronometer.base = SystemClock.elapsedRealtime()
-            flagChronometer.base = mainChronometer.base
-            flagChronometer.base += SEEKER_FLOOR
             pauseTime = mainChronometer.base
-            for(a in yellowCards){
-                a.clearTimer()
-            }
-            yellowCards.clear()
+
             if(isRunning){
                 buttonPlayPause.setImageResource(R.drawable.button_play)
                 isRunning = false
             }
+
+            flagChronometer.stop()
+            flagChronometer.base = mainChronometer.base
+            flagChronometer.base += SEEKER_FLOOR
             flagRunning = true
+
             scoreLeft = 0
             scoreRight = 0
             scoreLeftText.text = scoreLeft.toString()
             scoreRightText.text = scoreRight.toString()
+
             if (isTimeout) {
-                timeoutChronometer.base = SystemClock.elapsedRealtime()
                 timeoutChronometer.stop()
+                timeoutChronometer.base = SystemClock.elapsedRealtime()
                 buttonTimeout.text = getString(R.string.timeout)
                 isTimeout = false
                 timeoutRow.visibility = View.GONE
             }
+
+            for(a in yellowCards){
+                a.clearTimer()
+            }
+            yellowCards.clear()
+            numCards = 0
         }
 
         buttonUpLeft.setOnClickListener{
