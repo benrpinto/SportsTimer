@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat.getColor
 import java.util.*
 
 private const val MillisecondsPerMinute :Long = 60000
@@ -44,6 +45,7 @@ class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, isRunning:B
         id.textSize = 30.toFloat()
         id.textAlignment = View.TEXT_ALIGNMENT_CENTER
         id.text = inputId.toString()
+        id.setTextColor(getColor(inputContext,R.color.black))
 
         //chronometer content
         cardChronometer.layoutParams = TableRow.LayoutParams(
@@ -53,6 +55,7 @@ class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, isRunning:B
         )
         cardChronometer.isCountDown = true
         cardChronometer.textSize = 30.toFloat()
+        cardChronometer.setTextColor(getColor(inputContext,R.color.black))
         cardChronometer.base = SystemClock.elapsedRealtime() + inputDur
         if (isRunning) {
             cardChronometer.start()
@@ -110,6 +113,7 @@ class MainActivity : ComponentActivity() {
         val mainChronometer = findViewById<Chronometer>(R.id.chronometer)
         val flagChronometer = findViewById<Chronometer>(R.id.flagCountdown)
         val timeoutChronometer = findViewById<Chronometer>(R.id.timeoutCounter)
+        val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
         val yellowCards: Vector<YellowCard> = Vector(3,3)
 
         //buttons
@@ -201,6 +205,7 @@ class MainActivity : ComponentActivity() {
                 timeoutChronometer.stop()
                 buttonTimeout.text = getString(R.string.timeout)
                 isTimeout = false
+                timeoutRow.visibility = View.GONE
             }
         }
 
@@ -226,10 +231,12 @@ class MainActivity : ComponentActivity() {
                 timeoutChronometer.base = SystemClock.elapsedRealtime()
                 timeoutChronometer.stop()
                 buttonTimeout.text = getString(R.string.timeout)
+                timeoutRow.visibility = View.GONE
             } else {
                 timeoutChronometer.base = SystemClock.elapsedRealtime() + MillisecondsPerMinute
                 timeoutChronometer.start()
                 buttonTimeout.text = getString(R.string.ClearTimeout)
+                timeoutRow.visibility = View.VISIBLE
             }
             isTimeout = !isTimeout
         }
@@ -250,6 +257,7 @@ class MainActivity : ComponentActivity() {
                 timeoutChronometer.base = SystemClock.elapsedRealtime()
                 buttonTimeout.text = getString(R.string.timeout)
                 isTimeout = false
+                timeoutRow.visibility = View.GONE
             }
         }
 

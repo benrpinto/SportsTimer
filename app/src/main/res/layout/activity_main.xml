@@ -26,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/white"
                 android:contentDescription="@string/PlayPauseButton"
                 android:src="@drawable/button_play"/>
 
@@ -39,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/white"
                 android:contentDescription="@string/ResetButton"
                 android:src="@drawable/button_reset" />
         </TableRow>
@@ -74,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/white"
                 android:contentDescription="@string/IncreaseScore"
                 android:src="@drawable/button_up" />
 
@@ -87,6 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/white"
                 android:contentDescription="@string/IncreaseScore"
                 android:src="@drawable/button_up" />
         </TableRow>
@@ -102,6 +106,7 @@
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:textSize="60sp"
+                android:textColor="@color/black"
                 android:text="@string/InitialScore"/>
 
             <TextView
@@ -111,6 +116,7 @@
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:textSize="60sp"
+                android:textColor="@color/black"
                 android:text="@string/ScoreSeparator" />
 
             <TextView
@@ -120,6 +126,7 @@
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:textSize="60sp"
+                android:textColor="@color/black"
                 android:text="@string/InitialScore"/>
         </TableRow>
 
@@ -133,6 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/white"
                 android:contentDescription="@string/DecreaseScore"
                 android:src="@drawable/button_down" />
 
@@ -148,13 +156,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/white"
                 android:contentDescription="@string/DecreaseScore"
                 android:src="@drawable/button_down" />
         </TableRow>
 
         <TableRow
+            android:id = "@+id/timeoutRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/minus1"
