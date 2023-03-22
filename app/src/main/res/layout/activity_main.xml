@@ -43,20 +43,19 @@
             android:id="@+id/playPauseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:scaleType="fitCenter"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/PlayPauseButton"
             android:src="@drawable/button_play"/>
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
         <ImageButton
             android:id="@+id/resetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:scaleType="fitCenter"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/ResetButton"
