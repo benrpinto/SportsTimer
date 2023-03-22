@@ -27,13 +27,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
+            android:visibility="invisible"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/SettingsButton"
             android:scaleType="fitCenter"
             android:scaleX="0.7"
             android:scaleY="0.7"
             android:src="@drawable/baseline_settings_24" />
-
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
