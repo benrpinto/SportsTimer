@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="10dp">
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/settingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/SettingsButton"
+                android:scaleType="fitCenter"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:src="@drawable/baseline_settings_24" />
+
+            <Chronometer
+                android:id="@+id/chronometer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="60sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/playPauseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:scaleType="fitCenter"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/PlayPauseButton"
+                android:src="@drawable/button_play"/>
+
+            <ImageButton
+                android:id="@+id/resetButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:scaleType="fitCenter"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/ResetButton"
+                android:src="@drawable/button_reset" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/flag_foreground"
+                android:layout_weight="1"
+                android:contentDescription="@string/flag_runner" />
+
+            <Chronometer
+                android:id="@+id/flagCountdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:countDown="true"
+                android:layout_weight="3"
+                android:textAlignment="center"
+                android:textSize="40sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/timeout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/timeout" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TableRow
+                android:id="@+id/timeoutRow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/minus1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:text="@string/ReduceTimeout"/>
+
+                <Chronometer
+                    android:id="@+id/timeoutCounter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:countDown="true"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="40sp" />
+
+                <Button
+                    android:id="@+id/plus1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:text="@string/IncreaseTimeout" />
+            </TableRow>
+        </LinearLayout>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/scoreUpLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/IncreaseScore"
+                android:src="@drawable/button_up" />
+
+            <TextView
+                android:id="@+id/scoreLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/InitialScore"
+                android:textColor="@color/black"
+                android:textSize="60sp" />
+
+            <ImageButton
+                android:id="@+id/scoreDownLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/DecreaseScore"
+                android:src="@drawable/button_down" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/scoreSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/ScoreSeparator"
+            android:textColor="@color/black"
+            android:textSize="60sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/scoreUpRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/IncreaseScore"
+                android:src="@drawable/button_up" />
+
+            <TextView
+                android:id="@+id/scoreRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/InitialScore"
+                android:textColor="@color/black"
+                android:textSize="60sp" />
+
+            <ImageButton
+                android:id="@+id/scoreDownRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/DecreaseScore"
+                android:src="@drawable/button_down" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/yellow1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/yellow1" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="60sp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/yellow2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/yellow2" />
+        </TableRow>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/YellowCard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:id="@+id/cardTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:paddingVertical="15sp">
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+    </TableLayout>
+
+</LinearLayout>
