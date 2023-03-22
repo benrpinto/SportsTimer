@@ -1,247 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Chronometer
-        android:id="@+id/chronometer"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="15dp"
+    android:paddingVertical="15dp">
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="60sp" />
+        android:layout_height="match_parent">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="15dp">
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"/>
 
-        <TableRow
+        <Chronometer
+            android:id="@+id/chronometer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="60sp" />
 
-            <ImageButton
-                android:id="@+id/playPauseButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="@string/PlayPauseButton"
-                android:src="@drawable/button_play"/>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <ImageButton
-                android:id="@+id/resetButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="@string/ResetButton"
-                android:src="@drawable/button_reset" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/flag_foreground"
-                android:layout_weight="1"
-                android:contentDescription="@string/flag_runner" />
-
-            <Chronometer
-                android:id="@+id/flagCountdown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:countDown="true"
-                android:layout_weight="3"
-                android:textAlignment="center"
-                android:textSize="40sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/scoreUpLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="@string/IncreaseScore"
-                android:src="@drawable/button_up" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <ImageButton
-                android:id="@+id/scoreUpRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="@string/IncreaseScore"
-                android:src="@drawable/button_up" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/scoreLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="60sp"
-                android:textColor="@color/black"
-                android:text="@string/InitialScore"/>
-
-            <TextView
-                android:id="@+id/scoreSeparator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="60sp"
-                android:textColor="@color/black"
-                android:text="@string/ScoreSeparator" />
-
-            <TextView
-                android:id="@+id/scoreRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="60sp"
-                android:textColor="@color/black"
-                android:text="@string/InitialScore"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="184dp"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/scoreDownLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="@string/DecreaseScore"
-                android:src="@drawable/button_down" />
-
-            <Button
-                android:id="@+id/timeout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/timeout" />
-
-            <ImageButton
-                android:id="@+id/scoreDownRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:contentDescription="@string/DecreaseScore"
-                android:src="@drawable/button_down" />
-        </TableRow>
-
-        <TableRow
-            android:id = "@+id/timeoutRow"
+        <ImageButton
+            android:id="@+id/settingsButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/SettingsButton"
+            android:scaleType="fitCenter"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:src="@drawable/baseline_settings_24" />
 
-            <Button
-                android:id="@+id/minus1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/ReduceTimeout" />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-            <Chronometer
-                android:id="@+id/timeoutCounter"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:countDown="true"
-                android:textAlignment="center"
-                android:textSize="40sp" />
+        <ImageButton
+            android:id="@+id/playPauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/PlayPauseButton"
+            android:src="@drawable/button_play"/>
 
-            <Button
-                android:id="@+id/plus1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/IncreaseTimeout" />
-        </TableRow>
-        <TableRow
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/resetButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/ResetButton"
+            android:src="@drawable/button_reset" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/flag_foreground"
+            android:layout_weight="1"
+            android:contentDescription="@string/flag_runner" />
+
+        <Chronometer
+            android:id="@+id/flagCountdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:countDown="true"
+            android:layout_weight="3"
+            android:textAlignment="center"
+            android:textSize="40sp" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/scoreUpLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/IncreaseScore"
+            android:src="@drawable/button_up" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/scoreUpRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/IncreaseScore"
+            android:src="@drawable/button_up" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/scoreLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="60sp"
+            android:textColor="@color/black"
+            android:text="@string/InitialScore"/>
+
+        <TextView
+            android:id="@+id/scoreSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="60sp"
+            android:textColor="@color/black"
+            android:text="@string/ScoreSeparator" />
+
+        <TextView
+            android:id="@+id/scoreRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="60sp"
+            android:textColor="@color/black"
+            android:text="@string/InitialScore"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="184dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/scoreDownLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/DecreaseScore"
+            android:src="@drawable/button_down" />
+
+        <Button
+            android:id="@+id/timeout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/timeout" />
+
+        <ImageButton
+            android:id="@+id/scoreDownRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/DecreaseScore"
+            android:src="@drawable/button_down" />
+    </TableRow>
+
+    <TableRow
+        android:id = "@+id/timeoutRow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/minus1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/ReduceTimeout" />
+
+        <Chronometer
+            android:id="@+id/timeoutCounter"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:countDown="true"
+            android:textAlignment="center"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/plus1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/IncreaseTimeout" />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_weight="1"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/yellow1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/yellow1" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="60sp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/yellow2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/yellow2" />
+    </TableRow>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/YellowCard">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="30sp"
-                android:layout_weight="1"/>
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/yellow1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/yellow1" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="60sp"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/yellow2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/yellow2" />
-        </TableRow>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/YellowCard">
-
-            <LinearLayout
+            <TableLayout
+                android:id="@+id/cardTable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TableLayout
-                    android:id="@+id/cardTable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:paddingVertical="15sp">
-                </TableLayout>
-            </LinearLayout>
-        </ScrollView>
-    </TableLayout>
-</LinearLayout>
+                android:animateLayoutChanges="true"
+                android:paddingVertical="15sp">
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+</TableLayout>

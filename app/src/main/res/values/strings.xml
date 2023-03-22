@@ -15,4 +15,5 @@
     <string name="IncreaseTimeout">+1</string>
     <string name="ClearTimeout">CLEAR\nTIMEOUT</string>
     <string name="YellowCard">Yellow Card section</string>
+    <string name="SettingsButton">Settings Button</string>
 </resources>
