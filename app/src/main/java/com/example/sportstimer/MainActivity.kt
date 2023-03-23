@@ -14,6 +14,7 @@ private const val MillisecondsPerMinute :Long = 60000
 private const val SEEKER_FLOOR = MillisecondsPerMinute * 20
 
 class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, isRunning:Boolean, inputContext: MainActivity){
+    private val idNum :Int = inputId
     private val cardRow : TableRow = TableRow(inputContext)
     private val id : TextView = TextView(inputContext)
     private val cardChronometer : Chronometer = Chronometer(inputContext)
@@ -79,6 +80,16 @@ class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, isRunning:B
         }
     }
 
+    constructor(
+        inputId:Int,
+        inputAudio:MediaPlayer,
+        isRunning:Boolean,
+        inputContext: MainActivity,
+        inputCardPause:Long,
+        cardBase:Long):this(inputId,inputAudio,cardBase-SystemClock.elapsedRealtime(),isRunning,inputContext){
+            cardPause = inputCardPause
+    }
+
     private fun clearOut() {
         if(!isTrash) {
             cardChronometer.stop()
@@ -102,19 +113,146 @@ class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, isRunning:B
     fun clearTimer(){
         clearOut()
     }
+
+    fun getID():Int{
+        return idNum
+    }
+
+    fun getPause():Long{
+        return cardPause
+    }
+
+    fun getBase():Long{
+        return cardChronometer.base
+    }
+
 }
 
 class MainActivity : ComponentActivity() {
+
+    //scores
+    var scoreLeft:Int = 0
+    var scoreRight:Int = 0
+
+    //state trackers
+    val yellowCards: Vector<YellowCard> = Vector(3,3)
+    var numCards = 0
+    var isRunning = false
+    var flagRunning = true
+    var isTimeout = false
+    var pauseTime:Long = SystemClock.elapsedRealtime()
+
+    //audio player
+    var auxCord:MediaPlayer = MediaPlayer()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //timers
-        val mainChronometer = findViewById<Chronometer>(R.id.chronometer)
-        val flagChronometer = findViewById<Chronometer>(R.id.flagCountdown)
-        val timeoutChronometer = findViewById<Chronometer>(R.id.timeoutCounter)
+        val mainChronometer:Chronometer = findViewById(R.id.chronometer)
+        val flagChronometer:Chronometer = findViewById(R.id.flagCountdown)
+        val timeoutChronometer:Chronometer = findViewById(R.id.timeoutCounter)
+
+        if(savedInstanceState == null){
+            mainChronometer.base = SystemClock.elapsedRealtime()
+            flagChronometer.base = SystemClock.elapsedRealtime() + SEEKER_FLOOR
+            //timeoutChronometer is hidden, doesn't need to be initialised here
+            pauseTime = SystemClock.elapsedRealtime()
+        }else{
+            //Set main and flag chronometers
+            isRunning = savedInstanceState.getBoolean("isRunning")
+            mainChronometer.base = savedInstanceState.getLong("mainBase")
+            flagChronometer.base = mainChronometer.base + SEEKER_FLOOR
+            if(isRunning){
+                mainChronometer.start()
+                flagChronometer.start()
+                val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
+                buttonPlayPause.setImageResource(R.drawable.button_pause)
+            }else{
+                pauseTime = savedInstanceState.getLong("pauseTime")
+                mainChronometer.base += SystemClock.elapsedRealtime() - pauseTime
+                flagChronometer.base = mainChronometer.base + SEEKER_FLOOR
+                pauseTime = SystemClock.elapsedRealtime()
+            }
+
+            //Set yellow cards
+            val activeCards = savedInstanceState.getInt("ActiveCards")
+            for(a in 0 until activeCards){
+                val inputId = savedInstanceState.getInt("YC-ID$a")
+                val inputCardPause = savedInstanceState.getLong("YC-Pause$a")
+                val cardBase = savedInstanceState.getLong("YC-Base$a")
+                yellowCards.add(YellowCard(inputId,auxCord,isRunning,this,inputCardPause,cardBase))
+            }
+            numCards = savedInstanceState.getInt("numCards")
+
+            //Set Timeout chronometer
+            isTimeout = savedInstanceState.getBoolean("isTimeout")
+            timeoutChronometer.base = savedInstanceState.getLong("timeoutBase")
+            if(isTimeout){
+                timeoutChronometer.start()
+                val buttonTimeout = findViewById<Button>(R.id.timeout)
+                val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
+                buttonTimeout.text = getString(R.string.ClearTimeout)
+                timeoutRow.visibility = View.VISIBLE
+            }
+
+            //Set Scores
+            val scoreLeftText = findViewById<TextView>(R.id.scoreLeft)
+            val scoreRightText = findViewById<TextView>(R.id.scoreRight)
+            scoreLeft = savedInstanceState.getInt("scoreLeft")
+            scoreRight = savedInstanceState.getInt("scoreRight")
+            scoreLeftText.text = scoreLeft.toString()
+            scoreRightText.text = scoreRight.toString()
+
+        }
+
+        auxCord.release()
+        auxCord = MediaPlayer.create(this,R.raw.ping)
+        setListeners()
+   }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        val mainChronometer:Chronometer = findViewById(R.id.chronometer)
+        val timeoutChronometer:Chronometer = findViewById(R.id.timeoutCounter)
+
+        //yellow cards
+        //clean up cards first
+        for(a in yellowCards.indices.reversed()){
+            if(yellowCards[a].isTrash){
+                yellowCards.removeAt(a)
+            }
+        }
+        outState.putInt("ActiveCards",yellowCards.size)
+        for(a in 0 until yellowCards.size){
+            outState.putInt("YC-ID$a",yellowCards[a].getID())
+            outState.putLong("YC-Pause$a",yellowCards[a].getPause())
+            outState.putLong("YC-Base$a",yellowCards[a].getBase())
+        }
+
+        outState.putLong("mainBase",mainChronometer.base)
+        outState.putLong("timeoutBase",timeoutChronometer.base)
+        outState.putInt("scoreLeft",scoreLeft)
+        outState.putInt("scoreRight",scoreRight)
+        outState.putInt("numCards",numCards)
+        outState.putBoolean("isRunning",isRunning)
+        outState.putBoolean("isTimeout",isTimeout)
+        outState.putLong("pauseTime",pauseTime)
+        auxCord.release()
+    }
+
+    private fun setListeners(){
+        //timers
+        val mainChronometer:Chronometer = findViewById(R.id.chronometer)
+        val flagChronometer:Chronometer = findViewById(R.id.flagCountdown)
+        val timeoutChronometer:Chronometer = findViewById(R.id.timeoutCounter)
         val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
-        val yellowCards: Vector<YellowCard> = Vector(3,3)
+
+        //scores
+        val scoreLeftText = findViewById<TextView>(R.id.scoreLeft)
+        val scoreRightText = findViewById<TextView>(R.id.scoreRight)
 
         //buttons
         val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
@@ -128,24 +266,6 @@ class MainActivity : ComponentActivity() {
         val buttonTimeoutPlus = findViewById<Button>(R.id.plus1)
         val button1Min = findViewById<Button>(R.id.yellow1)
         val button2Min = findViewById<Button>(R.id.yellow2)
-
-        //scores
-        val scoreLeftText = findViewById<TextView>(R.id.scoreLeft)
-        val scoreRightText = findViewById<TextView>(R.id.scoreRight)
-        var scoreLeft = 0
-        var scoreRight = 0
-
-        //audio player
-        val auxCord = MediaPlayer.create(this,R.raw.ping)
-
-        //state trackers
-        var numCards = 0
-        var isRunning = false
-        var flagRunning = true
-        var isTimeout = false
-        var pauseTime = SystemClock.elapsedRealtime()
-
-        flagChronometer.base = SystemClock.elapsedRealtime() + SEEKER_FLOOR
 
         //button listeners
         buttonPlayPause.setOnClickListener {
@@ -287,5 +407,5 @@ class MainActivity : ComponentActivity() {
             numCards++
             yellowCards.add(YellowCard(numCards,auxCord, 2*MillisecondsPerMinute,isRunning,this))
         }
-   }
+    }
 }
