@@ -27,12 +27,13 @@
                 android:scaleY="0.7"
                 android:src="@drawable/baseline_settings_24" />
 
-            <Chronometer
+            <TextView
                 android:id="@+id/chronometer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="60sp" />
+                android:textSize="60sp"
+                android:textColor="@color/black"/>
         </TableRow>
 
         <TableRow
@@ -74,13 +75,13 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/flag_runner" />
 
-            <Chronometer
+            <TextView
                 android:id="@+id/flagCountdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:countDown="true"
                 android:layout_weight="3"
                 android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="40sp" />
         </TableRow>
 
@@ -114,13 +115,13 @@
                     android:layout_gravity="start"
                     android:text="@string/ReduceTimeout"/>
 
-                <Chronometer
+                <TextView
                     android:id="@+id/timeoutCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:countDown="true"
                     android:layout_gravity="center_vertical"
-                    android:textSize="40sp" />
+                    android:textSize="40sp"
+                    android:textColor="@color/black"/>
 
                 <Button
                     android:id="@+id/plus1"

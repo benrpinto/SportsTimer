@@ -16,12 +16,13 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"/>
 
-        <Chronometer
+        <TextView
             android:id="@+id/chronometer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="60sp" />
+            android:textSize="60sp"
+            android:textColor="@color/black"/>
 
         <ImageButton
             android:id="@+id/settingsButton"
@@ -76,14 +77,14 @@
             android:layout_weight="1"
             android:contentDescription="@string/flag_runner" />
 
-        <Chronometer
+        <TextView
             android:id="@+id/flagCountdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:countDown="true"
             android:layout_weight="3"
             android:textAlignment="center"
-            android:textSize="40sp" />
+            android:textColor="@color/black"
+            android:textSize="40sp"/>
     </TableRow>
 
     <TableRow
@@ -193,13 +194,14 @@
             android:layout_weight="1"
             android:text="@string/ReduceTimeout" />
 
-        <Chronometer
+        <TextView
             android:id="@+id/timeoutCounter"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:countDown="true"
             android:textAlignment="center"
-            android:textSize="40sp" />
+            android:textColor="@color/black"
+            android:textSize="40sp"/>
 
         <Button
             android:id="@+id/plus1"
@@ -224,24 +226,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
         <Button
             android:id="@+id/yellow1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="start"
             android:text="@string/yellow1" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="60sp"
-            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/yellow2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="end"
             android:text="@string/yellow2" />
     </TableRow>
 
