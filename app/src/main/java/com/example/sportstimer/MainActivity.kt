@@ -133,7 +133,6 @@ class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, inputContex
     fun getBase():Long{
         return cardBase
     }
-
 }
 
 class MainActivity : ComponentActivity() {
@@ -215,9 +214,8 @@ class MainActivity : ComponentActivity() {
             val scoreRightText = findViewById<TextView>(R.id.scoreRight)
             scoreLeft = savedInstanceState.getInt("scoreLeft")
             scoreRight = savedInstanceState.getInt("scoreRight")
-            scoreLeftText.text = scoreLeft.toString()
-            scoreRightText.text = scoreRight.toString()
-
+            scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
+            scoreRightText.text = scoreRight.toString().padStart(3,'0')
         }
 
         auxCord.release()
@@ -297,7 +295,7 @@ class MainActivity : ComponentActivity() {
                 }
                 if(isTimeout) {
                     timeoutChronometer.text =
-                        timeFormatter(timeoutBase - SystemClock.elapsedRealtime(),true)
+                        timeFormatter(timeoutBase - SystemClock.elapsedRealtime(),false)
                     timeoutTickListener()
                 }
             }
@@ -350,8 +348,8 @@ class MainActivity : ComponentActivity() {
 
             scoreLeft = 0
             scoreRight = 0
-            scoreLeftText.text = scoreLeft.toString()
-            scoreRightText.text = scoreRight.toString()
+            scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
+            scoreRightText.text = scoreRight.toString().padStart(3,'0')
 
             if (isTimeout) {
                 timeoutBase = SystemClock.elapsedRealtime()
@@ -369,19 +367,19 @@ class MainActivity : ComponentActivity() {
 
         buttonUpLeft.setOnClickListener{
             scoreLeft += 10
-            scoreLeftText.text = scoreLeft.toString()
+            scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
         }
         buttonUpRight.setOnClickListener{
             scoreRight += 10
-            scoreRightText.text = scoreRight.toString()
+            scoreRightText.text = scoreRight.toString().padStart(3,'0')
         }
         buttonDownLeft.setOnClickListener{
             scoreLeft -= 10
-            scoreLeftText.text = scoreLeft.toString()
+            scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
         }
         buttonDownRight.setOnClickListener{
             scoreRight -= 10
-            scoreRightText.text = scoreRight.toString()
+            scoreRightText.text = scoreRight.toString().padStart(3,'0')
         }
 
         buttonTimeout.setOnClickListener {
@@ -457,7 +455,7 @@ fun timeFormatter(milliTime:Long, inclMilli:Boolean):String{
         toReturn += hour.toString()
         toReturn += ":"
     }
-    if(min != 0.toLong() || show){
+    if(min != 0.toLong() || show||!inclMilli){
         toReturn += min.toString().padStart(2,'0')
         toReturn += ":"
     }

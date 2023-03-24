@@ -99,7 +99,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TableRow
@@ -112,25 +112,35 @@
                     android:id="@+id/minus1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="start"
                     android:text="@string/ReduceTimeout"/>
+
+                <Space
+                    android:layout_weight="0.5"/>
 
                 <TextView
                     android:id="@+id/timeoutCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="40sp"
-                    android:textColor="@color/black"/>
+                    android:text="@string/blankSeconds"/>
+
+                <Space
+                    android:layout_weight="0.5"/>
 
                 <Button
                     android:id="@+id/plus1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_gravity="end"
                     android:text="@string/IncreaseTimeout" />
             </TableRow>
         </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_weight="1"/>
     </TableLayout>
 
     <LinearLayout
