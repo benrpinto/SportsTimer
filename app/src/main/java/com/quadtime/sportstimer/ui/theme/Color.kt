@@ -1,4 +1,4 @@
-package com.example.sportstimer.ui.theme
+package com.quadtime.sportstimer.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

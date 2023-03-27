@@ -1,4 +1,4 @@
-package com.example.sportstimer.ui.theme
+package com.quadtime.sportstimer.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
