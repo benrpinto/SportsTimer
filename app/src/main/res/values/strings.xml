@@ -17,7 +17,7 @@
     <string name="YellowCard">Yellow Card section</string>
     <string name="SettingsButton">Settings Button</string>
     <string name="blankSeconds">00:00</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
     <string name="hide_display_header">Hide or Display Elements</string>
