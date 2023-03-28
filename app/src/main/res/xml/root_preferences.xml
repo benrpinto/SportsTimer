@@ -4,23 +4,28 @@
     <PreferenceCategory app:title="@string/hide_display_header">
         <SwitchPreferenceCompat
             app:key="mainTimer"
-            app:title="@string/set_display_main_t" />
+            app:title="@string/set_display_main_t"
+            app:defaultValue="true"/>
 
         <SwitchPreferenceCompat
             app:key="flagTimer"
-            app:title="@string/set_display_flag_t" />
+            app:title="@string/set_display_flag_t"
+            app:defaultValue="true"/>
 
         <SwitchPreferenceCompat
             app:key="score"
-            app:title="@string/set_display_scores" />
+            app:title="@string/set_display_scores"
+            app:defaultValue="true"/>
 
         <SwitchPreferenceCompat
             app:key="timeout"
-            app:title="@string/set_display_timeout_t" />
+            app:title="@string/set_display_timeout_t"
+            app:defaultValue="true"/>
 
         <SwitchPreferenceCompat
             app:key="yellowCards"
-            app:title="@string/set_display_yellowcards" />
+            app:title="@string/set_display_yellowcards"
+            app:defaultValue="true"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/other_header">
@@ -30,39 +35,45 @@
             app:key="flagLength"
             app:title="@string/set_length_flag_t"
             android:inputType="number"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="20"/>
 
         <EditTextPreference
             app:dependency="score"
             app:key="scoreInc"
             app:title="@string/set_score_inc"
             android:inputType="number"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="10"/>
 
         <EditTextPreference
             app:dependency="timeout"
             app:key="timeoutLength"
             app:title="@string/set_length_timeout_t"
             android:inputType="number"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="1"/>
 
         <EditTextPreference
             app:dependency="yellowCards"
             app:key="yellow1Length"
             app:title="@string/set_length_yellowcard_1_t"
             android:inputType="number"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="1"/>
 
         <EditTextPreference
             app:dependency="yellowCards"
             app:key="yellow2Length"
             app:title="@string/set_length_yellowcard_2_t"
             android:inputType="number"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="2"/>
 
         <SwitchPreferenceCompat
-            app:key="mute"
-            app:title="@string/set_audio_on" />
+            app:key="audioOn"
+            app:title="@string/set_audio_on"
+            app:defaultValue="true"/>
 
     </PreferenceCategory>
 

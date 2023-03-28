@@ -1,22 +1,31 @@
 <resources>
     <string name="app_name">Quadball Timer</string>
+
+    <!-- MAIN ACTIVITY -->
+    <string name="SettingsButton">Settings Button</string>
+
+    <string name="blankSeconds">00:00</string>
+    <string name="PlayPauseButton">Play or Pause Button</string>
     <string name="ResetButton">Reset Button</string>
+
+    <string name="flag_runner">Flag Runner</string>
+
     <string name="IncreaseScore">Increase Score Button</string>
     <string name="DecreaseScore">Decrease Score Button</string>
-    <string name="PlayPauseButton">Play or Pause Button</string>
     <string name="ScoreSeparator">:</string>
     <string name="InitialScore">000</string>
-    <string name="flag_runner">Flag Runner</string>
-    <string name="yellow2">2 Minutes</string>
-    <string name="yellow1">1 Minute</string>
-    <string name="clear_card_timer">Clear Card</string>
+
     <string name="timeout">TIMEOUT</string>
     <string name="ReduceTimeout">-1</string>
     <string name="IncreaseTimeout">+1</string>
     <string name="ClearTimeout">CLEAR TIMEOUT</string>
+
     <string name="YellowCard">Yellow Card section</string>
-    <string name="SettingsButton">Settings Button</string>
-    <string name="blankSeconds">00:00</string>
+    <string name="yellow2">2 Minutes</string>
+    <string name="yellow1">1 Minute</string>
+    <string name="clear_card_timer">Clear Card</string>
+
+    <!-- SETTINGS ACTIVITY -->
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
