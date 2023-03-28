@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import java.util.*
 import kotlin.math.absoluteValue
 
@@ -18,7 +19,6 @@ private const val SecondsPerMinute : Long = 60
 private const val MillisecondsPerMinute :Long = SecondsPerMinute* MillisecondsPerSecond
 private const val MinutesPerHour : Long = 60
 private const val MillisecondsPerHour : Long = MillisecondsPerMinute* MinutesPerHour
-private const val SEEKER_FLOOR = MillisecondsPerMinute * 20
 
 class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, inputContext: MainActivity){
     private val idNum :Int = inputId
@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
 
     //base
     var mainBase = SystemClock.elapsedRealtime()
-    var flagBase = SystemClock.elapsedRealtime() + SEEKER_FLOOR
+    var flagBase = SystemClock.elapsedRealtime()
     var timeoutBase = SystemClock.elapsedRealtime() + MillisecondsPerMinute
 
     //audio player
@@ -159,21 +159,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val myPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val seekerFloor =
+            try {
+                myPref.getString("flagLength","").toString().toInt()* MillisecondsPerMinute
+            }catch(e:NumberFormatException){
+                0
+            }
+        val audioOn = myPref.getBoolean("audioOn",true)
+
         val mainChronometer:TextView = findViewById(R.id.chronometer)
         val flagChronometer:TextView = findViewById(R.id.flagCountdown)
         val tempHolder = SystemClock.elapsedRealtime()
         if(savedInstanceState == null){
             mainChronometer.text = timeFormatter(0,true)
-            flagChronometer.text = timeFormatter(SEEKER_FLOOR,true)
+            flagChronometer.text = timeFormatter(seekerFloor,true)
             mainBase = tempHolder
-            flagBase = tempHolder + SEEKER_FLOOR
+            flagBase = tempHolder + seekerFloor
             //timeoutChronometer is hidden, doesn't need to be initialised here
             pauseTime = tempHolder
         }else{
             //Set main and flag chronometers
             isRunning = savedInstanceState.getBoolean("isRunning")
             mainBase = savedInstanceState.getLong("mainBase")
-            flagBase = mainBase + SEEKER_FLOOR
+            flagBase = mainBase + seekerFloor
             if(isRunning){
                 val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
                 buttonPlayPause.setImageResource(R.drawable.button_pause)
@@ -181,7 +190,7 @@ class MainActivity : AppCompatActivity() {
                 pauseTime = savedInstanceState.getLong("pauseTime")
                 mainBase += tempHolder - pauseTime
                 pauseTime = tempHolder
-                flagBase = mainBase + SEEKER_FLOOR
+                flagBase = mainBase + seekerFloor
 
             }
             mainChronometer.text = timeFormatter(tempHolder-mainBase,true)
@@ -217,7 +226,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         auxCord.release()
-        auxCord = MediaPlayer.create(this,R.raw.ping)
+        auxCord = MediaPlayer.create(this, R.raw.ping)
+        if(!audioOn){
+            auxCord.setVolume(0F,0F)
+        }
         setListeners()
    }
 
@@ -274,6 +286,47 @@ class MainActivity : AppCompatActivity() {
         val button1Min = findViewById<Button>(R.id.yellow1)
         val button2Min = findViewById<Button>(R.id.yellow2)
 
+        //Settings
+        val myPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val seekerFloor =
+            try {
+                myPref.getString("flagLength","").toString().toInt()* MillisecondsPerMinute
+            }catch(e:NumberFormatException){
+                0
+            }
+        val scoreIncrement =
+            try {
+                myPref.getString("scoreInc","").toString().toInt()
+            }catch(e:NumberFormatException){
+                0
+            }
+        val timeoutLength =
+            try {
+                myPref.getString("timeoutLength","").toString().toInt()* MillisecondsPerMinute
+            }catch(e:NumberFormatException){
+                0
+            }
+
+        val yellow1Length =
+            try {
+                myPref.getString("yellow1Length","").toString().toInt()* MillisecondsPerMinute
+            }catch(e:NumberFormatException){
+                0
+            }
+
+        val yellow2Length =
+            try {
+                myPref.getString("yellow2Length","").toString().toInt()* MillisecondsPerMinute
+            }catch(e:NumberFormatException){
+                0
+            }
+
+        val y1Text = (yellow1Length/MillisecondsPerMinute).toString() + " minute"
+        button1Min.text = y1Text
+        val y2Text = (yellow2Length/MillisecondsPerMinute).toString() + " minute"
+        button2Min.text = y2Text
+
+
         Handler(Looper.getMainLooper()).post(object : Runnable {
             override fun run() {
                 Handler(Looper.getMainLooper()).postDelayed(this,20)
@@ -321,7 +374,7 @@ class MainActivity : AppCompatActivity() {
             }else{
                 mainBase += SystemClock.elapsedRealtime() - pauseTime
                 if(flagRunning) {
-                    flagBase = mainBase + SEEKER_FLOOR
+                    flagBase = mainBase + seekerFloor
                 }
                 for(a in yellowCards.indices.reversed()){
                     if(yellowCards[a].isTrash){
@@ -346,11 +399,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             flagBase = mainBase
-            flagBase += SEEKER_FLOOR
+            flagBase += seekerFloor
             flagRunning = true
 
             mainChronometer.text = timeFormatter(0,true)
-            flagChronometer.text = timeFormatter(SEEKER_FLOOR,true)
+            flagChronometer.text = timeFormatter(seekerFloor,true)
 
             scoreLeft = 0
             scoreRight = 0
@@ -372,19 +425,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonUpLeft.setOnClickListener{
-            scoreLeft += 10
+            scoreLeft += scoreIncrement
             scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
         }
         buttonUpRight.setOnClickListener{
-            scoreRight += 10
+            scoreRight += scoreIncrement
             scoreRightText.text = scoreRight.toString().padStart(3,'0')
         }
         buttonDownLeft.setOnClickListener{
-            scoreLeft -= 10
+            scoreLeft -= scoreIncrement
             scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
         }
         buttonDownRight.setOnClickListener{
-            scoreRight -= 10
+            scoreRight -= scoreIncrement
             scoreRightText.text = scoreRight.toString().padStart(3,'0')
         }
 
@@ -394,7 +447,7 @@ class MainActivity : AppCompatActivity() {
                 buttonTimeout.text = getString(R.string.timeout)
                 timeoutRow.visibility = View.GONE
             } else {
-                timeoutBase = SystemClock.elapsedRealtime() + MillisecondsPerMinute
+                timeoutBase = SystemClock.elapsedRealtime() + timeoutLength
                 buttonTimeout.text = getString(R.string.ClearTimeout)
                 timeoutRow.visibility = View.VISIBLE
             }
@@ -414,12 +467,12 @@ class MainActivity : AppCompatActivity() {
 
         button1Min.setOnClickListener{
             numCards++
-            yellowCards.add(YellowCard(numCards,auxCord, MillisecondsPerMinute,this))
+            yellowCards.add(YellowCard(numCards,auxCord, yellow1Length,this))
         }
 
         button2Min.setOnClickListener{
             numCards++
-            yellowCards.add(YellowCard(numCards,auxCord, 2*MillisecondsPerMinute,this))
+            yellowCards.add(YellowCard(numCards,auxCord, yellow2Length,this))
         }
     }
 
