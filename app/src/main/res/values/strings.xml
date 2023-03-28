@@ -20,17 +20,21 @@
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="hide_display_header">Hide or Display Elements</string>
+    <string name="other_header">Other Settings</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <!-- Display Preferences -->
+    <string name="set_display_main_t">Main timer</string>
+    <string name="set_display_flag_t">Secondary countdown timer</string>
+    <string name="set_display_scores">Scores</string>
+    <string name="set_display_timeout_t">Timeout</string>
+    <string name="set_display_yellowcards">Yellow cards</string>
 
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- Other Preferences -->
+    <string name="set_length_flag_t">Secondary timer length (minutes)</string>
+    <string name="set_score_inc">Score increment</string>
+    <string name="set_length_timeout_t">Timeout timer length (minutes)</string>
+    <string name="set_length_yellowcard_1_t">Yellow Card 1 timer length (minutes)</string>
+    <string name="set_length_yellowcard_2_t">Yellow Card 2 timer length (minutes)</string>
+    <string name="set_audio_on">Audio on timer expiration</string>
 </resources>

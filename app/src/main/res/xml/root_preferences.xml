@@ -1,34 +1,68 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory app:title="@string/hide_display_header">
+        <SwitchPreferenceCompat
+            app:key="mainTimer"
+            app:title="@string/set_display_main_t" />
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:key="flagTimer"
+            app:title="@string/set_display_flag_t" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:key="score"
+            app:title="@string/set_display_scores" />
 
+        <SwitchPreferenceCompat
+            app:key="timeout"
+            app:title="@string/set_display_timeout_t" />
+
+        <SwitchPreferenceCompat
+            app:key="yellowCards"
+            app:title="@string/set_display_yellowcards" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="@string/other_header">
+
+        <EditTextPreference
+            app:dependency="flagTimer"
+            app:key="flagLength"
+            app:title="@string/set_length_flag_t"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="score"
+            app:key="scoreInc"
+            app:title="@string/set_score_inc"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="timeout"
+            app:key="timeoutLength"
+            app:title="@string/set_length_timeout_t"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="yellowCards"
+            app:key="yellow1Length"
+            app:title="@string/set_length_yellowcard_1_t"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:dependency="yellowCards"
+            app:key="yellow2Length"
+            app:title="@string/set_length_yellowcard_2_t"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            app:key="mute"
+            app:title="@string/set_audio_on" />
 
     </PreferenceCategory>
 

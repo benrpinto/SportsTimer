@@ -1,5 +1,6 @@
 package com.quadtime.sportstimer
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -8,7 +9,7 @@ import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
 import java.util.*
 import kotlin.math.absoluteValue
@@ -135,7 +136,7 @@ class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, inputContex
     }
 }
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     //scores
     private var scoreLeft:Int = 0
@@ -263,6 +264,7 @@ class MainActivity : ComponentActivity() {
         val scoreRightText = findViewById<TextView>(R.id.scoreRight)
 
         //buttons
+        val buttonSettings = findViewById<ImageButton>(R.id.settingsButton)
         val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
         val buttonReset = findViewById<ImageButton>(R.id.resetButton)
         val buttonUpLeft = findViewById<ImageButton>(R.id.scoreUpLeft)
@@ -302,7 +304,13 @@ class MainActivity : ComponentActivity() {
         })
 
         //button listeners
+        buttonSettings.setOnClickListener{
+            val intent = Intent(this,SettingsActivity::class.java)
+            startActivity(intent)
+        }
+
         buttonPlayPause.setOnClickListener {
+            buttonSettings.visibility = View.INVISIBLE
             if(isRunning) {
                 pauseTime = SystemClock.elapsedRealtime()
                 buttonPlayPause.setImageResource(R.drawable.button_play)
@@ -331,6 +339,7 @@ class MainActivity : ComponentActivity() {
         }
 
         buttonReset.setOnClickListener{
+            buttonSettings.visibility = View.VISIBLE
             mainBase = SystemClock.elapsedRealtime()
             pauseTime = mainBase
 
