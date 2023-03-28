@@ -20,8 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="60sp"
-            android:textColor="@color/black"/>
+            android:textSize="60sp" />
 
         <ImageButton
             android:id="@+id/settingsButton"
@@ -29,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:visibility="visible"
-            android:backgroundTint="@color/white"
+            android:background="@null"
             android:contentDescription="@string/SettingsButton"
             android:scaleType="fitCenter"
             android:scaleX="0.7"
@@ -48,7 +47,7 @@
             android:layout_gravity="start"
             android:scaleType="fitCenter"
             android:layout_weight="1"
-            android:backgroundTint="@color/white"
+            android:background="@null"
             android:contentDescription="@string/PlayPauseButton"
             android:src="@drawable/button_play"/>
 
@@ -59,7 +58,7 @@
             android:layout_gravity="end"
             android:scaleType="fitCenter"
             android:layout_weight="1"
-            android:backgroundTint="@color/white"
+            android:background="@null"
             android:contentDescription="@string/ResetButton"
             android:src="@drawable/button_reset" />
     </TableRow>
@@ -82,7 +81,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="40sp"/>
     </TableRow>
 
@@ -95,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/white"
+            android:background="@null"
             android:contentDescription="@string/IncreaseScore"
             android:src="@drawable/button_up" />
 
@@ -109,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/white"
+            android:background="@null"
             android:contentDescription="@string/IncreaseScore"
             android:src="@drawable/button_up" />
     </TableRow>
@@ -125,7 +123,6 @@
             android:layout_weight="0"
             android:textAlignment="center"
             android:textSize="60sp"
-            android:textColor="@color/black"
             android:text="@string/InitialScore"/>
 
         <TextView
@@ -135,7 +132,6 @@
             android:layout_weight="1"
             android:textAlignment="center"
             android:textSize="60sp"
-            android:textColor="@color/black"
             android:text="@string/ScoreSeparator" />
 
         <TextView
@@ -145,7 +141,6 @@
             android:layout_weight="0"
             android:textAlignment="center"
             android:textSize="60sp"
-            android:textColor="@color/black"
             android:text="@string/InitialScore"/>
     </TableRow>
 
@@ -159,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/white"
+            android:background="@null"
             android:contentDescription="@string/DecreaseScore"
             android:src="@drawable/button_down" />
 
@@ -175,7 +170,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/white"
+            android:background="@null"
             android:contentDescription="@string/DecreaseScore"
             android:src="@drawable/button_down" />
     </TableRow>
@@ -199,7 +194,6 @@
             android:layout_height="wrap_content"
             android:countDown="true"
             android:textAlignment="center"
-            android:textColor="@color/black"
             android:textSize="40sp"/>
 
         <Button

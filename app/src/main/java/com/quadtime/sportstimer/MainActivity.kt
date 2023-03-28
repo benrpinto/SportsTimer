@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getColor
 import java.util.*
 import kotlin.math.absoluteValue
 
@@ -55,7 +54,6 @@ class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, inputContex
         id.textSize = 30.toFloat()
         id.textAlignment = View.TEXT_ALIGNMENT_CENTER
         id.text = inputId.toString()
-        id.setTextColor(getColor(inputContext,R.color.black))
 
         //chronometer content
         cardChronometer.layoutParams = TableRow.LayoutParams(
@@ -64,7 +62,6 @@ class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, inputContex
             1.0f
         )
         cardChronometer.textSize = 30.toFloat()
-        cardChronometer.setTextColor(getColor(inputContext,R.color.black))
         cardChronometer.text = timeFormatter(inputDur,false)
         cardBase = SystemClock.elapsedRealtime() + inputDur
 
