@@ -20,6 +20,14 @@ private const val MillisecondsPerMinute :Long = SecondsPerMinute* MillisecondsPe
 private const val MinutesPerHour : Long = 60
 private const val MillisecondsPerHour : Long = MillisecondsPerMinute* MinutesPerHour
 
+//default settings
+private const val defFlagLength : Int = 20
+private const val defScoreInc : Int = 10
+private const val defTimeoutLength : Int = 1
+private const val defYellow1Length : Int = 1
+private const val defYellow2Length : Int = 2
+private const val defAudioOn : Boolean = true
+
 class YellowCard(inputId:Int, inputAudio:MediaPlayer, inputDur:Long, inputContext: MainActivity){
     private val idNum :Int = inputId
     private val cardRow : TableRow = TableRow(inputContext)
@@ -162,11 +170,11 @@ class MainActivity : AppCompatActivity() {
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
         val seekerFloor =
             try {
-                myPref.getString("flagLength","").toString().toInt()* MillisecondsPerMinute
+                myPref.getString("flagLength", "$defFlagLength").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
-        val audioOn = myPref.getBoolean("audioOn",true)
+        val audioOn = myPref.getBoolean("audioOn", defAudioOn)
 
         val mainChronometer:TextView = findViewById(R.id.chronometer)
         val flagChronometer:TextView = findViewById(R.id.flagCountdown)
@@ -290,33 +298,33 @@ class MainActivity : AppCompatActivity() {
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
         val seekerFloor =
             try {
-                myPref.getString("flagLength","").toString().toInt()* MillisecondsPerMinute
+                myPref.getString("flagLength", "$defFlagLength").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
         val scoreIncrement =
             try {
-                myPref.getString("scoreInc","").toString().toInt()
+                myPref.getString("scoreInc","$defScoreInc").toString().toInt()
             }catch(e:NumberFormatException){
                 0
             }
         val timeoutLength =
             try {
-                myPref.getString("timeoutLength","").toString().toInt()* MillisecondsPerMinute
+                myPref.getString("timeoutLength","$defTimeoutLength").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
 
         val yellow1Length =
             try {
-                myPref.getString("yellow1Length","").toString().toInt()* MillisecondsPerMinute
+                myPref.getString("yellow1Length","$defYellow1Length").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
 
         val yellow2Length =
             try {
-                myPref.getString("yellow2Length","").toString().toInt()* MillisecondsPerMinute
+                myPref.getString("yellow2Length","$defYellow2Length").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
@@ -325,7 +333,6 @@ class MainActivity : AppCompatActivity() {
         button1Min.text = y1Text
         val y2Text = (yellow2Length/MillisecondsPerMinute).toString() + " minute"
         button2Min.text = y2Text
-
 
         Handler(Looper.getMainLooper()).post(object : Runnable {
             override fun run() {

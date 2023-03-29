@@ -29,21 +29,16 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="hide_display_header">Hide or Display Elements</string>
-    <string name="other_header">Other Settings</string>
+    <string name="Timers_header">Timer Lengths</string>
+    <string name="Other_header">Other Settings</string>
 
-    <!-- Display Preferences -->
-    <string name="set_display_main_t">Main timer</string>
-    <string name="set_display_flag_t">Secondary countdown timer</string>
-    <string name="set_display_scores">Scores</string>
-    <string name="set_display_timeout_t">Timeout</string>
-    <string name="set_display_yellowcards">Yellow cards</string>
-
-    <!-- Other Preferences -->
+    <!-- Timer Length Preferences -->
     <string name="set_length_flag_t">Secondary timer length (minutes)</string>
-    <string name="set_score_inc">Score increment</string>
     <string name="set_length_timeout_t">Timeout timer length (minutes)</string>
     <string name="set_length_yellowcard_1_t">Yellow Card 1 timer length (minutes)</string>
     <string name="set_length_yellowcard_2_t">Yellow Card 2 timer length (minutes)</string>
+
+    <!-- Other Settings Preferences -->
+    <string name="set_score_inc">Score increment</string>
     <string name="set_audio_on">Audio on timer expiration</string>
 </resources>
