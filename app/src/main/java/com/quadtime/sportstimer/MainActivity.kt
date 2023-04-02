@@ -168,13 +168,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val audioOn = myPref.getBoolean("audioOn", defAudioOn)
         val seekerFloor =
             try {
                 myPref.getString("flagLength", "$defFlagLength").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
-        val audioOn = myPref.getBoolean("audioOn", defAudioOn)
 
         val mainChronometer:TextView = findViewById(R.id.chronometer)
         val flagChronometer:TextView = findViewById(R.id.flagCountdown)
@@ -440,11 +440,11 @@ class MainActivity : AppCompatActivity() {
             scoreRightText.text = scoreRight.toString().padStart(3,'0')
         }
         buttonDownLeft.setOnClickListener{
-            scoreLeft -= scoreIncrement
+            scoreLeft = maxOf(scoreLeft-scoreIncrement,0)
             scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
         }
         buttonDownRight.setOnClickListener{
-            scoreRight -= scoreIncrement
+            scoreRight = maxOf(scoreRight-scoreIncrement,0)
             scoreRightText.text = scoreRight.toString().padStart(3,'0')
         }
 
@@ -488,6 +488,8 @@ class MainActivity : AppCompatActivity() {
             auxCord.start()
             flagBase = SystemClock.elapsedRealtime()
             flagRunning = false
+            val flagChronometer:TextView = findViewById(R.id.flagCountdown)
+            flagChronometer.text = timeFormatter(0,true)
         }
     }
     private fun timeoutTickListener() {
