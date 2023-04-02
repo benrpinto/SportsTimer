@@ -16,13 +16,13 @@
 
         <EditTextPreference
             app:key="yellow1Length"
-            app:title="@string/set_length_yellowcard_1_t"
+            app:title="@string/set_length_yellow_card_1_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="1"/>
 
         <EditTextPreference
             app:key="yellow2Length"
-            app:title="@string/set_length_yellowcard_2_t"
+            app:title="@string/set_length_yellow_card_2_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="2"/>
     </PreferenceCategory>

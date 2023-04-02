@@ -2,16 +2,18 @@
     <string name="app_name">Quadball Timer</string>
 
     <!-- MAIN ACTIVITY -->
-    <string name="SettingsButton">Settings Button</string>
+    <string name="SettingsButton">Settings</string>
 
     <string name="blankSeconds">00:00</string>
-    <string name="PlayPauseButton">Play or Pause Button</string>
-    <string name="ResetButton">Reset Button</string>
+    <string name="PlayPauseButton">Play or Pause</string>
+    <string name="ResetButton">Reset Timer</string>
 
     <string name="flag_runner">Flag Runner</string>
 
-    <string name="IncreaseScore">Increase Score Button</string>
-    <string name="DecreaseScore">Decrease Score Button</string>
+    <string name="IncreaseLeftScore">Increase Left Score</string>
+    <string name="DecreaseLeftScore">Decrease Left Score</string>
+    <string name="IncreaseRightScore">Increase Right Score</string>
+    <string name="DecreaseRightScore">Decrease Right Score</string>
     <string name="ScoreSeparator">:</string>
     <string name="InitialScore">000</string>
 
@@ -35,8 +37,8 @@
     <!-- Timer Length Preferences -->
     <string name="set_length_flag_t">Secondary timer length (minutes)</string>
     <string name="set_length_timeout_t">Timeout timer length (minutes)</string>
-    <string name="set_length_yellowcard_1_t">Yellow Card 1 timer length (minutes)</string>
-    <string name="set_length_yellowcard_2_t">Yellow Card 2 timer length (minutes)</string>
+    <string name="set_length_yellow_card_1_t">Yellow Card 1 timer length (minutes)</string>
+    <string name="set_length_yellow_card_2_t">Yellow Card 2 timer length (minutes)</string>
 
     <!-- Other Settings Preferences -->
     <string name="set_score_inc">Score increment</string>
