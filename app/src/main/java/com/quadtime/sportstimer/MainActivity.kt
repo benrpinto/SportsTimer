@@ -3,8 +3,6 @@ package com.quadtime.sportstimer
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
@@ -154,6 +152,9 @@ class MainActivity : AppCompatActivity() {
     var flagRunning = true
     var isTimeout = false
     private var pauseTime:Long = SystemClock.elapsedRealtime()
+
+    //timer
+    private val mainTimer = Timer()
 
     //base
     var mainBase = SystemClock.elapsedRealtime()
@@ -334,11 +335,14 @@ class MainActivity : AppCompatActivity() {
         val y2Text = (yellow2Length/MillisecondsPerMinute).toString() + " minute"
         button2Min.text = y2Text
 
-        Handler(Looper.getMainLooper()).post(object : Runnable {
+        mainTimer.schedule(object : TimerTask() {
             override fun run() {
-                Handler(Looper.getMainLooper()).postDelayed(this,20)
+             runOnUiThread { updateTimers() }
+            }
+            fun updateTimers() {
                 if(isRunning) {
-                    mainChronometer.text = timeFormatter(SystemClock.elapsedRealtime() - mainBase,true)
+                    mainChronometer.text =
+                        timeFormatter(SystemClock.elapsedRealtime() - mainBase,true)
                     if(flagRunning) {
                         flagChronometer.text =
                             timeFormatter(flagBase - SystemClock.elapsedRealtime(),true)
@@ -358,7 +362,7 @@ class MainActivity : AppCompatActivity() {
                     timeoutTickListener()
                 }
             }
-        })
+        },0,20)
 
         //button listeners
         buttonSettings.setOnClickListener{
@@ -498,8 +502,8 @@ class MainActivity : AppCompatActivity() {
             val buttonTimeout = findViewById<Button>(R.id.timeout)
             auxCord.start()
             timeoutBase = SystemClock.elapsedRealtime()
-            buttonTimeout.text = getString(R.string.timeout)
             isTimeout = false
+            buttonTimeout.text = getString(R.string.timeout)
             timeoutRow.visibility = View.GONE
         }
     }
