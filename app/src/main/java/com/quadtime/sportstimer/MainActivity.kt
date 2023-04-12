@@ -1,9 +1,7 @@
 package com.quadtime.sportstimer
 
 import android.content.Intent
-import android.media.MediaPlayer
-import android.os.Bundle
-import android.os.SystemClock
+import android.os.*
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +22,7 @@ private const val defTimeoutLength : Int = 1
 private const val defYellow1Length : Int = 1
 private const val defYellow2Length : Int = 2
 private const val defAudioOn : Boolean = true
+private const val defVibeOn : Boolean = true
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,14 +47,18 @@ class MainActivity : AppCompatActivity() {
     var timeoutBase = SystemClock.elapsedRealtime() + MillisecondsPerMinute
 
     //audio player
-    private var auxCord:MediaPlayer = MediaPlayer()
+    private lateinit var klaxon:Alert
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
+
         val audioOn = myPref.getBoolean("audioOn", defAudioOn)
+        val vibeOn = myPref.getBoolean("vibeOn",defVibeOn)
+        klaxon = Alert(this,audioOn,vibeOn)
+
         val seekerFloor =
             try {
                 myPref.getString("flagLength", "$defFlagLength").toString().toInt()* MillisecondsPerMinute
@@ -97,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                 val inputId = savedInstanceState.getInt("YC-ID$a")
                 val inputCardPause = savedInstanceState.getLong("YC-Pause$a")
                 val cardBase = savedInstanceState.getLong("YC-Base$a")
-                yellowCards.add(YellowCard(inputId,auxCord,this,inputCardPause,cardBase))
+                yellowCards.add(YellowCard(inputId,klaxon,this,inputCardPause,cardBase))
             }
             numCards = savedInstanceState.getInt("numCards")
 
@@ -120,11 +123,6 @@ class MainActivity : AppCompatActivity() {
             scoreRightText.text = scoreRight.toString().padStart(3,'0')
         }
 
-        auxCord.release()
-        auxCord = MediaPlayer.create(this, R.raw.ping)
-        if(!audioOn){
-            auxCord.setVolume(0F,0F)
-        }
         setListeners()
    }
 
@@ -153,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         outState.putBoolean("isRunning",isRunning)
         outState.putBoolean("isTimeout",isTimeout)
         outState.putLong("pauseTime",pauseTime)
-        auxCord.release()
+        klaxon.release()
     }
 
     private fun setListeners(){
@@ -364,18 +362,18 @@ class MainActivity : AppCompatActivity() {
 
         button1Min.setOnClickListener{
             numCards++
-            yellowCards.add(YellowCard(numCards,auxCord, yellow1Length,this))
+            yellowCards.add(YellowCard(numCards,klaxon, yellow1Length,this))
         }
 
         button2Min.setOnClickListener{
             numCards++
-            yellowCards.add(YellowCard(numCards,auxCord, yellow2Length,this))
+            yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
         }
     }
 
     private fun flagTickListener(){
         if(flagBase < SystemClock.elapsedRealtime() && flagRunning && isRunning){
-            auxCord.start()
+            klaxon.ping()
             flagBase = SystemClock.elapsedRealtime()
             flagRunning = false
             val flagChronometer:TextView = findViewById(R.id.flagCountdown)
@@ -386,7 +384,7 @@ class MainActivity : AppCompatActivity() {
         if (timeoutBase < SystemClock.elapsedRealtime()) {
             val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
             val buttonTimeout = findViewById<Button>(R.id.timeout)
-            auxCord.start()
+            klaxon.ping()
             timeoutBase = SystemClock.elapsedRealtime()
             isTimeout = false
             buttonTimeout.text = getString(R.string.timeout)

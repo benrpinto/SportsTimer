@@ -43,4 +43,5 @@
     <!-- Other Settings Preferences -->
     <string name="set_score_inc">Score increment</string>
     <string name="set_audio_on">Audio on timer expiration</string>
+    <string name="set_vibe_on">Vibration on timer expiration</string>
 </resources>

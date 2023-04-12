@@ -39,5 +39,10 @@
             app:key="audioOn"
             app:title="@string/set_audio_on"
             app:defaultValue="true"/>
+
+        <SwitchPreferenceCompat
+            app:key="vibeOn"
+            app:title="@string/set_vibe_on"
+            app:defaultValue="true"/>
     </PreferenceCategory>
 </PreferenceScreen>

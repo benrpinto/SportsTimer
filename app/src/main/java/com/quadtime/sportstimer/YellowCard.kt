@@ -1,7 +1,6 @@
 package com.quadtime.sportstimer
 
-import android.media.MediaPlayer
-import android.os.SystemClock
+import android.os.*
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -9,7 +8,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 
-class YellowCard(inputId:Int, inputAudio: MediaPlayer, inputDur:Long, inputContext: MainActivity){
+class YellowCard(inputId:Int, inputAlert: Alert, inputDur:Long, inputContext: MainActivity){
     private val idNum :Int = inputId
     private val cardRow : TableRow = TableRow(inputContext)
     private val id : TextView = TextView(inputContext)
@@ -17,7 +16,7 @@ class YellowCard(inputId:Int, inputAudio: MediaPlayer, inputDur:Long, inputConte
     private var cardBase:Long = SystemClock.elapsedRealtime()
     private var cardPause : Long = SystemClock.elapsedRealtime()
     private val cardClear : Button = Button(inputContext)
-    private val audio : MediaPlayer = inputAudio
+    private val siren : Alert = inputAlert
     var isTrash : Boolean = false
 
     init {
@@ -69,10 +68,10 @@ class YellowCard(inputId:Int, inputAudio: MediaPlayer, inputDur:Long, inputConte
 
     constructor(
         inputId:Int,
-        inputAudio: MediaPlayer,
+        inputAlert: Alert,
         inputContext: MainActivity,
         inputCardPause:Long,
-        inputCardBase:Long):this(inputId,inputAudio,inputCardBase- SystemClock.elapsedRealtime(),inputContext){
+        inputCardBase:Long):this(inputId,inputAlert,inputCardBase- SystemClock.elapsedRealtime(),inputContext){
         val tempHolder = SystemClock.elapsedRealtime()
         cardBase = inputCardBase + tempHolder - inputCardPause
         cardPause = tempHolder
@@ -89,7 +88,7 @@ class YellowCard(inputId:Int, inputAudio: MediaPlayer, inputDur:Long, inputConte
     fun cardTickListener() {
         cardChronometer.text = timeFormatter(cardBase - SystemClock.elapsedRealtime(),false)
         if (cardBase < SystemClock.elapsedRealtime()){
-            audio.start()
+            siren.ping()
             clearOut()
         }
     }
