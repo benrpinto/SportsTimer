@@ -1,4 +1,4 @@
-package com.quadtime.sportstimer
+package com.quadtime.timer
 
 import org.junit.Test
 

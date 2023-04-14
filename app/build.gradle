@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.quadtime.sportstimer'
+    namespace 'com.quadtime.timer'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.quadtime.sportstimer"
+        applicationId "com.quadtime.timer"
         minSdk 24
         targetSdk 33
         versionCode 1

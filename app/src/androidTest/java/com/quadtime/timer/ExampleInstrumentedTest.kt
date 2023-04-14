@@ -1,4 +1,4 @@
-package com.quadtime.sportstimer
+package com.quadtime.timer
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.sportstimer", appContext.packageName)
+        assertEquals("com.example.timer", appContext.packageName)
     }
 }

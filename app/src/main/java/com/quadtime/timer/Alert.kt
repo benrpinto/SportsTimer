@@ -1,4 +1,4 @@
-package com.quadtime.sportstimer
+package com.quadtime.timer
 
 import android.media.MediaPlayer
 import android.os.Build

@@ -1,4 +1,4 @@
-package com.quadtime.sportstimer
+package com.quadtime.timer
 
 import android.content.Intent
 import android.os.*

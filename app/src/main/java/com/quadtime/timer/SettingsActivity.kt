@@ -1,4 +1,4 @@
-package com.quadtime.sportstimer
+package com.quadtime.timer
 
 import android.os.Bundle
 import android.view.MenuItem
