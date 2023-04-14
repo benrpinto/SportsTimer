@@ -8,6 +8,16 @@ import androidx.preference.PreferenceFragmentCompat
 
 class SettingsActivity : AppCompatActivity() {
 
+    override fun onResume() {
+        super.onResume()
+        ActivityChecker.activityResumed()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ActivityChecker.activityPaused()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)

@@ -1,9 +1,13 @@
 package com.quadtime.timer
 
 import android.content.Intent
-import android.os.*
+import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import java.util.*
@@ -48,6 +52,16 @@ class MainActivity : AppCompatActivity() {
 
     //audio player
     private lateinit var klaxon:Alert
+
+    override fun onResume() {
+        super.onResume()
+        ActivityChecker.activityResumed()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ActivityChecker.activityPaused()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

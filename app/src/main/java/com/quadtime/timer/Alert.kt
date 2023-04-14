@@ -30,14 +30,15 @@ class Alert(inputContext:MainActivity, audioOn:Boolean, private var vibeOn: Bool
     }
 
     fun ping(){
-        if(auxCord.isPlaying){
-            auxCord.stop()
-            auxCord.prepare()
-        }
-        auxCord.start()
-
-        if(vibeOn){
-            vibrate()
+        if(ActivityChecker.isActivityVisible) {
+            if (auxCord.isPlaying) {
+                auxCord.stop()
+                auxCord.prepare()
+            }
+            auxCord.start()
+            if (vibeOn) {
+                vibrate()
+            }
         }
     }
 
