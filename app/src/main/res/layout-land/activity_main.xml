@@ -4,141 +4,169 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="10dp"
-    android:paddingVertical="10dp">
+    android:paddingVertical="10dp"
+    android:baselineAligned="false">
 
-    <TableLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-        <TableRow
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="start">
 
             <ImageButton
                 android:id="@+id/settingsButton"
-                android:layout_width="match_parent"
+                android:layout_width="80sp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:visibility="visible"
                 android:background="@null"
                 android:contentDescription="@string/SettingsButton"
                 android:scaleType="fitCenter"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
-                android:src="@drawable/baseline_settings_24" />
+                android:src="@drawable/settings_cog" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/chronometer"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:textAlignment="textEnd"
                 android:textSize="60sp" />
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/playPauseButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="0"
                 android:scaleType="fitCenter"
-                android:layout_weight="1"
                 android:background="@null"
                 android:contentDescription="@string/PlayPauseButton"
-                android:src="@drawable/button_play"/>
+                android:src="@drawable/play"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <ImageButton
                 android:id="@+id/resetButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_weight="0"
                 android:scaleType="fitCenter"
-                android:layout_weight="1"
                 android:background="@null"
                 android:contentDescription="@string/ResetButton"
-                android:src="@drawable/button_reset" />
-        </TableRow>
+                android:src="@drawable/reset" />
+        </LinearLayout>
 
-        <TableRow
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="start">
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/flag_foreground"
-                android:layout_weight="1"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:paddingHorizontal="10dp"
+                android:src="@drawable/flag_runner"
                 android:contentDescription="@string/flag_runner" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/flagCountdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:textAlignment="center"
+                android:textAlignment="textEnd"
                 android:textSize="40sp" />
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/timeout"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0"
                 android:text="@string/timeout" />
-        </TableRow>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TableRow
-                android:id="@+id/timeoutRow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <Button
-                    android:id="@+id/minus1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/ReduceTimeout"/>
-
-                <Space
-                    android:layout_weight="0.5"/>
-
-                <TextView
-                    android:id="@+id/timeoutCounter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:textSize="40sp"
-                    android:text="@string/blankSeconds"/>
-
-                <Space
-                    android:layout_weight="0.5"/>
-
-                <Button
-                    android:id="@+id/plus1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/IncreaseTimeout" />
-            </TableRow>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
 
-        <Space
+        <TableRow
+            android:id="@+id/timeoutRow"
             android:layout_width="match_parent"
-            android:layout_weight="1"/>
-    </TableLayout>
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/minus1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/ReduceTimeout"/>
+
+            <Space
+                android:layout_weight="0.5"/>
+
+            <TextView
+                android:id="@+id/timeoutCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingHorizontal="0dp"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:text="@string/blankSeconds"/>
+
+            <Space
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:id="@+id/plus1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/IncreaseTimeout" />
+        </TableRow>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -160,7 +188,7 @@
                 android:background="@null"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/IncreaseLeftScore"
-                android:src="@drawable/button_up" />
+                android:src="@drawable/triangle_up" />
 
             <TextView
                 android:id="@+id/scoreLeft"
@@ -178,7 +206,7 @@
                 android:background="@null"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/DecreaseLeftScore"
-                android:src="@drawable/button_down" />
+                android:src="@drawable/triangle_down" />
         </LinearLayout>
 
         <TextView
@@ -203,7 +231,7 @@
                 android:background="@null"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/IncreaseRightScore"
-                android:src="@drawable/button_up" />
+                android:src="@drawable/triangle_up" />
 
             <TextView
                 android:id="@+id/scoreRight"
@@ -221,13 +249,14 @@
                 android:background="@null"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/DecreaseRightScore"
-                android:src="@drawable/button_down" />
+                android:src="@drawable/triangle_down" />
         </LinearLayout>
     </LinearLayout>
 
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <TableRow
             android:layout_width="match_parent"
@@ -257,7 +286,7 @@
         </TableRow>
 
         <ScrollView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:contentDescription="@string/YellowCard">
 

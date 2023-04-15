@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.SportsTimer" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/black</item>
+    </style>
+
+    <style name="TealTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:colorAccent">@color/teal_700</item>
     </style>
 </resources>

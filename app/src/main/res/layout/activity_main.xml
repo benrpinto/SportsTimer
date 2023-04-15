@@ -34,7 +34,7 @@
             android:scaleType="fitCenter"
             android:scaleX="0.7"
             android:scaleY="0.7"
-            android:src="@drawable/baseline_settings_24" />
+            android:src="@drawable/settings_cog" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,13 +44,13 @@
         <ImageButton
             android:id="@+id/playPauseButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_gravity="start"
             android:scaleType="fitCenter"
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/PlayPauseButton"
-            android:src="@drawable/button_play"/>
+            android:src="@drawable/play"/>
 
         <Space
             android:layout_width="wrap_content"
@@ -60,13 +60,13 @@
         <ImageButton
             android:id="@+id/resetButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_gravity="end"
             android:scaleType="fitCenter"
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/ResetButton"
-            android:src="@drawable/button_reset" />
+            android:src="@drawable/reset" />
     </LinearLayout>
 
     <LinearLayout
@@ -76,11 +76,17 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/flag_foreground"
-            android:layout_weight="0"
+            android:layout_width="70dp"
+            android:layout_height="60dp"
+            android:paddingHorizontal="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/flag_runner"
             android:contentDescription="@string/flag_runner" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/flagCountdown"
@@ -103,7 +109,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/IncreaseLeftScore"
-            android:src="@drawable/button_up" />
+            android:src="@drawable/triangle_up" />
 
         <Button
             android:layout_width="wrap_content"
@@ -119,7 +125,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/IncreaseRightScore"
-            android:src="@drawable/button_up" />
+            android:src="@drawable/triangle_up" />
     </LinearLayout>
 
     <LinearLayout
@@ -166,7 +172,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:contentDescription="@string/DecreaseLeftScore"
-                android:src="@drawable/button_down" />
+                android:src="@drawable/triangle_down" />
 
             <Button
                 android:id="@+id/timeout"
@@ -182,7 +188,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:contentDescription="@string/DecreaseRightScore"
-                android:src="@drawable/button_down" />
+                android:src="@drawable/triangle_down" />
     </LinearLayout>
 
     <TableLayout

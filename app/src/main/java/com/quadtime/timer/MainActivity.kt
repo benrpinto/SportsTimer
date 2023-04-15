@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
             flagBase = mainBase + seekerFloor
             if(isRunning){
                 val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
-                buttonPlayPause.setImageResource(R.drawable.button_pause)
+                buttonPlayPause.setImageResource(R.drawable.pause)
             }else{
                 pauseTime = savedInstanceState.getLong("pauseTime")
                 mainBase += tempHolder - pauseTime
@@ -272,7 +272,7 @@ class MainActivity : AppCompatActivity() {
             buttonSettings.visibility = View.INVISIBLE
             if(isRunning) {
                 pauseTime = SystemClock.elapsedRealtime()
-                buttonPlayPause.setImageResource(R.drawable.button_play)
+                buttonPlayPause.setImageResource(R.drawable.play)
                 for(a in yellowCards.indices.reversed()){
                     if(yellowCards[a].isTrash){
                         yellowCards.removeAt(a)
@@ -292,7 +292,7 @@ class MainActivity : AppCompatActivity() {
                         yellowCards[a].resumeTimer()
                     }
                 }
-                buttonPlayPause.setImageResource(R.drawable.button_pause)
+                buttonPlayPause.setImageResource(R.drawable.pause)
             }
             isRunning = !isRunning
         }
@@ -303,7 +303,7 @@ class MainActivity : AppCompatActivity() {
             pauseTime = mainBase
 
             if(isRunning){
-                buttonPlayPause.setImageResource(R.drawable.button_play)
+                buttonPlayPause.setImageResource(R.drawable.play)
                 isRunning = false
             }
 
