@@ -60,6 +60,7 @@ class YellowCard(inputId:Int, inputAlert: Alert, inputDur:Long, inputContext: Ma
             TableRow.LayoutParams.WRAP_CONTENT,
             1.0f
         )
+        cardClear.setPadding(50,50,50,50)
         cardClear.text = inputContext.getString(R.string.clear_card_timer)
         cardClear.setOnClickListener {
             clearOut()
