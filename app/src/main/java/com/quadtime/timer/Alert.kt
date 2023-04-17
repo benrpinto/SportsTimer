@@ -6,12 +6,14 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import androidx.appcompat.app.AppCompatActivity
+import java.util.concurrent.locks.ReentrantLock
 
 private const val VibrationDuration : Long = 750
 
 class Alert(inputContext:MainActivity, audioOn:Boolean, private var vibeOn: Boolean) {
     private var auxCord: MediaPlayer
     private var vib:Vibrator
+    private val sharedLock = ReentrantLock()
 
     init {
         vib = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -31,11 +33,19 @@ class Alert(inputContext:MainActivity, audioOn:Boolean, private var vibeOn: Bool
 
     fun ping(){
         if(ActivityChecker.isActivityVisible) {
-            if (auxCord.isPlaying) {
-                auxCord.stop()
-                auxCord.prepare()
+            try {
+                sharedLock.lock()
+
+                if (auxCord.isPlaying) {
+                    auxCord.stop()
+                    auxCord.prepare()
+                }
+                auxCord.start()
+
+            }finally{
+                sharedLock.unlock()
             }
-            auxCord.start()
+
             if (vibeOn) {
                 vibrate()
             }

@@ -174,6 +174,9 @@ class MainActivity : AppCompatActivity() {
         outState.putBoolean("isRunning",isRunning)
         outState.putBoolean("isTimeout",isTimeout)
         outState.putLong("pauseTime",pauseTime)
+        //this is to prevent phantom pings
+        mainTimer.cancel()
+        yellowCards.clear()
         klaxon.release()
     }
 
