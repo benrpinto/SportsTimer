@@ -112,8 +112,17 @@ class MainActivity : AppCompatActivity() {
             val activeCards = savedInstanceState.getInt("ActiveCards")
             for(a in 0 until activeCards){
                 val inputId = savedInstanceState.getInt("YC-ID$a")
-                val inputCardPause = savedInstanceState.getLong("YC-Pause$a")
-                val cardBase = savedInstanceState.getLong("YC-Base$a")
+                var inputCardPause = savedInstanceState.getLong("YC-Pause$a")
+                var cardBase = savedInstanceState.getLong("YC-Base$a")
+
+                //this is to prevent the yellow card timer from displaying a lower value
+                //when pausing the timer and restoring the activity
+                if(!isRunning){
+                    //it has to be done here, and not in yellowCard
+                    //because yellowCard doesn't know if it's paused or not
+                    cardBase += tempHolder - inputCardPause
+                    inputCardPause = tempHolder
+                }
                 yellowCards.add(YellowCard(inputId,klaxon,this,inputCardPause,cardBase))
             }
             numCards = savedInstanceState.getInt("numCards")

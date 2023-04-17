@@ -74,8 +74,8 @@ class YellowCard(inputId:Int, inputAlert: Alert, inputDur:Long, inputContext: Ma
         inputCardPause:Long,
         inputCardBase:Long):this(inputId,inputAlert,inputCardBase- SystemClock.elapsedRealtime(),inputContext){
         val tempHolder = SystemClock.elapsedRealtime()
-        cardBase = inputCardBase + tempHolder - inputCardPause
-        cardPause = tempHolder
+        cardBase = inputCardBase
+        cardPause = inputCardPause
         cardChronometer.text = timeFormatter(cardBase-tempHolder,false)
     }
 
