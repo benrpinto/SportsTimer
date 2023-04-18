@@ -92,6 +92,38 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onStart(){
         super.onStart()
+        val mainChronometer:TextView = findViewById(R.id.chronometer)
+        val flagChronometer:TextView = findViewById(R.id.flagCountdown)
+        val timeoutChronometer:TextView = findViewById(R.id.timeoutCounter)
+
+        mainTimer.schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread { updateTimers() }
+            }
+            fun updateTimers() {
+                if(isRunning) {
+                    mainChronometer.text =
+                        timeFormatter(SystemClock.elapsedRealtime() - mainBase,true)
+                    if(flagRunning) {
+                        flagChronometer.text =
+                            timeFormatter(flagBase - SystemClock.elapsedRealtime(),true)
+                        flagTickListener()
+                    }
+                    for(a in yellowCards.indices.reversed()){
+                        if(yellowCards[a].isTrash){
+                            yellowCards.removeAt(a)
+                        }else{
+                            yellowCards[a].cardTickListener()
+                        }
+                    }
+                }
+                if(isTimeout) {
+                    timeoutChronometer.text =
+                        timeFormatter(timeoutBase - SystemClock.elapsedRealtime(),false)
+                    timeoutTickListener()
+                }
+            }
+        },0,20)
     }
 
     override fun onResume() {
@@ -110,15 +142,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy(){
         super.onDestroy()
+        mainTimer.cancel()
+        yellowCards.clear()
+        klaxon.release()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         saveToBundle(outState)
-        //this is to prevent phantom pings
-        mainTimer.cancel()
-        yellowCards.clear()
-        klaxon.release()
     }
 
     private fun saveToBundle(outState: Bundle){
@@ -209,7 +240,6 @@ class MainActivity : AppCompatActivity() {
         //timers
         val mainChronometer:TextView = findViewById(R.id.chronometer)
         val flagChronometer:TextView = findViewById(R.id.flagCountdown)
-        val timeoutChronometer:TextView = findViewById(R.id.timeoutCounter)
         val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
 
         //scores
@@ -269,35 +299,6 @@ class MainActivity : AppCompatActivity() {
         button1Min.text = y1Text
         val y2Text = (yellow2Length/MillisecondsPerMinute).toString() + " minute"
         button2Min.text = y2Text
-
-        mainTimer.schedule(object : TimerTask() {
-            override fun run() {
-             runOnUiThread { updateTimers() }
-            }
-            fun updateTimers() {
-                if(isRunning) {
-                    mainChronometer.text =
-                        timeFormatter(SystemClock.elapsedRealtime() - mainBase,true)
-                    if(flagRunning) {
-                        flagChronometer.text =
-                            timeFormatter(flagBase - SystemClock.elapsedRealtime(),true)
-                        flagTickListener()
-                    }
-                    for(a in yellowCards.indices.reversed()){
-                        if(yellowCards[a].isTrash){
-                            yellowCards.removeAt(a)
-                        }else{
-                            yellowCards[a].cardTickListener()
-                        }
-                    }
-                }
-                if(isTimeout) {
-                    timeoutChronometer.text =
-                        timeFormatter(timeoutBase - SystemClock.elapsedRealtime(),false)
-                    timeoutTickListener()
-                }
-            }
-        },0,20)
 
         //button listeners
         buttonSettings.setOnClickListener{
