@@ -70,10 +70,10 @@ class MainActivity : AppCompatActivity() {
                 0
             }
 
-        val mainChronometer:TextView = findViewById(R.id.chronometer)
-        val flagChronometer:TextView = findViewById(R.id.flagCountdown)
-        val tempHolder = SystemClock.elapsedRealtime()
         if(savedInstanceState == null){
+            val mainChronometer:TextView = findViewById(R.id.chronometer)
+            val flagChronometer:TextView = findViewById(R.id.flagCountdown)
+            val tempHolder = SystemClock.elapsedRealtime()
             mainChronometer.text = timeFormatter(0,true)
             flagChronometer.text = timeFormatter(seekerFloor,true)
             mainBase = tempHolder
@@ -81,59 +81,7 @@ class MainActivity : AppCompatActivity() {
             //timeoutChronometer is hidden, doesn't need to be initialised here
             pauseTime = tempHolder
         }else{
-            //Set main and flag chronometers
-            isRunning = savedInstanceState.getBoolean("isRunning")
-            mainBase = savedInstanceState.getLong("mainBase")
-            flagBase = mainBase + seekerFloor
-            if(isRunning){
-                val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
-                buttonPlayPause.setImageResource(R.drawable.pause)
-            }else{
-                pauseTime = savedInstanceState.getLong("pauseTime")
-                mainBase += tempHolder - pauseTime
-                pauseTime = tempHolder
-                flagBase = mainBase + seekerFloor
-
-            }
-            mainChronometer.text = timeFormatter(tempHolder-mainBase,true)
-            flagChronometer.text = timeFormatter(flagBase - tempHolder,true)
-
-            //Set yellow cards
-            val activeCards = savedInstanceState.getInt("ActiveCards")
-            for(a in 0 until activeCards){
-                val inputId = savedInstanceState.getInt("YC-ID$a")
-                var inputCardPause = savedInstanceState.getLong("YC-Pause$a")
-                var cardBase = savedInstanceState.getLong("YC-Base$a")
-
-                //this is to prevent the yellow card timer from displaying a lower value
-                //when pausing the timer and restoring the activity
-                if(!isRunning){
-                    //it has to be done here, and not in yellowCard
-                    //because yellowCard doesn't know if it's paused or not
-                    cardBase += tempHolder - inputCardPause
-                    inputCardPause = tempHolder
-                }
-                yellowCards.add(YellowCard(inputId,klaxon,this,inputCardPause,cardBase))
-            }
-            numCards = savedInstanceState.getInt("numCards")
-
-            //Set Timeout chronometer
-            isTimeout = savedInstanceState.getBoolean("isTimeout")
-            timeoutBase = savedInstanceState.getLong("timeoutBase")
-            if(isTimeout){
-                val buttonTimeout = findViewById<Button>(R.id.timeout)
-                val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
-                buttonTimeout.text = getString(R.string.ClearTimeout)
-                timeoutRow.visibility = View.VISIBLE
-            }
-
-            //Set Scores
-            val scoreLeftText = findViewById<TextView>(R.id.scoreLeft)
-            val scoreRightText = findViewById<TextView>(R.id.scoreRight)
-            scoreLeft = savedInstanceState.getInt("scoreLeft")
-            scoreRight = savedInstanceState.getInt("scoreRight")
-            scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
-            scoreRightText.text = scoreRight.toString().padStart(3,'0')
+            restoreFromBundle(savedInstanceState,seekerFloor)
         }
 
         setListeners()
@@ -166,7 +114,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        saveToBundle(outState)
+        //this is to prevent phantom pings
+        mainTimer.cancel()
+        yellowCards.clear()
+        klaxon.release()
+    }
 
+    private fun saveToBundle(outState: Bundle){
         //yellow cards
         //clean up cards first
         for(a in yellowCards.indices.reversed()){
@@ -189,10 +144,65 @@ class MainActivity : AppCompatActivity() {
         outState.putBoolean("isRunning",isRunning)
         outState.putBoolean("isTimeout",isTimeout)
         outState.putLong("pauseTime",pauseTime)
-        //this is to prevent phantom pings
-        mainTimer.cancel()
-        yellowCards.clear()
-        klaxon.release()
+    }
+
+    private fun restoreFromBundle(savedInstanceState: Bundle, seekerFloor:Long){
+        val mainChronometer:TextView = findViewById(R.id.chronometer)
+        val flagChronometer:TextView = findViewById(R.id.flagCountdown)
+        val tempHolder = SystemClock.elapsedRealtime()
+        //Set main and flag chronometers
+        isRunning = savedInstanceState.getBoolean("isRunning")
+        mainBase = savedInstanceState.getLong("mainBase")
+        flagBase = mainBase + seekerFloor
+        if(isRunning){
+            val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
+            buttonPlayPause.setImageResource(R.drawable.pause)
+        }else{
+            pauseTime = savedInstanceState.getLong("pauseTime")
+            mainBase += tempHolder - pauseTime
+            pauseTime = tempHolder
+            flagBase = mainBase + seekerFloor
+
+        }
+        mainChronometer.text = timeFormatter(tempHolder-mainBase,true)
+        flagChronometer.text = timeFormatter(flagBase - tempHolder,true)
+
+        //Set yellow cards
+        val activeCards = savedInstanceState.getInt("ActiveCards")
+        for(a in 0 until activeCards){
+            val inputId = savedInstanceState.getInt("YC-ID$a")
+            var inputCardPause = savedInstanceState.getLong("YC-Pause$a")
+            var cardBase = savedInstanceState.getLong("YC-Base$a")
+
+            //this is to prevent the yellow card timer from displaying a lower value
+            //when pausing the timer and restoring the activity
+            if(!isRunning){
+                //it has to be done here, and not in yellowCard
+                //because yellowCard doesn't know if it's paused or not
+                cardBase += tempHolder - inputCardPause
+                inputCardPause = tempHolder
+            }
+            yellowCards.add(YellowCard(inputId,klaxon,this,inputCardPause,cardBase))
+        }
+        numCards = savedInstanceState.getInt("numCards")
+
+        //Set Timeout chronometer
+        isTimeout = savedInstanceState.getBoolean("isTimeout")
+        timeoutBase = savedInstanceState.getLong("timeoutBase")
+        if(isTimeout){
+            val buttonTimeout = findViewById<Button>(R.id.timeout)
+            val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
+            buttonTimeout.text = getString(R.string.ClearTimeout)
+            timeoutRow.visibility = View.VISIBLE
+        }
+
+        //Set Scores
+        val scoreLeftText = findViewById<TextView>(R.id.scoreLeft)
+        val scoreRightText = findViewById<TextView>(R.id.scoreRight)
+        scoreLeft = savedInstanceState.getInt("scoreLeft")
+        scoreRight = savedInstanceState.getInt("scoreRight")
+        scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
+        scoreRightText.text = scoreRight.toString().padStart(3,'0')
     }
 
     private fun setListeners(){
