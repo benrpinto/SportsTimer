@@ -53,16 +53,6 @@ class MainActivity : AppCompatActivity() {
     //audio player
     private lateinit var klaxon:Alert
 
-    override fun onResume() {
-        super.onResume()
-        ActivityChecker.activityResumed()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        ActivityChecker.activityPaused()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -147,7 +137,32 @@ class MainActivity : AppCompatActivity() {
         }
 
         setListeners()
-   }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+    }
+    override fun onStart(){
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ActivityChecker.activityResumed()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ActivityChecker.activityPaused()
+    }
+
+    override fun onStop(){
+        super.onStop()
+    }
+
+    override fun onDestroy(){
+        super.onDestroy()
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
