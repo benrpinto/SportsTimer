@@ -45,4 +45,5 @@
             app:title="@string/set_vibe_on"
             app:defaultValue="true"/>
     </PreferenceCategory>
+    <PreferenceCategory app:title="@string/privacy_policy"/>
 </PreferenceScreen>
