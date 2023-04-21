@@ -1,9 +1,11 @@
 package com.quadtime.timer
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NavUtils
+import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
 
 class SettingsActivity : AppCompatActivity() {
@@ -45,6 +47,31 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+            var numberPreference: EditTextPreference? = findPreference("flagLength")
+            numberPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+            }
+
+            numberPreference = findPreference("timeoutLength")
+            numberPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+            }
+
+            numberPreference = findPreference("yellow1Length")
+            numberPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+            }
+
+            numberPreference = findPreference("yellow2Length")
+            numberPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+            }
+
+            numberPreference = findPreference("scoreInc")
+            numberPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+            }
         }
     }
 }
