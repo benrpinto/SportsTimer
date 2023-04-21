@@ -70,7 +70,13 @@ class MainActivity : AppCompatActivity() {
                 0
             }
 
-        if(savedInstanceState == null){
+        val inBundle = ActivityChecker.getBundle()
+
+        if(!inBundle.isEmpty){
+            restoreFromBundle(inBundle, seekerFloor)
+        }else if(savedInstanceState != null){
+            restoreFromBundle(savedInstanceState, seekerFloor)
+        }else{
             val mainChronometer:TextView = findViewById(R.id.chronometer)
             val flagChronometer:TextView = findViewById(R.id.flagCountdown)
             val tempHolder = SystemClock.elapsedRealtime()
@@ -80,16 +86,11 @@ class MainActivity : AppCompatActivity() {
             flagBase = tempHolder + seekerFloor
             //timeoutChronometer is hidden, doesn't need to be initialised here
             pauseTime = tempHolder
-        }else{
-            restoreFromBundle(savedInstanceState,seekerFloor)
         }
 
         setListeners()
     }
 
-    override fun onRestart() {
-        super.onRestart()
-    }
     override fun onStart(){
         super.onStart()
         val mainChronometer:TextView = findViewById(R.id.chronometer)
@@ -136,12 +137,12 @@ class MainActivity : AppCompatActivity() {
         ActivityChecker.activityPaused()
     }
 
-    override fun onStop(){
-        super.onStop()
-    }
-
     override fun onDestroy(){
         super.onDestroy()
+        val outBundle = Bundle()
+        saveToBundle(outBundle)
+        ActivityChecker.setBundle(outBundle)
+
         mainTimer.cancel()
         yellowCards.clear()
         klaxon.release()
@@ -307,7 +308,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonPlayPause.setOnClickListener {
-            buttonSettings.visibility = View.INVISIBLE
             if(isRunning) {
                 pauseTime = SystemClock.elapsedRealtime()
                 buttonPlayPause.setImageResource(R.drawable.play)
@@ -336,7 +336,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonReset.setOnClickListener{
-            buttonSettings.visibility = View.VISIBLE
             mainBase = SystemClock.elapsedRealtime()
             pauseTime = mainBase
 
