@@ -21,10 +21,9 @@
 
             <ImageButton
                 android:id="@+id/settingsButton"
-                android:layout_width="80sp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
-                android:visibility="visible"
                 android:background="@null"
                 android:contentDescription="@string/SettingsButton"
                 android:scaleType="fitCenter"

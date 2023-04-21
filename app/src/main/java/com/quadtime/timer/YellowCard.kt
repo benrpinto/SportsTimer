@@ -61,7 +61,7 @@ class YellowCard(inputId:Int, inputAlert: Alert, inputDur:Long, inputContext: Ma
             1.0f
         )
         cardClear.setPadding(50,50,50,50)
-        cardClear.text = inputContext.getString(R.string.clear_card_timer)
+        cardClear.text = inputContext.getString(R.string.clear_card_timer,idNum)
         cardClear.setOnClickListener {
             clearOut()
         }

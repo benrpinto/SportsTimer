@@ -25,7 +25,7 @@
     <string name="YellowCard">Yellow Card section</string>
     <string name="yellow2">2 Minutes</string>
     <string name="yellow1">1 Minute</string>
-    <string name="clear_card_timer">Clear Card</string>
+    <string name="clear_card_timer">Clear Card %1$d</string>
 
     <!-- SETTINGS ACTIVITY -->
     <string name="title_activity_settings">Settings</string>
