@@ -11,18 +11,18 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+        android:theme="@style/PopTheme"
         tools:targetApi="31">
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.AppCompat.DayNight"
+            android:theme="@style/PopTheme.ActionBar"
             android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/TealTheme">
+            android:theme="@style/PopTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

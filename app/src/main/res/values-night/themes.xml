@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PopTheme.ActionBar" parent="Theme.AppCompat.DayNight">
+        <item name="android:textColor">@color/white</item>
+        <item name="colorButtonNormal">@color/gold_700</item>
+        <item name="android:colorAccent">@color/teal_200</item>
+    </style>
+
+    <style name="PopTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:textColor">@color/white</item>
+        <item name="colorButtonNormal">@color/gold_700</item>
+        <item name="android:colorAccent">@color/teal_200</item>
+    </style>
+</resources>
