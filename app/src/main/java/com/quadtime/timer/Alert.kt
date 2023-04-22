@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock
 
 private const val VibrationDuration : Long = 750
 
-class Alert(inputContext:MainActivity, audioOn:Boolean, private var vibeOn: Boolean) {
+class Alert(inputContext:MainActivity, audioVol: Int, private var vibeOn: Boolean) {
     private var auxCord: MediaPlayer
     private var vib:Vibrator
     private val sharedLock = ReentrantLock()
@@ -26,9 +26,8 @@ class Alert(inputContext:MainActivity, audioOn:Boolean, private var vibeOn: Bool
         }
 
         auxCord = MediaPlayer.create(inputContext, R.raw.ping)
-        if(!audioOn){
-            auxCord.setVolume(0F,0F)
-        }
+        val volPercent:Float = audioVol.toFloat()/100
+        auxCord.setVolume(volPercent,volPercent)
     }
 
     fun ping(){

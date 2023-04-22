@@ -25,7 +25,7 @@ private const val defScoreInc : Int = 10
 private const val defTimeoutLength : Int = 1
 private const val defYellow1Length : Int = 1
 private const val defYellow2Length : Int = 2
-private const val defAudioOn : Boolean = true
+private const val defAudioVol : Int = 100
 private const val defVibeOn : Boolean = true
 
 class MainActivity : AppCompatActivity() {
@@ -59,9 +59,9 @@ class MainActivity : AppCompatActivity() {
 
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        val audioOn = myPref.getBoolean("audioOn", defAudioOn)
+        val audioVol = myPref.getInt("audioVol", defAudioVol)
         val vibeOn = myPref.getBoolean("vibeOn",defVibeOn)
-        klaxon = Alert(this,audioOn,vibeOn)
+        klaxon = Alert(this,audioVol,vibeOn)
 
         val seekerFloor =
             try {
