@@ -8,13 +8,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </FrameLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="60dp"
-        android:autoLink="web"
-        android:text="@string/privacy_link"
-        android:textAlignment="center"
-        android:textColorLink="?android:textColorPrimary" />
 </LinearLayout>
