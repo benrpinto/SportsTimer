@@ -49,6 +49,14 @@
             app:title="@string/set_vibe_on"
             app:defaultValue="true"/>
 
+        <ListPreference
+            app:defaultValue="@string/dark_mode_def_value"
+            app:entries="@array/dark_mode_entries"
+            app:entryValues="@array/dark_mode_values"
+            app:key="@string/dark_mode"
+            app:title="@string/dark_mode"
+            app:useSimpleSummaryProvider="true" />
+
         <Preference app:title="@string/privacy_policy">
             <intent
                 android:action="android.intent.action.VIEW"

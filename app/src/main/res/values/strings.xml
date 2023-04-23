@@ -44,6 +44,8 @@
     <string name="set_score_inc">Score increment</string>
     <string name="set_audio_vol">Audio volume</string>
     <string name="set_vibe_on">Vibration on timer expiration</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="dark_mode_def_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
 
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_link">https://benrpinto.github.io/benrpinto/quadball_timer_privacy_policy/index.html</string>
