@@ -1,6 +1,8 @@
 package com.quadtime.timer
 
 import android.media.MediaPlayer
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -24,8 +26,8 @@ class Alert(inputContext:MainActivity, audioVol: Int, private var vibeOn: Boolea
             @Suppress("DEPRECATION")
             inputContext.getSystemService(AppCompatActivity.VIBRATOR_SERVICE) as Vibrator
         }
-
-        auxCord = MediaPlayer.create(inputContext, R.raw.ping)
+        val alarmSound: Uri = RingtoneManager. getDefaultUri (RingtoneManager. TYPE_NOTIFICATION )
+        auxCord = MediaPlayer.create(inputContext, alarmSound)
         val volPercent:Float = audioVol.toFloat()/100
         auxCord.setVolume(volPercent,volPercent)
     }
