@@ -1,284 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingHorizontal="5dp"
-    android:paddingVertical="5dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/chronometer"
+        tools:text="10:00.000"
+        android:textSize="60sp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <Space
-            android:layout_width="5dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"/>
+    <ImageButton
+        android:id="@+id/settingsButton"
+        app:srcCompat="@drawable/settings_cog"
+        android:contentDescription="@string/SettingsButton"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/chronometer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="60sp" />
+    <ImageView
+        android:id="@+id/imageView"
+        app:srcCompat="@drawable/flag_runner"
+        android:contentDescription="@string/flag_runner"
+        android:scaleType="fitCenter"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer"/>
 
-        <ImageButton
-            android:id="@+id/settingsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:minWidth="60dp"
-            android:minHeight="60dp"
-            android:layout_weight="0.5"
-            android:background="@null"
-            android:contentDescription="@string/SettingsButton"
-            android:scaleType="fitCenter"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            android:src="@drawable/settings_cog" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/flagCountdown"
+        tools:text="10:00.000"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/playPauseButton"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_gravity="start"
-            android:scaleType="fitCenter"
-            android:layout_weight="1"
-            android:background="@null"
-            android:contentDescription="@string/PlayPauseButton"
-            android:src="@drawable/play"/>
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometer"/>
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/resetButton"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_gravity="end"
-            android:scaleType="fitCenter"
-            android:layout_weight="1"
-            android:background="@null"
-            android:contentDescription="@string/ResetButton"
-            android:src="@drawable/reset" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/scoreUpLeft"
+        app:srcCompat="@drawable/triangle_up"
+        android:contentDescription="@string/IncreaseLeftScore"
+        android:background="@null"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/scoreDownLeft"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"/>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="70dp"
-            android:layout_height="60dp"
-            android:paddingHorizontal="10dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/flag_runner"
-            android:contentDescription="@string/flag_runner" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/flagCountdown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:textAlignment="center"
-            android:textSize="40sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/scoreUpLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:contentDescription="@string/IncreaseLeftScore"
-            android:src="@drawable/triangle_up" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:visibility="invisible"
-            android:text="@string/timeout" />
-
-        <ImageButton
-            android:id="@+id/scoreUpRight"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:contentDescription="@string/IncreaseRightScore"
-            android:src="@drawable/triangle_up" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/scoreUpRight"
+        app:srcCompat="@drawable/triangle_up"
+        android:contentDescription="@string/IncreaseRightScore"
+        android:background="@null"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-            <TextView
-                android:id="@+id/scoreLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:textAlignment="center"
-                android:textSize="60sp"
-                android:text="@string/InitialScore"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="@+id/scoreDownRight"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"/>
 
-            <TextView
-                android:id="@+id/scoreSeparator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="60sp"
-                android:text="@string/ScoreSeparator" />
+    <TextView
+        android:id="@+id/scoreLeft"
+        android:text="@string/InitialScore"
+        android:textSize="60sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="@+id/scoreDownLeft"
+        app:layout_constraintStart_toStartOf="@+id/scoreDownLeft"
+        app:layout_constraintTop_toBottomOf="@+id/scoreUpLeft"/>
 
-            <TextView
-                android:id="@+id/scoreRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:textAlignment="center"
-                android:textSize="60sp"
-                android:text="@string/InitialScore"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/scoreSeparator"
+        android:text="@string/ScoreSeparator"
+        android:textSize="60sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreUpLeft"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/scoreRight"
+        android:text="@string/InitialScore"
+        android:textSize="60sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/scoreDownRight"
+        app:layout_constraintStart_toStartOf="@+id/scoreDownRight"
+        app:layout_constraintTop_toBottomOf="@+id/scoreUpRight"/>
 
-            <ImageButton
-                android:id="@+id/scoreDownLeft"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:contentDescription="@string/DecreaseLeftScore"
-                android:src="@drawable/triangle_down" />
+    <ImageButton
+        android:id="@+id/scoreDownLeft"
+        app:srcCompat="@drawable/triangle_down"
+        android:contentDescription="@string/DecreaseLeftScore"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreLeft"/>
 
-            <Button
-                android:id="@+id/timeout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/timeout" />
+    <ImageButton
+        android:id="@+id/scoreDownRight"
+        app:srcCompat="@drawable/triangle_down"
+        android:contentDescription="@string/DecreaseRightScore"
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/timeout"
+        app:layout_constraintTop_toBottomOf="@+id/scoreRight"/>
 
-            <ImageButton
-                android:id="@+id/scoreDownRight"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:contentDescription="@string/DecreaseRightScore"
-                android:src="@drawable/triangle_down" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/timeout"
+        android:text="@string/timeout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreSeparator"/>
 
-    <TableLayout
+    <TableRow
+        android:id="@+id/timeoutRow"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow
-            android:id = "@+id/timeoutRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreDownLeft">
 
-            <Button
-                android:id="@+id/minus1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/ReduceTimeout" />
+        <Button
+            android:id="@+id/minus1"
+            android:text="@string/ReduceTimeout"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
 
-            <TextView
-                android:id="@+id/timeoutCounter"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:countDown="true"
-                android:textAlignment="center"
-                android:textSize="40sp"/>
+        <TextView
+            android:id="@+id/timeoutCounter"
+            tools:text = "00:00"
+            android:countDown="true"
+            android:textSize="40sp"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-            <Button
-                android:id="@+id/plus1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/IncreaseTimeout" />
-        </TableRow>
+        <Button
+            android:id="@+id/plus1"
+            android:text="@string/IncreaseTimeout"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+    </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <Button
+        android:id="@+id/yellow1"
+        android:text="@string/yellow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/timeout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeoutRow"/>
 
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="30sp"
-                android:layout_weight="1"/>
-        </TableRow>
+    <Button
+        android:id="@+id/yellow2"
+        android:text="@string/yellow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/timeout"
+        app:layout_constraintTop_toBottomOf="@+id/timeoutRow"/>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/yellow1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:padding="20dp"
-                android:text="@string/yellow1" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <Button
-                android:id="@+id/yellow2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:padding="20dp"
-                android:text="@string/yellow2" />
-        </TableRow>
-    </TableLayout>
     <ScrollView
+        android:contentDescription="@string/YellowCard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/YellowCard">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/playPauseButton"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yellow1"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
+            tools:visibility="gone"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <TableLayout
                 android:id="@+id/cardTable"
+                android:animateLayoutChanges="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:paddingVertical="15sp">
-            </TableLayout>
+                android:paddingVertical="15sp"/>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <ImageButton
+        android:id="@+id/playPauseButton"
+        app:srcCompat="@drawable/play"
+        android:contentDescription="@string/PlayPauseButton"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/resetButton"
+        app:srcCompat="@drawable/reset"
+        android:contentDescription="@string/ResetButton"
+        android:background="@null"
+        android:scaleType="fitCenter"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
