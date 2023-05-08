@@ -62,5 +62,10 @@
                 android:action="android.intent.action.VIEW"
                 android:data="@string/privacy_link"/>
         </Preference>
+        <Preference app:title="@string/donation">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/donation_link"/>
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
