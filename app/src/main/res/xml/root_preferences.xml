@@ -4,25 +4,25 @@
     <PreferenceCategory app:title="@string/timers_header">
 
         <EditTextPreference
-            app:key="flagLength"
+            app:key="@string/flag_length_key"
             app:title="@string/set_length_flag_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="20"/>
 
         <EditTextPreference
-            app:key="timeoutLength"
+            app:key="@string/timeout_length_key"
             app:title="@string/set_length_timeout_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="1"/>
 
         <EditTextPreference
-            app:key="yellow1Length"
+            app:key="@string/yellow_1_length_key"
             app:title="@string/set_length_yellow_card_1_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="1"/>
 
         <EditTextPreference
-            app:key="yellow2Length"
+            app:key="@string/yellow_2_length_key"
             app:title="@string/set_length_yellow_card_2_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="2"/>
@@ -31,13 +31,13 @@
     <PreferenceCategory app:title="@string/other_header">
 
         <EditTextPreference
-            app:key="scoreInc"
+            app:key="@string/score_inc_key"
             app:title="@string/set_score_inc"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="10"/>
 
         <SeekBarPreference
-            app:key="audioVol"
+            app:key="@string/audio_vol_key"
             app:title="@string/set_audio_vol"
             app:min="0"
             app:seekBarIncrement="1"
@@ -45,7 +45,7 @@
             app:defaultValue="100"/>
 
         <SwitchPreferenceCompat
-            app:key="vibeOn"
+            app:key="@string/vibe_on_key"
             app:title="@string/set_vibe_on"
             app:defaultValue="true"/>
 
@@ -53,12 +53,12 @@
             app:defaultValue="@string/dark_mode_def_value"
             app:entries="@array/dark_mode_entries"
             app:entryValues="@array/dark_mode_values"
-            app:key="@string/dark_mode"
+            app:key="@string/dark_mode_key"
             app:title="@string/dark_mode"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            app:key="confirmReset"
+            app:key="@string/confirm_reset_key"
             app:title="@string/set_reset_confirmation"
             app:defaultValue="true"/>
     </PreferenceCategory>

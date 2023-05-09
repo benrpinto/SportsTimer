@@ -42,17 +42,26 @@
     <string name="about_header">About</string>
 
     <!-- Timer Length Preferences -->
+    <string name="flag_length_key">flagLength</string>
     <string name="set_length_flag_t">Secondary timer length (minutes)</string>
+    <string name="timeout_length_key">timeoutLength</string>
     <string name="set_length_timeout_t">Timeout timer length (minutes)</string>
+    <string name="yellow_1_length_key">yellow1Length</string>
     <string name="set_length_yellow_card_1_t">Yellow Card 1 timer length (minutes)</string>
+    <string name="yellow_2_length_key">yellow2Length</string>
     <string name="set_length_yellow_card_2_t">Yellow Card 2 timer length (minutes)</string>
 
     <!-- Other Settings Preferences -->
+    <string name="score_inc_key">scoreInc</string>
     <string name="set_score_inc">Score increment</string>
+    <string name="audio_vol_key">audioVol</string>
     <string name="set_audio_vol">Audio volume</string>
+    <string name="vibe_on_key">vibeOn</string>
     <string name="set_vibe_on">Vibration on timer expiration</string>
+    <string name="dark_mode_key">darkMode</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_def_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
+    <string name="confirm_reset_key">confirmReset</string>
     <string name="set_reset_confirmation">Display \"Confirm Reset\" popup</string>
 
     <!-- About Section -->
@@ -60,5 +69,4 @@
     <string name="privacy_link">https://benrpinto.github.io/benrpinto/quadball_timer_privacy_policy/index.html</string>
     <string name="donation">Support me on Ko-fi</string>
     <string name="donation_link">https://ko-fi.com/bookofben</string>
-
 </resources>

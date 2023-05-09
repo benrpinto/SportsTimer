@@ -50,7 +50,7 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        val darkModeString = getString(R.string.dark_mode)
+        val darkModeString = getString(R.string.dark_mode_key)
         key?.let {
             if (it == darkModeString) sharedPreferences?.let { pref ->
                 val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
@@ -68,27 +68,27 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-            var numberPreference: EditTextPreference? = findPreference("flagLength")
+            var numberPreference: EditTextPreference? = findPreference(getString(R.string.flag_length_key))
             numberPreference?.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }
 
-            numberPreference = findPreference("timeoutLength")
+            numberPreference = findPreference(getString(R.string.timeout_length_key))
             numberPreference?.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }
 
-            numberPreference = findPreference("yellow1Length")
+            numberPreference = findPreference(getString(R.string.yellow_1_length_key))
             numberPreference?.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }
 
-            numberPreference = findPreference("yellow2Length")
+            numberPreference = findPreference(getString(R.string.yellow_2_length_key))
             numberPreference?.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }
 
-            numberPreference = findPreference("scoreInc")
+            numberPreference = findPreference(getString(R.string.score_inc_key))
             numberPreference?.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }

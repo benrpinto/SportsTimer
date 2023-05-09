@@ -61,13 +61,13 @@ class MainActivity : AppCompatActivity() {
 
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        val audioVol = myPref.getInt("audioVol", defAudioVol)
-        val vibeOn = myPref.getBoolean("vibeOn",defVibeOn)
+        val audioVol = myPref.getInt(getString(R.string.audio_vol_key), defAudioVol)
+        val vibeOn = myPref.getBoolean(getString(R.string.vibe_on_key),defVibeOn)
         klaxon = Alert(this,audioVol,vibeOn)
 
         val seekerFloor =
             try {
-                myPref.getString("flagLength", "$defFlagLength").toString().toInt()* MillisecondsPerMinute
+                myPref.getString(getString(R.string.flag_length_key), "$defFlagLength").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
@@ -265,37 +265,37 @@ class MainActivity : AppCompatActivity() {
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
         val seekerFloor =
             try {
-                myPref.getString("flagLength", "$defFlagLength").toString().toInt()* MillisecondsPerMinute
+                myPref.getString(getString(R.string.flag_length_key), "$defFlagLength").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
         val scoreIncrement =
             try {
-                myPref.getString("scoreInc","$defScoreInc").toString().toInt()
+                myPref.getString(getString(R.string.score_inc_key),"$defScoreInc").toString().toInt()
             }catch(e:NumberFormatException){
                 0
             }
         val timeoutLength =
             try {
-                myPref.getString("timeoutLength","$defTimeoutLength").toString().toInt()* MillisecondsPerMinute
+                myPref.getString(getString(R.string.timeout_length_key),"$defTimeoutLength").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
 
         val yellow1Length =
             try {
-                myPref.getString("yellow1Length","$defYellow1Length").toString().toInt()* MillisecondsPerMinute
+                myPref.getString(getString(R.string.yellow_1_length_key),"$defYellow1Length").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
 
         val yellow2Length =
             try {
-                myPref.getString("yellow2Length","$defYellow2Length").toString().toInt()* MillisecondsPerMinute
+                myPref.getString(getString(R.string.yellow_2_length_key),"$defYellow2Length").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
-        val confirmReset = myPref.getBoolean("confirmReset",defConfirmReset)
+        val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
 
         val y1Text = (yellow1Length/MillisecondsPerMinute).toString() + " minute"
         button1Min.text = y1Text
@@ -425,7 +425,7 @@ class MainActivity : AppCompatActivity() {
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
         val seekerFloor =
             try {
-                myPref.getString("flagLength", "$defFlagLength").toString().toInt()* MillisecondsPerMinute
+                myPref.getString(getString(R.string.flag_length_key), "$defFlagLength").toString().toInt()* MillisecondsPerMinute
             }catch(e:NumberFormatException){
                 0
             }
