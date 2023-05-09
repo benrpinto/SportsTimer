@@ -27,6 +27,12 @@
     <string name="yellow1">1 Minute</string>
     <string name="clear_card_timer">Clear Card %1$d</string>
 
+    <!-- Reset alert dialog -->
+    <string name="reset_title">Confirm</string>
+    <string name="reset_message">Are you sure you want to reset the timer?</string>
+    <string name="reset_positive">Reset</string>
+    <string name="cancel">Cancel</string>
+
     <!-- SETTINGS ACTIVITY -->
     <string name="title_activity_settings">Settings</string>
 
@@ -46,6 +52,7 @@
     <string name="set_vibe_on">Vibration on timer expiration</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="dark_mode_def_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
+    <string name="set_reset_confirmation">Display \"Confirm Reset\" popup</string>
 
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_link">https://benrpinto.github.io/benrpinto/quadball_timer_privacy_policy/index.html</string>

@@ -57,6 +57,11 @@
             app:title="@string/dark_mode"
             app:useSimpleSummaryProvider="true" />
 
+        <SwitchPreferenceCompat
+            app:key="confirmReset"
+            app:title="@string/set_reset_confirmation"
+            app:defaultValue="true"/>
+
         <Preference app:title="@string/privacy_policy">
             <intent
                 android:action="android.intent.action.VIEW"

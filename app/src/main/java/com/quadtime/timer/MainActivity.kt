@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TableRow
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import java.util.*
@@ -27,6 +28,7 @@ private const val defYellow1Length : Int = 1
 private const val defYellow2Length : Int = 2
 private const val defAudioVol : Int = 100
 private const val defVibeOn : Boolean = true
+private const val defConfirmReset : Boolean = true
 
 class MainActivity : AppCompatActivity() {
 
@@ -239,8 +241,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners(){
         //timers
-        val mainChronometer:TextView = findViewById(R.id.chronometer)
-        val flagChronometer:TextView = findViewById(R.id.flagCountdown)
         val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
 
         //scores
@@ -295,6 +295,7 @@ class MainActivity : AppCompatActivity() {
             }catch(e:NumberFormatException){
                 0
             }
+        val confirmReset = myPref.getBoolean("confirmReset",defConfirmReset)
 
         val y1Text = (yellow1Length/MillisecondsPerMinute).toString() + " minute"
         button1Min.text = y1Text
@@ -336,38 +337,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonReset.setOnClickListener{
-            mainBase = SystemClock.elapsedRealtime()
-            pauseTime = mainBase
-
-            if(isRunning){
-                buttonPlayPause.setImageResource(R.drawable.play)
-                isRunning = false
+            if (confirmReset) {
+                showConfirmDialog()
+            }else{
+                resetTimer()
             }
-
-            flagBase = mainBase
-            flagBase += seekerFloor
-            flagRunning = true
-
-            mainChronometer.text = timeFormatter(0,true)
-            flagChronometer.text = timeFormatter(seekerFloor,true)
-
-            scoreLeft = 0
-            scoreRight = 0
-            scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
-            scoreRightText.text = scoreRight.toString().padStart(3,'0')
-
-            if (isTimeout) {
-                timeoutBase = SystemClock.elapsedRealtime()
-                buttonTimeout.text = getString(R.string.timeout)
-                isTimeout = false
-                timeoutRow.visibility = View.GONE
-            }
-
-            for(a in yellowCards){
-                a.clearTimer()
-            }
-            yellowCards.clear()
-            numCards = 0
         }
 
         buttonUpLeft.setOnClickListener{
@@ -420,6 +394,74 @@ class MainActivity : AppCompatActivity() {
             numCards++
             yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
         }
+    }
+
+    private fun showConfirmDialog(){
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.apply{
+            setTitle(getString(R.string.reset_title))
+            setMessage(getString(R.string.reset_message))
+            setPositiveButton(getString(R.string.reset_positive)){ _, _->
+                resetTimer()
+            }
+            setNegativeButton(getString(R.string.cancel)){ _, _->}
+        }.create().show()
+    }
+
+    private fun resetTimer(){
+        //timers
+        val mainChronometer:TextView = findViewById(R.id.chronometer)
+        val flagChronometer:TextView = findViewById(R.id.flagCountdown)
+        val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
+
+        //scores
+        val scoreLeftText = findViewById<TextView>(R.id.scoreLeft)
+        val scoreRightText = findViewById<TextView>(R.id.scoreRight)
+
+        //buttons
+        val buttonPlayPause = findViewById<ImageButton>(R.id.playPauseButton)
+        val buttonTimeout = findViewById<Button>(R.id.timeout)
+
+        val myPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val seekerFloor =
+            try {
+                myPref.getString("flagLength", "$defFlagLength").toString().toInt()* MillisecondsPerMinute
+            }catch(e:NumberFormatException){
+                0
+            }
+
+        mainBase = SystemClock.elapsedRealtime()
+        pauseTime = mainBase
+
+        if(isRunning){
+            buttonPlayPause.setImageResource(R.drawable.play)
+            isRunning = false
+        }
+
+        flagBase = mainBase
+        flagBase += seekerFloor
+        flagRunning = true
+
+        mainChronometer.text = timeFormatter(0,true)
+        flagChronometer.text = timeFormatter(seekerFloor,true)
+
+        scoreLeft = 0
+        scoreRight = 0
+        scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
+        scoreRightText.text = scoreRight.toString().padStart(3,'0')
+
+        if (isTimeout) {
+            timeoutBase = SystemClock.elapsedRealtime()
+            buttonTimeout.text = getString(R.string.timeout)
+            isTimeout = false
+            timeoutRow.visibility = View.GONE
+        }
+
+        for(a in yellowCards){
+            a.clearTimer()
+        }
+        yellowCards.clear()
+        numCards = 0
     }
 
     private fun flagTickListener(){
