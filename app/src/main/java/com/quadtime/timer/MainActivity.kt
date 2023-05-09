@@ -226,7 +226,7 @@ class MainActivity : AppCompatActivity() {
         if(isTimeout){
             val buttonTimeout = findViewById<Button>(R.id.timeout)
             val timeoutRow = findViewById<TableRow>(R.id.timeoutRow)
-            buttonTimeout.text = getString(R.string.ClearTimeout)
+            buttonTimeout.text = getString(R.string.clear_timeout)
             timeoutRow.visibility = View.VISIBLE
         }
 
@@ -368,7 +368,7 @@ class MainActivity : AppCompatActivity() {
                 timeoutRow.visibility = View.GONE
             } else {
                 timeoutBase = SystemClock.elapsedRealtime() + timeoutLength
-                buttonTimeout.text = getString(R.string.ClearTimeout)
+                buttonTimeout.text = getString(R.string.clear_timeout)
                 timeoutRow.visibility = View.VISIBLE
             }
             isTimeout = !isTimeout

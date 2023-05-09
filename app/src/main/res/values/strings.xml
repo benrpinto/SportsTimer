@@ -2,29 +2,29 @@
     <string name="app_name">Quadball Timer</string>
 
     <!-- MAIN ACTIVITY -->
-    <string name="SettingsButton">Settings</string>
+    <string name="settings_button">Settings</string>
 
-    <string name="blankSeconds">00:00</string>
-    <string name="PlayPauseButton">Play or Pause</string>
-    <string name="ResetButton">Reset Timer</string>
+    <string name="blank_seconds">00:00</string>
+    <string name="play_pause_button">Play or Pause</string>
+    <string name="reset_button">Reset Timer</string>
 
     <string name="flag_runner">Flag Runner</string>
 
-    <string name="IncreaseLeftScore">Increase Left Score</string>
-    <string name="DecreaseLeftScore">Decrease Left Score</string>
-    <string name="IncreaseRightScore">Increase Right Score</string>
-    <string name="DecreaseRightScore">Decrease Right Score</string>
-    <string name="ScoreSeparator">:</string>
-    <string name="InitialScore">000</string>
+    <string name="increase_left_score">Increase Left Score</string>
+    <string name="decrease_left_score">Decrease Left Score</string>
+    <string name="increase_right_score">Increase Right Score</string>
+    <string name="decrease_right_score">Decrease Right Score</string>
+    <string name="score_separator">:</string>
+    <string name="initial_score">000</string>
 
     <string name="timeout">TIMEOUT</string>
-    <string name="ReduceTimeout">-1</string>
-    <string name="IncreaseTimeout">+1</string>
-    <string name="ClearTimeout">CLEAR TIMEOUT</string>
+    <string name="reduce_timeout">-1</string>
+    <string name="increase_timeout">+1</string>
+    <string name="clear_timeout">CLEAR TIMEOUT</string>
 
-    <string name="YellowCard">Yellow Card section</string>
-    <string name="yellow2">2 Minutes</string>
-    <string name="yellow1">1 Minute</string>
+    <string name="yellow_card">Yellow Card section</string>
+    <string name="yellow_1">1 Minute</string>
+    <string name="yellow_2">2 Minutes</string>
     <string name="clear_card_timer">Clear Card %1$d</string>
 
     <!-- Reset alert dialog -->
@@ -37,8 +37,9 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="Timers_header">Timer Lengths</string>
-    <string name="Other_header">Other Settings</string>
+    <string name="timers_header">Timer Lengths</string>
+    <string name="other_header">Other Settings</string>
+    <string name="about_header">About</string>
 
     <!-- Timer Length Preferences -->
     <string name="set_length_flag_t">Secondary timer length (minutes)</string>
@@ -54,9 +55,9 @@
     <string name="dark_mode_def_value">MODE_NIGHT_FOLLOW_SYSTEM</string>
     <string name="set_reset_confirmation">Display \"Confirm Reset\" popup</string>
 
+    <!-- About Section -->
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_link">https://benrpinto.github.io/benrpinto/quadball_timer_privacy_policy/index.html</string>
-
     <string name="donation">Support me on Ko-fi</string>
     <string name="donation_link">https://ko-fi.com/bookofben</string>
 

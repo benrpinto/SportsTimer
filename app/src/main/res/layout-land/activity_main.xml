@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 android:background="@null"
-                android:contentDescription="@string/SettingsButton"
+                android:contentDescription="@string/settings_button"
                 android:scaleType="fitCenter"
                 android:scaleX="0.7"
                 android:scaleY="0.7"
@@ -57,7 +57,7 @@
                 android:layout_weight="0"
                 android:scaleType="fitCenter"
                 android:background="@null"
-                android:contentDescription="@string/PlayPauseButton"
+                android:contentDescription="@string/play_pause_button"
                 android:src="@drawable/play"/>
 
             <Space
@@ -72,7 +72,7 @@
                 android:layout_weight="0"
                 android:scaleType="fitCenter"
                 android:background="@null"
-                android:contentDescription="@string/ResetButton"
+                android:contentDescription="@string/reset_button"
                 android:src="@drawable/reset" />
         </LinearLayout>
 
@@ -140,7 +140,7 @@
                 android:id="@+id/minus1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/ReduceTimeout"/>
+                android:text="@string/reduce_timeout"/>
 
             <Space
                 android:layout_weight="0.5"/>
@@ -153,7 +153,7 @@
                 android:paddingHorizontal="0dp"
                 android:textAlignment="center"
                 android:textSize="40sp"
-                android:text="@string/blankSeconds"/>
+                android:text="@string/blank_seconds"/>
 
             <Space
                 android:layout_weight="0.5"/>
@@ -162,7 +162,7 @@
                 android:id="@+id/plus1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/IncreaseTimeout" />
+                android:text="@string/increase_timeout" />
         </TableRow>
 
     </LinearLayout>
@@ -186,7 +186,7 @@
                 android:paddingVertical="5dp"
                 android:background="@null"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/IncreaseLeftScore"
+                android:contentDescription="@string/increase_left_score"
                 android:src="@drawable/triangle_up" />
 
             <TextView
@@ -194,7 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/InitialScore"
+                android:text="@string/initial_score"
                 android:textSize="60sp" />
 
             <ImageButton
@@ -204,7 +204,7 @@
                 android:paddingVertical="5dp"
                 android:background="@null"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/DecreaseLeftScore"
+                android:contentDescription="@string/decrease_left_score"
                 android:src="@drawable/triangle_down" />
         </LinearLayout>
 
@@ -213,7 +213,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/ScoreSeparator"
+            android:text="@string/score_separator"
             android:textSize="60sp" />
 
         <LinearLayout
@@ -229,7 +229,7 @@
                 android:paddingVertical="5dp"
                 android:background="@null"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/IncreaseRightScore"
+                android:contentDescription="@string/increase_right_score"
                 android:src="@drawable/triangle_up" />
 
             <TextView
@@ -237,7 +237,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/InitialScore"
+                android:text="@string/initial_score"
                 android:textSize="60sp" />
 
             <ImageButton
@@ -247,7 +247,7 @@
                 android:paddingVertical="5dp"
                 android:background="@null"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/DecreaseRightScore"
+                android:contentDescription="@string/decrease_right_score"
                 android:src="@drawable/triangle_down" />
         </LinearLayout>
     </LinearLayout>
@@ -268,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:layout_weight="0"
-                android:text="@string/yellow1" />
+                android:text="@string/yellow_1" />
 
             <Space
                 android:layout_width="30dp"
@@ -281,13 +281,13 @@
                 android:layout_height="match_parent"
                 android:padding="20dp"
                 android:layout_weight="0"
-                android:text="@string/yellow2" />
+                android:text="@string/yellow_2" />
         </TableRow>
 
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:contentDescription="@string/YellowCard">
+            android:contentDescription="@string/yellow_card">
 
             <LinearLayout
                 android:layout_width="match_parent"

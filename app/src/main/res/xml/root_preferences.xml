@@ -1,7 +1,7 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/Timers_header">
+    <PreferenceCategory app:title="@string/timers_header">
 
         <EditTextPreference
             app:key="flagLength"
@@ -28,7 +28,7 @@
             app:defaultValue="2"/>
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/Other_header">
+    <PreferenceCategory app:title="@string/other_header">
 
         <EditTextPreference
             app:key="scoreInc"
@@ -61,6 +61,9 @@
             app:key="confirmReset"
             app:title="@string/set_reset_confirmation"
             app:defaultValue="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/about_header">
 
         <Preference app:title="@string/privacy_policy">
             <intent
