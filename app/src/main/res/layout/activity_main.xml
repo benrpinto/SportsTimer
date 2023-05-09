@@ -137,6 +137,7 @@
     <Button
         android:id="@+id/timeout"
         android:text="@string/timeout"
+        tools:text ="@string/clear_timeout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -167,7 +168,7 @@
 
         <TextView
             android:id="@+id/timeoutCounter"
-            tools:text = "00:00"
+            tools:text = "10:00"
             android:countDown="true"
             android:textSize="40sp"
             android:textAlignment="center"
