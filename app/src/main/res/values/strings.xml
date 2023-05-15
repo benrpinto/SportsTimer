@@ -69,4 +69,6 @@
     <string name="privacy_link">https://benrpinto.github.io/benrpinto/quadball_timer_privacy_policy/index.html</string>
     <string name="donation">Support me on Ko-fi</string>
     <string name="donation_link">https://ko-fi.com/bookofben</string>
+    <string name="repo">View Source Code</string>
+    <string name="repo_link">https://github.com/benrpinto/SportsTimer</string>
 </resources>
