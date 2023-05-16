@@ -26,8 +26,12 @@ class Alert(inputContext:MainActivity, audioVol: Int, private var vibeOn: Boolea
             @Suppress("DEPRECATION")
             inputContext.getSystemService(AppCompatActivity.VIBRATOR_SERVICE) as Vibrator
         }
-        val alarmSound: Uri = RingtoneManager. getDefaultUri (RingtoneManager. TYPE_NOTIFICATION )
-        auxCord = MediaPlayer.create(inputContext, alarmSound)
+        val alarmSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        auxCord = try {
+            MediaPlayer.create(inputContext, alarmSound)
+        }catch(e:NullPointerException){
+            MediaPlayer.create(inputContext, R.raw.ping)
+        }
         val volPercent:Float = audioVol.toFloat()/100
         auxCord.setVolume(volPercent,volPercent)
     }
