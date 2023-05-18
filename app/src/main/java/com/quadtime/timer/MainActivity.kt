@@ -485,34 +485,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
 fun timeFormatter(milliTime:Long, inclMilli:Boolean):String{
-
+    val toReturn = StringBuilder()
     val myMilli = milliTime.absoluteValue
-    var toReturn = ""
-    var show = false
-
     val milli:Long = myMilli.mod(MillisecondsPerSecond)
     val sec:Long = (myMilli/ MillisecondsPerSecond).mod(SecondsPerMinute)
     val min:Long = (myMilli/ MillisecondsPerMinute).mod(MinutesPerHour)
     val hour:Long = (myMilli/ MillisecondsPerHour)
 
-    if(milliTime<0){
-        toReturn += "-"
+    if(milliTime < 0){
+        toReturn.append("-")
     }
-    if(hour != 0.toLong()){
-        show = true
-        toReturn += hour.toString()
-        toReturn += ":"
+    if(hour != 0L){
+        toReturn.append(hour)
+        toReturn.append(":")
     }
-    if(min != 0.toLong() || show||!inclMilli){
-        toReturn += min.toString().padStart(2,'0')
-        toReturn += ":"
+    if(min != 0L || hour != 0L ||!inclMilli){
+        toReturn.append(min.toString().padStart(2,'0'))
+        toReturn.append(":")
     }
-    toReturn += sec.toString().padStart(2,'0')
+    toReturn.append(sec.toString().padStart(2,'0'))
     if(inclMilli) {
-        toReturn += "."
-        toReturn += milli.toString().padStart(3, '0')
+        toReturn.append(".")
+        toReturn.append(milli.toString().padStart(3, '0'))
     }
-
-    return toReturn
+    return toReturn.toString()
 }
