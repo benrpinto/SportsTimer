@@ -20,6 +20,10 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.resValue "string", "version_name", variant.versionName
+    }
+
     buildTypes {
         release {
             minifyEnabled false

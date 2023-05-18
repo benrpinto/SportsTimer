@@ -65,6 +65,8 @@
     <string name="set_reset_confirmation">Display \"Confirm Reset\" popup</string>
 
     <!-- About Section -->
+    <string name="version">Version</string>
+    <!-- version_name is defined in build.gradle -->
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_link">https://benrpinto.github.io/benrpinto/quadball_timer_privacy_policy/index.html</string>
     <string name="donation">Support me on Ko-fi</string>
