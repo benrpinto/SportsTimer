@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/chronometer"
-        tools:text="10:00.000"
+        tools:text="@string/ten_minutes"
         android:textSize="60sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
 
     <TextView
         android:id="@+id/flagCountdown"
-        tools:text="10:00.000"
+        tools:text="@string/ten_minutes"
         android:textSize="40sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
 
         <TextView
             android:id="@+id/timeoutCounter"
-            tools:text = "10:00"
+            tools:text = "@string/ten_minutes_no_milli"
             android:countDown="true"
             android:textSize="40sp"
             android:textAlignment="center"

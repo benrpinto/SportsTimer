@@ -14,6 +14,8 @@ import androidx.preference.PreferenceManager
 import java.util.*
 import kotlin.math.absoluteValue
 
+private const val MillisecondsPerUpdate : Long = 40
+private const val MillisecondsPerTenth : Long = 100
 private const val MillisecondsPerSecond : Long = 1000
 private const val SecondsPerMinute : Long = 60
 private const val MillisecondsPerMinute :Long = SecondsPerMinute* MillisecondsPerSecond
@@ -126,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                     timeoutTickListener()
                 }
             }
-        },0,20)
+        },0, MillisecondsPerUpdate)
     }
 
     override fun onResume() {
@@ -489,26 +491,27 @@ class MainActivity : AppCompatActivity() {
 fun timeFormatter(milliTime:Long, inclMilli:Boolean):String{
     val toReturn = StringBuilder()
     val myMilli = milliTime.absoluteValue
-    val milli:Long = myMilli.mod(MillisecondsPerSecond)
+    val milli:Long = myMilli.mod(MillisecondsPerSecond)/ MillisecondsPerTenth
     val sec:Long = (myMilli/ MillisecondsPerSecond).mod(SecondsPerMinute)
     val min:Long = (myMilli/ MillisecondsPerMinute).mod(MinutesPerHour)
-    val hour:Long = (myMilli/ MillisecondsPerHour)
 
     if(milliTime < 0){
         toReturn.append("-")
     }
-    if(hour != 0L){
+
+    if(myMilli > MillisecondsPerHour){
+        val hour:Long = (myMilli/ MillisecondsPerHour)
         toReturn.append(hour)
         toReturn.append(":")
     }
-    if(min != 0L || hour != 0L ||!inclMilli){
-        toReturn.append(min.toString().padStart(2,'0'))
-        toReturn.append(":")
-    }
+
+    toReturn.append(min.toString().padStart(2,'0'))
+    toReturn.append(":")
+
     toReturn.append(sec.toString().padStart(2,'0'))
     if(inclMilli) {
         toReturn.append(".")
-        toReturn.append(milli.toString().padStart(3, '0'))
+        toReturn.append(milli)
     }
     return toReturn.toString()
 }

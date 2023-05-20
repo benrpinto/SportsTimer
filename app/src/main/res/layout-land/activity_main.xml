@@ -44,7 +44,7 @@
                 android:layout_weight="0"
                 android:textAlignment="textEnd"
                 android:textSize="60sp"
-                tools:text="10:00.000"/>
+                tools:text="@string/ten_minutes"/>
         </LinearLayout>
 
         <LinearLayout
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="textEnd"
                 android:textSize="40sp"
-                tools:text = "10:00.000"/>
+                tools:text = "@string/ten_minutes"/>
         </LinearLayout>
 
         <LinearLayout
@@ -158,7 +158,7 @@
                 android:paddingHorizontal="0dp"
                 android:textAlignment="center"
                 android:textSize="40sp"
-                tools:text="10:00"/>
+                tools:text="@string/ten_minutes_no_milli"/>
 
             <Space
                 android:layout_weight="0.5"/>
