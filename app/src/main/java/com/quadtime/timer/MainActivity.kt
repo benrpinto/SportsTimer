@@ -10,6 +10,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import java.util.*
 import kotlin.math.absoluteValue
@@ -66,6 +67,14 @@ class MainActivity : AppCompatActivity() {
         val audioVol = myPref.getInt(getString(R.string.audio_vol_key), defAudioVol)
         val vibeOn = myPref.getBoolean(getString(R.string.vibe_on_key),defVibeOn)
         klaxon = Alert(this,audioVol,vibeOn)
+
+        val darkModeValues = resources.getStringArray(R.array.dark_mode_values)
+        when (myPref.getString(getString(R.string.dark_mode_key), darkModeValues[0])) {
+            darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            darkModeValues[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            darkModeValues[3] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
 
         val seekerFloor =
             try {
