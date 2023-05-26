@@ -78,9 +78,10 @@ class MainActivity : AppCompatActivity() {
 
         val seekerFloor =
             try {
-                myPref.getString(getString(R.string.flag_length_key), "$defFlagLength").toString().toInt()* MillisecondsPerMinute
+                (myPref.getString(getString(R.string.flag_length_key), "$defFlagLength")?.toInt()
+                    ?: defFlagLength) * MillisecondsPerMinute
             }catch(e:NumberFormatException){
-                0
+                defFlagLength* MillisecondsPerMinute
             }
 
         val inBundle = ActivityChecker.getBundle()
@@ -276,35 +277,40 @@ class MainActivity : AppCompatActivity() {
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
         val seekerFloor =
             try {
-                myPref.getString(getString(R.string.flag_length_key), "$defFlagLength").toString().toInt()* MillisecondsPerMinute
+                (myPref.getString(getString(R.string.flag_length_key), "$defFlagLength")?.toInt()
+                    ?: defFlagLength) * MillisecondsPerMinute
             }catch(e:NumberFormatException){
-                0
+                defFlagLength* MillisecondsPerMinute
             }
         val scoreIncrement =
             try {
-                myPref.getString(getString(R.string.score_inc_key),"$defScoreInc").toString().toInt()
+                (myPref.getString(getString(R.string.score_inc_key),"$defScoreInc")?.toInt()
+                    ?: defScoreInc)
             }catch(e:NumberFormatException){
-                0
+                defScoreInc
             }
         val timeoutLength =
             try {
-                myPref.getString(getString(R.string.timeout_length_key),"$defTimeoutLength").toString().toInt()* MillisecondsPerMinute
+                (myPref.getString(getString(R.string.timeout_length_key),"$defTimeoutLength")?.toInt()
+                    ?: defTimeoutLength) * MillisecondsPerMinute
             }catch(e:NumberFormatException){
-                0
+                defTimeoutLength* MillisecondsPerMinute
             }
 
         val yellow1Length =
             try {
-                myPref.getString(getString(R.string.yellow_1_length_key),"$defYellow1Length").toString().toInt()* MillisecondsPerMinute
+                (myPref.getString(getString(R.string.yellow_1_length_key),"$defYellow1Length")
+                    ?.toInt() ?: defYellow1Length) * MillisecondsPerMinute
             }catch(e:NumberFormatException){
-                0
+                defYellow1Length* MillisecondsPerMinute
             }
 
         val yellow2Length =
             try {
-                myPref.getString(getString(R.string.yellow_2_length_key),"$defYellow2Length").toString().toInt()* MillisecondsPerMinute
+                (myPref.getString(getString(R.string.yellow_2_length_key),"$defYellow2Length")
+                    ?.toInt() ?: defYellow2Length) * MillisecondsPerMinute
             }catch(e:NumberFormatException){
-                0
+                defYellow2Length* MillisecondsPerMinute
             }
         val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
 
@@ -436,9 +442,10 @@ class MainActivity : AppCompatActivity() {
         val myPref = PreferenceManager.getDefaultSharedPreferences(this)
         val seekerFloor =
             try {
-                myPref.getString(getString(R.string.flag_length_key), "$defFlagLength").toString().toInt()* MillisecondsPerMinute
+                (myPref.getString(getString(R.string.flag_length_key), "$defFlagLength")?.toInt()
+                    ?: defFlagLength) * MillisecondsPerMinute
             }catch(e:NumberFormatException){
-                0
+                defFlagLength* MillisecondsPerMinute
             }
 
         mainBase = SystemClock.elapsedRealtime()
