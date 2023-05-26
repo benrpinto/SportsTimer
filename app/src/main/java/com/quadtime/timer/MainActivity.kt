@@ -485,7 +485,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun flagTickListener(){
         if(flagBase < SystemClock.elapsedRealtime() && flagRunning && isRunning){
-            klaxon.ping()
+            val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+            val nonZeroSeekerFloor = myPref.getString(getString(R.string.flag_length_key), "$defFlagLength") != "0"
+            //Do not ping if the seeker floor is set to 0
+            if (nonZeroSeekerFloor){
+                klaxon.ping()
+            }
+
             flagBase = SystemClock.elapsedRealtime()
             flagRunning = false
             val flagChronometer: TextView = findViewById(R.id.flagCountdown)
