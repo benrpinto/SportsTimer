@@ -10,11 +10,11 @@ import android.os.VibratorManager
 import androidx.appcompat.app.AppCompatActivity
 import java.util.concurrent.locks.ReentrantLock
 
-private const val VibrationDuration : Long = 750
+private const val VibrationDuration: Long = 750
 
-class Alert(inputContext:MainActivity, audioVol: Int, private var vibeOn: Boolean) {
+class Alert(inputContext: MainActivity, audioVol: Int, private var vibeOn: Boolean) {
     private var auxCord: MediaPlayer
-    private var vib:Vibrator
+    private var vib: Vibrator
     private val sharedLock = ReentrantLock()
 
     init {
@@ -29,10 +29,10 @@ class Alert(inputContext:MainActivity, audioVol: Int, private var vibeOn: Boolea
         val alarmSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         auxCord = try {
             MediaPlayer.create(inputContext, alarmSound)
-        }catch(e:NullPointerException){
+        }catch(e: NullPointerException){
             MediaPlayer.create(inputContext, R.raw.ping)
         }
-        val volPercent:Float = audioVol.toFloat()/100
+        val volPercent: Float = audioVol.toFloat()/100
         auxCord.setVolume(volPercent,volPercent)
     }
 

@@ -8,19 +8,19 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 
-class YellowCard(inputId:Int, inputAlert: Alert, inputDur:Long, inputContext: MainActivity){
-    private val idNum :Int = inputId
-    private val cardRow : TableRow = TableRow(inputContext)
-    private val id : TextView = TextView(inputContext)
-    private val cardChronometer : TextView = TextView(inputContext)
-    private var cardBase:Long = SystemClock.elapsedRealtime()
-    private var cardPause : Long = SystemClock.elapsedRealtime()
-    private val cardClear : Button = Button(inputContext)
-    private val siren : Alert = inputAlert
-    var isTrash : Boolean = false
+class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: MainActivity){
+    private val idNum: Int = inputId
+    private val cardRow: TableRow = TableRow(inputContext)
+    private val id: TextView = TextView(inputContext)
+    private val cardChronometer: TextView = TextView(inputContext)
+    private var cardBase: Long = SystemClock.elapsedRealtime()
+    private var cardPause: Long = SystemClock.elapsedRealtime()
+    private val cardClear: Button = Button(inputContext)
+    private val siren: Alert = inputAlert
+    var isTrash: Boolean = false
 
     init {
-        val cardTable = inputContext.findViewById<TableLayout>(R.id.cardTable)
+        val cardTable: TableLayout = inputContext.findViewById(R.id.cardTable)
         cardTable.addView(cardRow)
         //put elements into the row
         cardRow.addView(id)
@@ -68,11 +68,11 @@ class YellowCard(inputId:Int, inputAlert: Alert, inputDur:Long, inputContext: Ma
     }
 
     constructor(
-        inputId:Int,
+        inputId: Int,
         inputAlert: Alert,
         inputContext: MainActivity,
-        inputCardPause:Long,
-        inputCardBase:Long):this(inputId,inputAlert,inputCardBase- SystemClock.elapsedRealtime(),inputContext){
+        inputCardPause: Long,
+        inputCardBase: Long):this(inputId,inputAlert,inputCardBase- SystemClock.elapsedRealtime(),inputContext){
         val tempHolder = SystemClock.elapsedRealtime()
         cardBase = inputCardBase
         cardPause = inputCardPause
@@ -108,15 +108,15 @@ class YellowCard(inputId:Int, inputAlert: Alert, inputDur:Long, inputContext: Ma
         clearOut()
     }
 
-    fun getID():Int{
+    fun getID(): Int{
         return idNum
     }
 
-    fun getPause():Long{
+    fun getPause(): Long{
         return cardPause
     }
 
-    fun getBase():Long{
+    fun getBase(): Long{
         return cardBase
     }
 }
