@@ -212,7 +212,13 @@ class MainActivity : AppCompatActivity() {
 
         }
         mainChronometer.text = timeFormatter(tempHolder-mainBase,true)
-        flagChronometer.text = timeFormatter(flagBase - tempHolder,true)
+        if (flagBase - tempHolder >= 0L) {
+            flagRunning = true
+            flagChronometer.text = timeFormatter(flagBase - tempHolder,true)
+        }else{
+            flagRunning = false
+            flagChronometer.text = timeFormatter(0,true)
+        }
 
         //Set yellow cards
         val activeCards = savedInstanceState.getInt("ActiveCards")
