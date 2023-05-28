@@ -8,6 +8,8 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 
+private const val YCNotification: Int = 10
+
 class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: MainActivity){
     private val idNum: Int = inputId
     private val cardRow: TableRow = TableRow(inputContext)
@@ -17,6 +19,7 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
     private var cardPause: Long = SystemClock.elapsedRealtime()
     private val cardClear: Button = Button(inputContext)
     private val siren: Alert = inputAlert
+    private val notificationText: String = inputContext.getString(R.string.notification_yc_desc,inputId)
     var isTrash: Boolean = false
 
     init {
@@ -89,7 +92,7 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
     fun cardTickListener() {
         cardChronometer.text = timeFormatter(cardBase - SystemClock.elapsedRealtime(),false)
         if (cardBase < SystemClock.elapsedRealtime()){
-            siren.ping()
+            siren.ping(YCNotification + idNum, notificationText)
             clearOut()
         }
     }

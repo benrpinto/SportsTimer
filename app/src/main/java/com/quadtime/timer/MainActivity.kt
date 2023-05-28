@@ -16,6 +16,7 @@ import androidx.preference.PreferenceManager
 import java.util.*
 import kotlin.math.absoluteValue
 
+//Ratios
 private const val MillisecondsPerUpdate: Long = 40
 private const val MillisecondsPerTenth: Long = 100
 private const val MillisecondsPerSecond: Long = 1000
@@ -24,7 +25,11 @@ private const val MillisecondsPerMinute: Long = SecondsPerMinute* MillisecondsPe
 private const val MinutesPerHour: Long = 60
 private const val MillisecondsPerHour: Long = MillisecondsPerMinute* MinutesPerHour
 
-//default settings
+//IDs
+private const val TimeoutNotification: Int = 1
+private const val FlagNotification: Int = 2
+
+//Default settings
 private const val defFlagLength: Int = 20
 private const val defScoreInc: Int = 10
 private const val defTimeoutLength: Int = 1
@@ -495,7 +500,7 @@ class MainActivity : AppCompatActivity() {
             val nonZeroSeekerFloor = myPref.getString(getString(R.string.flag_length_key), "$defFlagLength") != "0"
             //Do not ping if the seeker floor is set to 0
             if (nonZeroSeekerFloor){
-                klaxon.ping()
+                klaxon.ping(FlagNotification, getString(R.string.notification_flag_desc))
             }
 
             flagBase = SystemClock.elapsedRealtime()
@@ -508,7 +513,7 @@ class MainActivity : AppCompatActivity() {
         if (timeoutBase < SystemClock.elapsedRealtime()) {
             val timeoutRow: TableRow = findViewById(R.id.timeoutRow)
             val buttonTimeout: Button = findViewById(R.id.timeout)
-            klaxon.ping()
+            klaxon.ping(TimeoutNotification,getString(R.string.notification_timeout_desc))
             timeoutBase = SystemClock.elapsedRealtime()
             isTimeout = false
             buttonTimeout.text = getString(R.string.timeout)

@@ -29,6 +29,15 @@
     <string name="yellow_2">2 Minutes</string>
     <string name="clear_card_timer">Clear Card %1$d</string>
 
+    <!-- Notifications -->
+    <string name="notification_channel_name">Timer Expirations</string>
+    <string name="notification_channel_description">Notification alerts when timer expires and app is running in the background</string>
+    <string name="notification_channel_id">TIMER NOTIFICATIONS</string>
+    <string name="notification_timer_title">Timer Expired</string>
+    <string name="notification_timeout_desc">The timeout timer has expired</string>
+    <string name="notification_flag_desc">The flag timer has expired</string>
+    <string name="notification_yc_desc">Yellow card %1$d has expired</string>
+
     <!-- Reset alert dialog -->
     <string name="reset_title">Confirm</string>
     <string name="reset_message">Are you sure you want to reset the timer?</string>
