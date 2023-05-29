@@ -3,6 +3,8 @@ package com.quadtime.timer
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.RingtoneManager
@@ -24,6 +26,7 @@ class Alert(inputContext: MainActivity, audioVol: Int, private var vibeOn: Boole
     private var vib: Vibrator
     private val sharedLock = ReentrantLock()
     private val myContext = inputContext
+    private val pendingIntent: PendingIntent
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -38,6 +41,11 @@ class Alert(inputContext: MainActivity, audioVol: Int, private var vibeOn: Boole
             val notificationManager = inputContext.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(mChannel)
         }
+
+        val intent = Intent(inputContext, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+        }
+        pendingIntent = PendingIntent.getActivity(inputContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         vib = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibratorManager =
@@ -88,6 +96,8 @@ class Alert(inputContext: MainActivity, audioVol: Int, private var vibeOn: Boole
                     .setContentTitle(myContext.getString(R.string.notification_timer_title))
                     .setContentText(notificationText)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
 
                 with(NotificationManagerCompat.from(myContext)) {
                     // notificationId is a unique int for each notification that you must define
