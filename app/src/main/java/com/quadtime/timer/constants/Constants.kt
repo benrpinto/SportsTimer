@@ -2,6 +2,7 @@ package com.quadtime.timer.constants
 //IDs
 const val TimeoutNotification: Int = 1
 const val FlagNotification: Int = 2
+const val HeatNotification: Int = 3
 const val YCNotification: Int = 10
 
 //Ratios
@@ -15,6 +16,7 @@ const val MillisecondsPerHour: Long = MillisecondsPerMinute* MinutesPerHour
 
 //Default settings
 const val defFlagLength: Int = 20
+const val defHeatLength: Int = 0
 const val defScoreInc: Int = 10
 const val defTimeoutLength: Int = 1
 const val defYellow1Length: Int = 1

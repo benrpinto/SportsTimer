@@ -88,6 +88,11 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }
 
+            numberPreference = findPreference(getString(R.string.heat_length_key))
+            numberPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+            }
+
             numberPreference = findPreference(getString(R.string.score_inc_key))
             numberPreference?.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER

@@ -26,6 +26,12 @@
             app:title="@string/set_length_yellow_card_2_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="2"/>
+
+        <EditTextPreference
+            app:key="@string/heat_length_key"
+            app:title="@string/set_length_heat_t"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="0"/>
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/other_header">
@@ -88,6 +94,5 @@
                 android:action="android.intent.action.VIEW"
                 android:data="@string/repo_link"/>
         </Preference>
-
     </PreferenceCategory>
 </PreferenceScreen>
