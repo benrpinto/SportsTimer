@@ -13,31 +13,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
+import com.quadtime.timer.constants.*
 import java.util.*
 import kotlin.math.absoluteValue
-
-//Ratios
-private const val MillisecondsPerUpdate: Long = 40
-private const val MillisecondsPerTenth: Long = 100
-private const val MillisecondsPerSecond: Long = 1000
-private const val SecondsPerMinute: Long = 60
-private const val MillisecondsPerMinute: Long = SecondsPerMinute* MillisecondsPerSecond
-private const val MinutesPerHour: Long = 60
-private const val MillisecondsPerHour: Long = MillisecondsPerMinute* MinutesPerHour
-
-//IDs
-private const val TimeoutNotification: Int = 1
-private const val FlagNotification: Int = 2
-
-//Default settings
-private const val defFlagLength: Int = 20
-private const val defScoreInc: Int = 10
-private const val defTimeoutLength: Int = 1
-private const val defYellow1Length: Int = 1
-private const val defYellow2Length: Int = 2
-private const val defAudioVol: Int = 100
-private const val defVibeOn: Boolean = true
-private const val defConfirmReset: Boolean = true
 
 class MainActivity : AppCompatActivity() {
 
@@ -134,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                         if(yellowCards[a].isTrash){
                             yellowCards.removeAt(a)
                         }else{
-                            yellowCards[a].cardTickListener()
+                            yellowCards[a].tickListener()
                         }
                     }
                 }

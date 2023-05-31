@@ -1,23 +1,22 @@
 package com.quadtime.timer
 
-import android.os.*
+import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-
-private const val YCNotification: Int = 10
+import com.quadtime.timer.constants.YCNotification
 
 class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: MainActivity){
     private val idNum: Int = inputId
     private val cardRow: TableRow = TableRow(inputContext)
     private val id: TextView = TextView(inputContext)
-    private val cardChronometer: TextView = TextView(inputContext)
-    private var cardBase: Long = SystemClock.elapsedRealtime()
-    private var cardPause: Long = SystemClock.elapsedRealtime()
-    private val cardClear: Button = Button(inputContext)
+    private val timerChronometer: TextView = TextView(inputContext)
+    private var timerBase: Long = SystemClock.elapsedRealtime()
+    private var timerPause: Long = SystemClock.elapsedRealtime()
+    private val timerClear: Button = Button(inputContext)
     private val siren: Alert = inputAlert
     private val notificationText: String = inputContext.getString(R.string.notification_yc_desc,inputId)
     var isTrash: Boolean = false
@@ -27,8 +26,8 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
         cardTable.addView(cardRow)
         //put elements into the row
         cardRow.addView(id)
-        cardRow.addView(cardChronometer)
-        cardRow.addView(cardClear)
+        cardRow.addView(timerChronometer)
+        cardRow.addView(timerClear)
         //table row
         cardRow.layoutParams = TableLayout.LayoutParams(
             TableLayout.LayoutParams.MATCH_PARENT,
@@ -47,25 +46,25 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
         id.text = inputId.toString()
 
         //chronometer content
-        cardChronometer.layoutParams = TableRow.LayoutParams(
+        timerChronometer.layoutParams = TableRow.LayoutParams(
             TableRow.LayoutParams.MATCH_PARENT,
             TableRow.LayoutParams.WRAP_CONTENT,
             1.0f
         )
-        cardChronometer.textSize = 30.toFloat()
-        cardChronometer.text = timeFormatter(inputDur,false)
-        cardBase = SystemClock.elapsedRealtime() + inputDur
+        timerChronometer.textSize = 30.toFloat()
+        timerChronometer.text = timeFormatter(inputDur,false)
+        timerBase = SystemClock.elapsedRealtime() + inputDur
 
 
         //card clear button content
-        cardClear.layoutParams = TableRow.LayoutParams(
+        timerClear.layoutParams = TableRow.LayoutParams(
             TableRow.LayoutParams.WRAP_CONTENT,
             TableRow.LayoutParams.WRAP_CONTENT,
             1.0f
         )
-        cardClear.setPadding(50,50,50,50)
-        cardClear.text = inputContext.getString(R.string.clear_card_timer,idNum)
-        cardClear.setOnClickListener {
+        timerClear.setPadding(50,50,50,50)
+        timerClear.text = inputContext.getString(R.string.clear_card_timer,idNum)
+        timerClear.setOnClickListener {
             clearOut()
         }
     }
@@ -77,9 +76,9 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
         inputCardPause: Long,
         inputCardBase: Long):this(inputId,inputAlert,inputCardBase- SystemClock.elapsedRealtime(),inputContext){
         val tempHolder = SystemClock.elapsedRealtime()
-        cardBase = inputCardBase
-        cardPause = inputCardPause
-        cardChronometer.text = timeFormatter(cardBase-tempHolder,false)
+        timerBase = inputCardBase
+        timerPause = inputCardPause
+        timerChronometer.text = timeFormatter(timerBase-tempHolder,false)
     }
 
     private fun clearOut() {
@@ -89,9 +88,9 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
         }
     }
 
-    fun cardTickListener() {
-        cardChronometer.text = timeFormatter(cardBase - SystemClock.elapsedRealtime(),false)
-        if (cardBase < SystemClock.elapsedRealtime()){
+    fun tickListener() {
+        timerChronometer.text = timeFormatter(timerBase - SystemClock.elapsedRealtime(),false)
+        if (timerBase < SystemClock.elapsedRealtime()){
             siren.ping(YCNotification + idNum, notificationText)
             clearOut()
         }
@@ -99,12 +98,12 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
 
     fun pauseTimer(){
         if(!isTrash) {
-            cardPause = SystemClock.elapsedRealtime()
+            timerPause = SystemClock.elapsedRealtime()
         }
     }
     fun resumeTimer(){
         if(!isTrash) {
-            cardBase += SystemClock.elapsedRealtime() - cardPause
+            timerBase += SystemClock.elapsedRealtime() - timerPause
         }
     }
     fun clearTimer(){
@@ -116,10 +115,10 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
     }
 
     fun getPause(): Long{
-        return cardPause
+        return timerPause
     }
 
     fun getBase(): Long{
-        return cardBase
+        return timerBase
     }
 }
