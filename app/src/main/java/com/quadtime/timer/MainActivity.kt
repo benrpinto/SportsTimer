@@ -70,14 +70,6 @@ class MainActivity : AppCompatActivity() {
                 defFlagLength* MillisecondsPerMinute
             }
 
-        val heatLength =
-            try {
-                (myPref.getString(getString(R.string.heat_length_key), "$defHeatLength")?.toInt()
-                    ?: defHeatLength) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defHeatLength* MillisecondsPerMinute
-            }
-
         val inBundle = ActivityChecker.getBundle()
 
         if(!inBundle.isEmpty){
@@ -94,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             flagBase = tempHolder + seekerFloor
             //timeoutChronometer is hidden, doesn't need to be initialised here
             pauseTime = tempHolder
-            heatTimer.restoreValues(pauseTime, tempHolder + heatLength)
+            heatTimer.restoreValues(this,pauseTime, tempHolder)
         }
 
         setListeners()
@@ -105,7 +97,6 @@ class MainActivity : AppCompatActivity() {
         val mainChronometer: TextView = findViewById(R.id.chronometer)
         val flagChronometer: TextView = findViewById(R.id.flagCountdown)
         val timeoutChronometer: TextView = findViewById(R.id.timeoutCounter)
-        heatTimer.checkDuration()
 
         mainTimer.schedule(object: TimerTask() {
             override fun run() {
@@ -173,15 +164,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val heatDuration =
-            try {
-                (myPref.getString(getString(R.string.heat_length_key), "$defHeatLength")?.toInt()
-                    ?: defHeatLength) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defHeatLength* MillisecondsPerMinute
-            }
-
         outState.putInt("ActiveCards",yellowCards.size)
         for(a in 0 until yellowCards.size){
             outState.putInt("YC-ID$a",yellowCards[a].getID())
@@ -192,8 +174,7 @@ class MainActivity : AppCompatActivity() {
         outState.putLong("mainBase",mainBase)
         outState.putLong("timeoutBase",timeoutBase)
         outState.putLong("heatPause",heatTimer.getPause())
-        outState.putLong("heatBase",heatTimer.getBase())
-        outState.putLong("heatDur",heatDuration)
+        outState.putLong("heatBase",heatTimer.getSaveBase())
         outState.putInt("scoreLeft",scoreLeft)
         outState.putInt("scoreRight",scoreRight)
         outState.putInt("numCards",numCards)
@@ -250,20 +231,9 @@ class MainActivity : AppCompatActivity() {
 
         //set heat timer
         val inputHeatPause = savedInstanceState.getLong("heatPause")
-        var inputHeatBase = savedInstanceState.getLong("heatBase")
-        val oldHeatDuration = savedInstanceState.getLong("heatDur")
-        val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val newHeatDuration =
-            try {
-                (myPref.getString(getString(R.string.heat_length_key), "$defHeatLength")?.toInt()
-                    ?: defHeatLength) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defHeatLength* MillisecondsPerMinute
-            }
-        if(oldHeatDuration != newHeatDuration){
-            inputHeatBase += newHeatDuration - oldHeatDuration
-        }
-        heatTimer.restoreValues(inputHeatPause, inputHeatBase)
+        val inputHeatBase = savedInstanceState.getLong("heatBase")
+
+        heatTimer.restoreValues(this,inputHeatPause, inputHeatBase)
 
         //Set Timeout chronometer
         isTimeout = savedInstanceState.getBoolean("isTimeout")
@@ -482,13 +452,6 @@ class MainActivity : AppCompatActivity() {
             }catch(e: NumberFormatException){
                 defFlagLength* MillisecondsPerMinute
             }
-        val heatDuration =
-            try {
-                (myPref.getString(getString(R.string.heat_length_key), "$defHeatLength")?.toInt()
-                    ?: defHeatLength) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defHeatLength* MillisecondsPerMinute
-            }
 
         mainBase = SystemClock.elapsedRealtime()
         pauseTime = mainBase
@@ -502,7 +465,7 @@ class MainActivity : AppCompatActivity() {
         flagBase += seekerFloor
         flagRunning = true
 
-        heatTimer.restoreValues(mainBase,mainBase + heatDuration)
+        heatTimer.restoreValues(this,mainBase,mainBase)
 
         mainChronometer.text = timeFormatter(0,true)
         flagChronometer.text = timeFormatter(seekerFloor,true)

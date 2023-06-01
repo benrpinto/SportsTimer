@@ -15,7 +15,6 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
     private val notificationText: String = inputContext.getString(R.string.notification_heat_desc)
     private var timerDuration: Long
     private val alertDialog = AlertDialog.Builder(inputContext)
-    private val myContext: MainActivity = inputContext
 
     init {
         val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(inputContext)
@@ -26,6 +25,7 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
             }catch(e: NumberFormatException){
                 defHeatLength* MillisecondsPerMinute
             }
+        //whenever timerBase is set from an external source, it does not include timerDuration
         timerBase += timerDuration
 
         //settings for the heat timer expiration pop-up
@@ -36,28 +36,21 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
         }
     }
 
-    //This function is to catch situations where the timer duration changes after
-    //the Heat Timer has already been initialised
-    fun checkDuration(){
-        val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(myContext)
-        val newTimerDuration =
+    //This function is used to recreate the heat timer data from saved data
+    fun restoreValues(inputContext: MainActivity, inputTimerPause: Long, inputTimerBase: Long){
+        timerBase = inputTimerBase
+        timerPause = inputTimerPause
+
+        val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(inputContext)
+        timerDuration =
             try {
-                (myPref.getString(myContext.getString(R.string.heat_length_key), "$defHeatLength")?.toInt()
+                (myPref.getString(inputContext.getString(R.string.heat_length_key), "$defHeatLength")?.toInt()
                     ?: defHeatLength) * MillisecondsPerMinute
             }catch(e: NumberFormatException){
                 defHeatLength* MillisecondsPerMinute
             }
-        if (timerDuration != newTimerDuration){
-            timerBase += newTimerDuration - timerDuration
-            timerDuration = newTimerDuration
-        }
-    }
-
-    //This function is used to recreate the heat timer data from saved data
-    fun restoreValues(inputTimerPause: Long, inputTimerBase: Long){
-        checkDuration()
-        timerBase = inputTimerBase
-        timerPause = inputTimerPause
+        //whenever timerBase is set from an external source, it does not include timerDuration
+        timerBase += timerDuration
     }
 
     fun tickListener() {
@@ -85,7 +78,16 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
         return timerPause
     }
 
+    // this function is not currently needed, but included in case we need it for debugging
+    // or for future features/fixes
+    @Suppress("unused")
     fun getBase(): Long{
         return timerBase
+    }
+
+    // Timer duration can change, and it's easier to let the heat timer handle it
+    // timer duration is added to the base in the initialisation function of this class
+    fun getSaveBase(): Long{
+        return timerBase - timerDuration
     }
 }
