@@ -59,7 +59,7 @@
                 android:layout_weight="0"
                 android:scaleType="fitCenter"
                 android:background="@null"
-                android:contentDescription="@string/play_pause_button"
+                android:contentDescription="@string/play_button"
                 android:src="@drawable/play"/>
 
             <Space

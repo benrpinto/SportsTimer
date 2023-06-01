@@ -103,7 +103,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@null"
-        android:contentDescription="@string/play_pause_button"
+        android:contentDescription="@string/play_button"
         android:scaleType="fitCenter"
         android:src="@drawable/play"
         app:layout_constraintStart_toStartOf="parent"

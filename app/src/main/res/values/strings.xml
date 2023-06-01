@@ -7,7 +7,8 @@
     <string name="blank_seconds">00:00</string>
     <string name="ten_minutes">10:00.0</string>
     <string name="ten_minutes_no_milli">10:00</string>
-    <string name="play_pause_button">Play or Pause</string>
+    <string name="play_button">Play</string>
+    <string name="pause_button">Pause</string>
     <string name="reset_button">Reset Timer</string>
 
     <string name="flag_runner">Flag Runner</string>
@@ -27,6 +28,11 @@
     <string name="yellow_card">Yellow Card section</string>
     <string name="yellow_1">1 Minute</string>
     <string name="yellow_2">2 Minutes</string>
+    <plurals name="minutes">
+        <item quantity="one">%d Minute</item>
+        <item quantity="other">%d Minutes</item>
+    </plurals>
+
     <string name="clear_card_timer">Clear Card %1$d</string>
 
     <!-- Notifications -->

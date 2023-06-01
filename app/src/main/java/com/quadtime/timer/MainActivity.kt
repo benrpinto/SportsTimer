@@ -194,6 +194,7 @@ class MainActivity : AppCompatActivity() {
         if(isRunning){
             val buttonPlayPause: ImageButton = findViewById(R.id.playPauseButton)
             buttonPlayPause.setImageResource(R.drawable.pause)
+            buttonPlayPause.contentDescription = getString(R.string.pause_button)
         }else{
             pauseTime = savedInstanceState.getLong("pauseTime")
             mainBase += tempHolder - pauseTime
@@ -317,10 +318,12 @@ class MainActivity : AppCompatActivity() {
             }
         val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
 
-        val y1Text = (yellow1Length/MillisecondsPerMinute).toString() + " minute"
-        button1Min.text = y1Text
-        val y2Text = (yellow2Length/MillisecondsPerMinute).toString() + " minute"
-        button2Min.text = y2Text
+        val y1Num = (yellow1Length/MillisecondsPerMinute).toInt()
+        button1Min.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
+
+        val y2Num = (yellow2Length/MillisecondsPerMinute).toInt()
+        button2Min.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
+
 
         //button listeners
         buttonSettings.setOnClickListener{
@@ -332,6 +335,7 @@ class MainActivity : AppCompatActivity() {
             if(isRunning) {
                 pauseTime = SystemClock.elapsedRealtime()
                 buttonPlayPause.setImageResource(R.drawable.play)
+                buttonPlayPause.contentDescription = getString(R.string.play_button)
                 for(a in yellowCards.indices.reversed()){
                     if(yellowCards[a].isTrash){
                         yellowCards.removeAt(a)
@@ -354,6 +358,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 heatTimer.resumeTimer()
                 buttonPlayPause.setImageResource(R.drawable.pause)
+                buttonPlayPause.contentDescription = getString(R.string.pause_button)
             }
             isRunning = !isRunning
         }
@@ -458,6 +463,7 @@ class MainActivity : AppCompatActivity() {
 
         if(isRunning){
             buttonPlayPause.setImageResource(R.drawable.play)
+            buttonPlayPause.contentDescription = getString(R.string.play_button)
             isRunning = false
         }
 

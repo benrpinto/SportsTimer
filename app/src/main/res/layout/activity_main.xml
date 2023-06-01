@@ -237,7 +237,7 @@
     <ImageButton
         android:id="@+id/playPauseButton"
         app:srcCompat="@drawable/play"
-        android:contentDescription="@string/play_pause_button"
+        android:contentDescription="@string/play_button"
         android:background="@null"
         android:scaleType="fitCenter"
         android:layout_width="100dp"
