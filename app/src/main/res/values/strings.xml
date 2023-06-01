@@ -54,21 +54,21 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="timers_header">Timer Lengths</string>
+    <string name="timers_header">Timer Lengths (Minutes)</string>
     <string name="other_header">Other Settings</string>
     <string name="about_header">About</string>
 
     <!-- Timer Length Preferences -->
     <string name="flag_length_key">flagLength</string>
-    <string name="set_length_flag_t">Secondary timer length (minutes)</string>
+    <string name="set_length_flag_t">Secondary timer length</string>
     <string name="timeout_length_key">timeoutLength</string>
-    <string name="set_length_timeout_t">Timeout timer length (minutes)</string>
+    <string name="set_length_timeout_t">Timeout timer length</string>
     <string name="yellow_1_length_key" tools:ignore="Typos">yellow1Length</string>
-    <string name="set_length_yellow_card_1_t">Yellow Card 1 timer length (minutes)</string>
+    <string name="set_length_yellow_card_1_t">Yellow Card 1 timer length</string>
     <string name="yellow_2_length_key">yellow2Length</string>
-    <string name="set_length_yellow_card_2_t">Yellow Card 2 timer length (minutes)</string>
+    <string name="set_length_yellow_card_2_t">Yellow Card 2 timer length</string>
     <string name="heat_length_key">heatLength</string>
-    <string name="set_length_heat_t">Repeating heat timer length (minutes)</string>
+    <string name="set_length_heat_t">Repeating heat timer length</string>
 
     <!-- Other Settings Preferences -->
     <string name="score_inc_key">scoreInc</string>
