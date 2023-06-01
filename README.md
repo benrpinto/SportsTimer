@@ -13,6 +13,9 @@ https://play.google.com/store/apps/details?id=com.quadtime.timer
     * Confirmation popup
 * A flag countdown timer
   * Pauses when the main timer is paused
+* A heat timer
+  * Repeats at set intervals
+  * Pauses when the main timer is paused
 * Yellow card countdown timers
   * Pauses when the main timer is paused
   * Able to be cleared/dismissed
@@ -22,6 +25,7 @@ https://play.google.com/store/apps/details?id=com.quadtime.timer
 * Score tracker
 * Vibration on timer expiration
 * Alert noise on timer expiration
+* Notification on timer expiration if app is running in background
 * Dark Mode
 * Landscape Mode
 * Adjustable Settings
