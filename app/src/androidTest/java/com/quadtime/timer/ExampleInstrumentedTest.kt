@@ -1,6 +1,7 @@
 package com.quadtime.timer
 
 import android.content.Intent
+import androidx.preference.PreferenceManager
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -16,6 +17,7 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.BeforeClass
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -24,6 +26,32 @@ import org.junit.Before
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
+    companion object {
+        @JvmStatic
+        @BeforeClass
+        fun setDefaultSettings() {
+            val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+            val preferencesEditor = PreferenceManager.getDefaultSharedPreferences(appContext).edit()
+
+            //timer lengths
+            preferencesEditor.putString(appContext.getString(R.string.flag_length_key), "20")
+            preferencesEditor.putString(appContext.getString(R.string.timeout_length_key), "1")
+            preferencesEditor.putString(appContext.getString(R.string.yellow_1_length_key), "1")
+            preferencesEditor.putString(appContext.getString(R.string.yellow_2_length_key), "2")
+            preferencesEditor.putString(appContext.getString(R.string.heat_length_key), "0")
+
+            //other settings
+            preferencesEditor.putString(appContext.getString(R.string.score_inc_key), "10")
+            preferencesEditor.putInt(appContext.getString(R.string.audio_vol_key), 100)
+            preferencesEditor.putBoolean(appContext.getString(R.string.vibe_on_key), true)
+            preferencesEditor.putString(appContext.getString(R.string.dark_mode_key), appContext.getString(R.string.dark_mode_def_value))
+            preferencesEditor.putBoolean(appContext.getString(R.string.confirm_reset_key), true)
+
+            preferencesEditor.commit()
+
+        }
+    }
 
     @Before
     fun init() {
