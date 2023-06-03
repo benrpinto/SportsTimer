@@ -5,19 +5,13 @@ import androidx.preference.PreferenceManager
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.CoreMatchers.not
-
-import org.junit.Test
-import org.junit.runner.RunWith
-
+import org.junit.*
 import org.junit.Assert.*
-import org.junit.Before
-import org.junit.BeforeClass
+import org.junit.runner.RunWith
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -30,6 +24,7 @@ class ExampleInstrumentedTest {
     companion object {
         @JvmStatic
         @BeforeClass
+        @AfterClass
         fun setDefaultSettings() {
             val appContext = InstrumentationRegistry.getInstrumentation().targetContext
             val preferencesEditor = PreferenceManager.getDefaultSharedPreferences(appContext).edit()
@@ -60,7 +55,17 @@ class ExampleInstrumentedTest {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         appContext.startActivity(intent)
+        Thread.sleep(500)
     }
+
+    @After
+    fun cleanup(){
+        Espresso.onView(withId(R.id.resetButton))
+            .perform(ViewActions.click())
+        Espresso.onView(withText(R.string.reset_positive))
+            .perform(ViewActions.click())
+    }
+
     @Test
     fun useAppContext() {
         // Context of the app under test.
@@ -71,22 +76,22 @@ class ExampleInstrumentedTest {
     @Test
     fun playPause(){
         Espresso.onView(withId(R.id.playPauseButton))
-            .check(ViewAssertions.matches(ViewMatchers.withContentDescription(R.string.play_button)))
+            .check(ViewAssertions.matches(withContentDescription(R.string.play_button)))
         Espresso.onView(withId(R.id.playPauseButton))
             .perform(ViewActions.click())
         Espresso.onView(withId(R.id.playPauseButton))
-            .check(ViewAssertions.matches(ViewMatchers.withContentDescription(R.string.pause_button)))
+            .check(ViewAssertions.matches(withContentDescription(R.string.pause_button)))
         Espresso.onView(withId(R.id.playPauseButton))
             .perform(ViewActions.click())
         Espresso.onView(withId(R.id.playPauseButton))
-            .check(ViewAssertions.matches(ViewMatchers.withContentDescription(R.string.play_button)))
+            .check(ViewAssertions.matches(withContentDescription(R.string.play_button)))
     }
 
     @Test
     fun timeout(){
 
         Espresso.onView(withId(R.id.timeout))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.timeout)))
+            .check(ViewAssertions.matches(withText(R.string.timeout)))
 
         //check that the timeoutCounter and associated buttons and views are not visible
         Espresso.onView(withId(R.id.timeoutRow))
@@ -104,7 +109,7 @@ class ExampleInstrumentedTest {
 
 
         Espresso.onView(withId(R.id.timeout))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.clear_timeout)))
+            .check(ViewAssertions.matches(withText(R.string.clear_timeout)))
 
         //check that the timeoutCounter and associated buttons are visible
         Espresso.onView(withId(R.id.timeoutRow))
@@ -121,41 +126,41 @@ class ExampleInstrumentedTest {
     @Test
     fun scores(){
         Espresso.onView(withId(R.id.scoreLeft))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
         Espresso.onView(withId(R.id.scoreRight))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
 
         Espresso.onView(withId(R.id.scoreUpLeft))
             .perform(ViewActions.click())
 
         Espresso.onView(withId(R.id.scoreLeft))
-            .check(ViewAssertions.matches(ViewMatchers.withText("010")))
+            .check(ViewAssertions.matches(withText("010")))
         Espresso.onView(withId(R.id.scoreRight))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
 
         Espresso.onView(withId(R.id.scoreUpRight))
             .perform(ViewActions.click())
 
         Espresso.onView(withId(R.id.scoreLeft))
-            .check(ViewAssertions.matches(ViewMatchers.withText("010")))
+            .check(ViewAssertions.matches(withText("010")))
         Espresso.onView(withId(R.id.scoreRight))
-            .check(ViewAssertions.matches(ViewMatchers.withText("010")))
+            .check(ViewAssertions.matches(withText("010")))
 
         Espresso.onView(withId(R.id.scoreDownLeft))
             .perform(ViewActions.click())
 
         Espresso.onView(withId(R.id.scoreLeft))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
         Espresso.onView(withId(R.id.scoreRight))
-            .check(ViewAssertions.matches(ViewMatchers.withText("010")))
+            .check(ViewAssertions.matches(withText("010")))
 
         Espresso.onView(withId(R.id.scoreDownRight))
             .perform(ViewActions.click())
 
         Espresso.onView(withId(R.id.scoreLeft))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
         Espresso.onView(withId(R.id.scoreRight))
-            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
     }
 
 }
