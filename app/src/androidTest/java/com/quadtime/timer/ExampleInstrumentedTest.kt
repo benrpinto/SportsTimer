@@ -118,4 +118,44 @@ class ExampleInstrumentedTest {
 
     }
 
+    @Test
+    fun scores(){
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+
+        Espresso.onView(withId(R.id.scoreUpLeft))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(ViewMatchers.withText("010")))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+
+        Espresso.onView(withId(R.id.scoreUpRight))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(ViewMatchers.withText("010")))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(ViewMatchers.withText("010")))
+
+        Espresso.onView(withId(R.id.scoreDownLeft))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(ViewMatchers.withText("010")))
+
+        Espresso.onView(withId(R.id.scoreDownRight))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(ViewMatchers.withText(R.string.initial_score)))
+    }
+
 }
