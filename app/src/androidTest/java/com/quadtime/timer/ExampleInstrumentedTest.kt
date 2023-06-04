@@ -8,8 +8,8 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import org.hamcrest.CoreMatchers.containsString
-import org.hamcrest.CoreMatchers.not
+import com.quadtime.timer.constants.MillisecondsPerSecond
+import org.hamcrest.CoreMatchers.*
 import org.junit.*
 import org.junit.Assert.*
 import org.junit.runner.RunWith
@@ -173,6 +173,135 @@ class ExampleInstrumentedTest {
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.onView(withId(R.id.plus1))
             .check(ViewAssertions.matches(isDisplayed()))
+    }
+
+    @Test
+    fun yellowCards(){
+        //Check that the yellow card buttons are there and that there aren't any yellow cards
+        Espresso.onView(withId(R.id.yellow1))
+            .check(ViewAssertions.matches(withText("1 MINUTE")))
+        Espresso.onView(withId(R.id.yellow2))
+            .check(ViewAssertions.matches(withText("2 MINUTES")))
+        Espresso.onView(withText(containsString("CLEAR CARD")))
+            .check(ViewAssertions.doesNotExist())
+
+        //start a 1 minute yellow card timer
+        Espresso.onView(withId(R.id.yellow1))
+            .perform(ViewActions.click())
+
+        //check that the yellow card ID, timer, and clear card button is created
+        //click the clear card button
+        //check that the yellow card does not exist
+        Espresso.onView(
+            allOf(
+                hasSibling(withText("CLEAR CARD 1")),
+                withText("1")
+            )
+        )
+            .check(ViewAssertions.matches(isDisplayed()))
+        Espresso.onView(
+            allOf(
+                hasSibling(withText("CLEAR CARD 1")),
+                withText("01:00")
+            )
+        )
+            .check(ViewAssertions.matches(isDisplayed()))
+        Espresso.onView(withText("CLEAR CARD 1"))
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
+            .check(ViewAssertions.doesNotExist())
+
+
+        //start a 1 minute yellow card timer
+        Espresso.onView(withId(R.id.yellow1))
+            .perform(ViewActions.click())
+
+        //check that the yellow card is created with an id of 2
+        //click the clear card button
+        //check that the yellow card does not exist
+        Espresso.onView(
+            allOf(
+                hasSibling(withText("CLEAR CARD 2")),
+                withText("2")
+            )
+        )
+            .check(ViewAssertions.matches(isDisplayed()))
+        Espresso.onView(
+            allOf(
+                hasSibling(withText("CLEAR CARD 2")),
+                withText("01:00")
+            )
+        )
+            .check(ViewAssertions.matches(isDisplayed()))
+        Espresso.onView(withText("CLEAR CARD 2"))
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
+            .check(ViewAssertions.doesNotExist())
+
+        //click reset button
+        Espresso.onView(withId(R.id.resetButton))
+            .perform(ViewActions.click())
+        Espresso.onView(withText(R.string.reset_positive))
+            .perform(ViewActions.click())
+
+        //click the play button
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(ViewActions.click())
+
+        //start a 1 minute yellow card timer
+        Espresso.onView(withId(R.id.yellow1))
+            .perform(ViewActions.click())
+
+        //wait 5 milliseconds so it's definitely 59 seconds
+        Thread.sleep(5)
+        //check that the yellow card is created
+        Espresso.onView(
+            allOf(
+                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText("1")),
+                withText(containsString(":"))
+            )
+        )
+            .check(ViewAssertions.matches(withText("00:59")))
+        Espresso.onView(
+            allOf(
+                hasSibling(withText("CLEAR CARD 1")),
+                withText("1")
+            )
+        )
+            .check(ViewAssertions.matches(isDisplayed()))
+        //wait a second, and check that the timer has gone down
+        Thread.sleep(MillisecondsPerSecond)
+        Espresso.onView(
+            allOf(
+                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText("1")),
+                withText(containsString(":"))
+            )
+        )
+            .check(ViewAssertions.matches(withText("00:58")))
+        //pause for two seconds, check that the timer doesn't go down, and resume the timer
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(ViewActions.click())
+        Thread.sleep(2*MillisecondsPerSecond)
+        Espresso.onView(
+            allOf(
+                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText("1")),
+                withText(containsString(":"))
+            )
+        )
+            .check(ViewAssertions.matches(withText("00:58")))
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(ViewActions.click())
+        //wait until there's 1 second left on the yellow card, check that the timer is still there
+        Thread.sleep(58*MillisecondsPerSecond - 5)
+        Espresso.onView(withText("CLEAR CARD 1"))
+            .check(ViewAssertions.matches(isDisplayed()))
+        //wait until there's no time left on the timer, and check that it is not present
+        Thread.sleep(1* MillisecondsPerSecond)
+        Espresso.onView(withText("CLEAR CARD 1"))
+            .check(ViewAssertions.doesNotExist())
     }
 
     @Test
