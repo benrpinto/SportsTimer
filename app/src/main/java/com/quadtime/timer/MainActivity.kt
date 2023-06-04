@@ -270,7 +270,7 @@ class MainActivity : AppCompatActivity() {
                 defTimeoutLength* MillisecondsPerMinute
             }
 
-        val button1Min: Button = findViewById(R.id.yellow1)
+        val buttonYellow1: Button = findViewById(R.id.yellow1)
         val yellow1Length =
             try {
                 (myPref.getString(getString(R.string.yellow_1_length_key),"$defYellow1Length")
@@ -280,7 +280,7 @@ class MainActivity : AppCompatActivity() {
             }
         val y1Num = (yellow1Length/MillisecondsPerMinute).toInt()
 
-        val button2Min: Button = findViewById(R.id.yellow2)
+        val buttonYellow2: Button = findViewById(R.id.yellow2)
         val yellow2Length =
             try {
                 (myPref.getString(getString(R.string.yellow_2_length_key),"$defYellow2Length")
@@ -310,14 +310,14 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        button1Min.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
-        button1Min.setOnClickListener{
+        buttonYellow1.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
+        buttonYellow1.setOnClickListener{
             numCards++
             yellowCards.add(YellowCard(numCards,klaxon, yellow1Length,this))
         }
 
-        button2Min.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
-        button2Min.setOnClickListener{
+        buttonYellow2.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
+        buttonYellow2.setOnClickListener{
             numCards++
             yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
         }
@@ -353,8 +353,8 @@ class MainActivity : AppCompatActivity() {
         val buttonTimeout: Button = findViewById(R.id.timeout)
         val buttonTimeoutMinus: Button = findViewById(R.id.minus1)
         val buttonTimeoutPlus: Button = findViewById(R.id.plus1)
-        val button1Min: Button = findViewById(R.id.yellow1)
-        val button2Min: Button = findViewById(R.id.yellow2)
+        val buttonYellow1: Button = findViewById(R.id.yellow1)
+        val buttonYellow2: Button = findViewById(R.id.yellow2)
 
         //Settings
         val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -398,10 +398,10 @@ class MainActivity : AppCompatActivity() {
         val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
 
         val y1Num = (yellow1Length/MillisecondsPerMinute).toInt()
-        button1Min.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
+        buttonYellow1.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
 
         val y2Num = (yellow2Length/MillisecondsPerMinute).toInt()
-        button2Min.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
+        buttonYellow2.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
 
 
         //button listeners
@@ -491,12 +491,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        button1Min.setOnClickListener{
+        buttonYellow1.setOnClickListener{
             numCards++
             yellowCards.add(YellowCard(numCards,klaxon, yellow1Length,this))
         }
 
-        button2Min.setOnClickListener{
+        buttonYellow2.setOnClickListener{
             numCards++
             yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
         }
