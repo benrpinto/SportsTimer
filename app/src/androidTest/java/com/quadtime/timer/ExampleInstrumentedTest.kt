@@ -45,7 +45,6 @@ class ExampleInstrumentedTest {
             preferencesEditor.putBoolean(appContext.getString(R.string.confirm_reset_key), true)
 
             preferencesEditor.commit()
-
         }
     }
 
@@ -120,29 +119,52 @@ class ExampleInstrumentedTest {
 
     @Test
     fun timeout(){
-
         Espresso.onView(withId(R.id.timeout))
             .check(ViewAssertions.matches(withText(R.string.timeout)))
-
-        //check that the timeoutCounter and associated buttons and views are not visible
-        Espresso.onView(withId(R.id.timeoutRow))
-            .check(ViewAssertions.matches(not(isDisplayed())))
-        Espresso.onView(withId(R.id.timeoutCounter))
-            .check(ViewAssertions.matches(not(isDisplayed())))
-        Espresso.onView(withId(R.id.minus1))
-            .check(ViewAssertions.matches(not(isDisplayed())))
-        Espresso.onView(withId(R.id.plus1))
-            .check(ViewAssertions.matches(not(isDisplayed())))
+        timeoutHidden()
 
         //click Timeout button
         Espresso.onView(withId(R.id.timeout))
             .perform(ViewActions.click())
-
-
-        Espresso.onView(withId(R.id.timeout))
             .check(ViewAssertions.matches(withText(R.string.clear_timeout)))
+        timeoutVisible()
 
-        //check that the timeoutCounter and associated buttons are visible
+        // press the -1 button to make the timer expire
+        Espresso.onView(withId(R.id.minus1))
+            .perform(ViewActions.click())
+        timeoutHidden()
+
+        //check that the plus 1 and minus 1 button change the timeout
+        Espresso.onView(withId(R.id.timeout))
+            .perform(ViewActions.click())
+        Espresso.onView(withId(R.id.plus1))
+            .perform(ViewActions.click())
+        Espresso.onView(withId(R.id.timeoutCounter))
+            .check(ViewAssertions.matches(isDisplayed()))
+            .check(ViewAssertions.matches(withText(containsString("01:"))))
+        Espresso.onView(withId(R.id.minus1))
+            .perform(ViewActions.click())
+        Espresso.onView(withId(R.id.timeoutCounter))
+            .check(ViewAssertions.matches(withText(containsString("00:"))))
+        Espresso.onView(withId(R.id.timeout))
+            .perform(ViewActions.click())
+        timeoutHidden()
+    }
+
+    //check that the timeoutCounter and associated buttons and views are not visible
+    private fun timeoutHidden(){
+        Espresso.onView(withId(R.id.timeoutRow))
+            .check(ViewAssertions.matches(not(isDisplayed())))
+        Espresso.onView(withId(R.id.timeoutCounter))
+            .check(ViewAssertions.matches(not(isDisplayed())))
+        Espresso.onView(withId(R.id.minus1))
+            .check(ViewAssertions.matches(not(isDisplayed())))
+        Espresso.onView(withId(R.id.plus1))
+            .check(ViewAssertions.matches(not(isDisplayed())))
+    }
+
+    //check that the timeoutCounter and associated buttons are visible
+    private fun timeoutVisible(){
         Espresso.onView(withId(R.id.timeoutRow))
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.onView(withId(R.id.timeoutCounter))
@@ -151,7 +173,6 @@ class ExampleInstrumentedTest {
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.onView(withId(R.id.plus1))
             .check(ViewAssertions.matches(isDisplayed()))
-
     }
 
     @Test
