@@ -123,6 +123,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         ActivityChecker.activityResumed()
+        applySettings()
     }
 
     override fun onPause() {
@@ -244,6 +245,93 @@ class MainActivity : AppCompatActivity() {
         scoreRight = savedInstanceState.getInt("scoreRight")
         scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
         scoreRightText.text = scoreRight.toString().padStart(3,'0')
+    }
+
+    private fun applySettings(){
+        val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val seekerFloor =
+            try {
+                (myPref.getString(getString(R.string.flag_length_key), "$defFlagLength")?.toInt()
+                    ?: defFlagLength) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defFlagLength* MillisecondsPerMinute
+            }
+
+        val audioVol = myPref.getInt(getString(R.string.audio_vol_key), defAudioVol)
+        val vibeOn = myPref.getBoolean(getString(R.string.vibe_on_key),defVibeOn)
+
+        val buttonTimeout: Button = findViewById(R.id.timeout)
+        val timeoutRow: TableRow = findViewById(R.id.timeoutRow)
+        val timeoutLength =
+            try {
+                (myPref.getString(getString(R.string.timeout_length_key),"$defTimeoutLength")?.toInt()
+                    ?: defTimeoutLength) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defTimeoutLength* MillisecondsPerMinute
+            }
+
+        val button1Min: Button = findViewById(R.id.yellow1)
+        val yellow1Length =
+            try {
+                (myPref.getString(getString(R.string.yellow_1_length_key),"$defYellow1Length")
+                    ?.toInt() ?: defYellow1Length) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defYellow1Length* MillisecondsPerMinute
+            }
+        val y1Num = (yellow1Length/MillisecondsPerMinute).toInt()
+
+        val button2Min: Button = findViewById(R.id.yellow2)
+        val yellow2Length =
+            try {
+                (myPref.getString(getString(R.string.yellow_2_length_key),"$defYellow2Length")
+                    ?.toInt() ?: defYellow2Length) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defYellow2Length* MillisecondsPerMinute
+            }
+        val y2Num = (yellow2Length/MillisecondsPerMinute).toInt()
+
+        val buttonReset: ImageButton = findViewById(R.id.resetButton)
+        val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
+
+        flagBase = mainBase + seekerFloor
+        klaxon.updateSettings(audioVol,vibeOn)
+
+        buttonTimeout.setOnClickListener {
+            if (isTimeout) {
+                timeoutBase = SystemClock.elapsedRealtime()
+                buttonTimeout.text = getString(R.string.timeout)
+                timeoutRow.visibility = View.GONE
+            } else {
+                timeoutBase = SystemClock.elapsedRealtime() + timeoutLength
+                buttonTimeout.text = getString(R.string.clear_timeout)
+                timeoutRow.visibility = View.VISIBLE
+            }
+            isTimeout = !isTimeout
+        }
+
+
+        button1Min.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
+        button1Min.setOnClickListener{
+            numCards++
+            yellowCards.add(YellowCard(numCards,klaxon, yellow1Length,this))
+        }
+
+        button2Min.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
+        button2Min.setOnClickListener{
+            numCards++
+            yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
+        }
+
+        heatTimer.updateHeatTimer(this)
+
+        buttonReset.setOnClickListener{
+            if (confirmReset) {
+                showConfirmDialog()
+            }else{
+                resetTimer()
+            }
+        }
+
     }
 
     private fun setListeners(){
