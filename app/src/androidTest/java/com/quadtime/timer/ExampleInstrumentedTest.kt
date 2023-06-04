@@ -8,6 +8,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.not
 import org.junit.*
 import org.junit.Assert.*
@@ -75,16 +76,46 @@ class ExampleInstrumentedTest {
 
     @Test
     fun playPause(){
+        //check that play-pause button starts off saying play, and timer is 00:00.0
         Espresso.onView(withId(R.id.playPauseButton))
             .check(ViewAssertions.matches(withContentDescription(R.string.play_button)))
+        Espresso.onView(withId(R.id.chronometer))
+            .check(ViewAssertions.matches(withText("00:00.0")))
+
+        //click the play button
         Espresso.onView(withId(R.id.playPauseButton))
             .perform(ViewActions.click())
+        Thread.sleep(500)
+        //should be 0.5 seconds
+        //check that the button says pause, and the timer has changed to a value less than 1 second
+        Espresso.onView(withId(R.id.chronometer))
+            .check(ViewAssertions.matches(not(withText("00:00.0"))))
+            .check(ViewAssertions.matches(withText(containsString("00:00"))))
         Espresso.onView(withId(R.id.playPauseButton))
             .check(ViewAssertions.matches(withContentDescription(R.string.pause_button)))
+
+        //click the pause button
         Espresso.onView(withId(R.id.playPauseButton))
             .perform(ViewActions.click())
+        //check that timer is still less than 1 second
+        Espresso.onView(withId(R.id.chronometer))
+            .check(ViewAssertions.matches(withText(containsString("00:00"))))
+        //check that the button says play
         Espresso.onView(withId(R.id.playPauseButton))
             .check(ViewAssertions.matches(withContentDescription(R.string.play_button)))
+        //wait for 1 second, and then check that the timer is still less than 1 second
+        Thread.sleep(1000)
+        Espresso.onView(withId(R.id.chronometer))
+            .check(ViewAssertions.matches(withText(containsString("00:00"))))
+
+        //click the play button
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(ViewActions.click())
+        Thread.sleep(600)
+        //should be 1.1 seconds
+        //check that the timer now displays a value for 1 second
+        Espresso.onView(withId(R.id.chronometer))
+            .check(ViewAssertions.matches(withText(containsString("00:01"))))
     }
 
     @Test
