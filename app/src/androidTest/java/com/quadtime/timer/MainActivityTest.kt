@@ -1,5 +1,6 @@
 package com.quadtime.timer
 
+import android.content.Context
 import android.content.Intent
 import androidx.preference.PreferenceManager
 import androidx.test.espresso.Espresso
@@ -8,7 +9,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.quadtime.timer.constants.MillisecondsPerSecond
+import com.quadtime.timer.constants.*
 import org.hamcrest.CoreMatchers.*
 import org.junit.*
 import org.junit.Assert.*
@@ -22,6 +23,8 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
+    private val appContext: Context = InstrumentationRegistry.getInstrumentation().targetContext
+
     companion object {
         @JvmStatic
         @BeforeClass
@@ -31,18 +34,18 @@ class MainActivityTest {
             val preferencesEditor = PreferenceManager.getDefaultSharedPreferences(appContext).edit()
 
             //timer lengths
-            preferencesEditor.putString(appContext.getString(R.string.flag_length_key), "20")
-            preferencesEditor.putString(appContext.getString(R.string.timeout_length_key), "1")
-            preferencesEditor.putString(appContext.getString(R.string.yellow_1_length_key), "1")
-            preferencesEditor.putString(appContext.getString(R.string.yellow_2_length_key), "2")
-            preferencesEditor.putString(appContext.getString(R.string.heat_length_key), "0")
+            preferencesEditor.putString(appContext.getString(R.string.flag_length_key), "$defFlagLength")
+            preferencesEditor.putString(appContext.getString(R.string.timeout_length_key), "$defTimeoutLength")
+            preferencesEditor.putString(appContext.getString(R.string.yellow_1_length_key), "$defYellow1Length")
+            preferencesEditor.putString(appContext.getString(R.string.yellow_2_length_key), "$defYellow2Length")
+            preferencesEditor.putString(appContext.getString(R.string.heat_length_key), "$defHeatLength")
 
             //other settings
-            preferencesEditor.putString(appContext.getString(R.string.score_inc_key), "10")
-            preferencesEditor.putInt(appContext.getString(R.string.audio_vol_key), 100)
-            preferencesEditor.putBoolean(appContext.getString(R.string.vibe_on_key), true)
+            preferencesEditor.putString(appContext.getString(R.string.score_inc_key), "$defScoreInc")
+            preferencesEditor.putInt(appContext.getString(R.string.audio_vol_key), defAudioVol)
+            preferencesEditor.putBoolean(appContext.getString(R.string.vibe_on_key), defVibeOn)
             preferencesEditor.putString(appContext.getString(R.string.dark_mode_key), appContext.getString(R.string.dark_mode_def_value))
-            preferencesEditor.putBoolean(appContext.getString(R.string.confirm_reset_key), true)
+            preferencesEditor.putBoolean(appContext.getString(R.string.confirm_reset_key), defConfirmReset)
 
             preferencesEditor.commit()
         }
@@ -50,7 +53,6 @@ class MainActivityTest {
 
     @Before
     fun init() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val intent = Intent(appContext,MainActivity::class.java).apply{
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
@@ -179,9 +181,14 @@ class MainActivityTest {
     fun yellowCards(){
         //Check that the yellow card buttons are there and that there aren't any yellow cards
         Espresso.onView(withId(R.id.yellow1))
-            .check(ViewAssertions.matches(withText("1 MINUTE")))
+            .check(ViewAssertions.matches(withText(
+                appContext.resources.getQuantityString(R.plurals.minutes,defYellow1Length, defYellow1Length)
+            )))
+
         Espresso.onView(withId(R.id.yellow2))
-            .check(ViewAssertions.matches(withText("2 MINUTES")))
+            .check(ViewAssertions.matches(withText(
+                appContext.resources.getQuantityString(R.plurals.minutes,defYellow2Length, defYellow2Length)
+            )))
         Espresso.onView(withText(containsString("CLEAR CARD")))
             .check(ViewAssertions.doesNotExist())
 
@@ -194,19 +201,19 @@ class MainActivityTest {
         //check that the yellow card does not exist
         Espresso.onView(
             allOf(
-                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText(appContext.getString(R.string.clear_card_timer,1))),
                 withText("1")
             )
         )
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.onView(
             allOf(
-                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText(appContext.getString(R.string.clear_card_timer,1))),
                 withText("01:00")
             )
         )
             .check(ViewAssertions.matches(isDisplayed()))
-        Espresso.onView(withText("CLEAR CARD 1"))
+        Espresso.onView(withText(appContext.getString(R.string.clear_card_timer,1)))
             .check(ViewAssertions.matches(isDisplayed()))
             .perform(ViewActions.click())
             .check(ViewAssertions.doesNotExist())
@@ -221,19 +228,19 @@ class MainActivityTest {
         //check that the yellow card does not exist
         Espresso.onView(
             allOf(
-                hasSibling(withText("CLEAR CARD 2")),
+                hasSibling(withText(appContext.getString(R.string.clear_card_timer,2))),
                 withText("2")
             )
         )
             .check(ViewAssertions.matches(isDisplayed()))
         Espresso.onView(
             allOf(
-                hasSibling(withText("CLEAR CARD 2")),
+                hasSibling(withText(appContext.getString(R.string.clear_card_timer,2))),
                 withText("01:00")
             )
         )
             .check(ViewAssertions.matches(isDisplayed()))
-        Espresso.onView(withText("CLEAR CARD 2"))
+        Espresso.onView(withText(appContext.getString(R.string.clear_card_timer,2)))
             .check(ViewAssertions.matches(isDisplayed()))
             .perform(ViewActions.click())
             .check(ViewAssertions.doesNotExist())
@@ -257,7 +264,7 @@ class MainActivityTest {
         //check that the yellow card is created
         Espresso.onView(
             allOf(
-                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText(appContext.getString(R.string.clear_card_timer,1))),
                 hasSibling(withText("1")),
                 withText(containsString(":"))
             )
@@ -265,7 +272,7 @@ class MainActivityTest {
             .check(ViewAssertions.matches(withText("00:59")))
         Espresso.onView(
             allOf(
-                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText(appContext.getString(R.string.clear_card_timer,1))),
                 withText("1")
             )
         )
@@ -274,7 +281,7 @@ class MainActivityTest {
         Thread.sleep(MillisecondsPerSecond)
         Espresso.onView(
             allOf(
-                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText(appContext.getString(R.string.clear_card_timer,1))),
                 hasSibling(withText("1")),
                 withText(containsString(":"))
             )
@@ -286,7 +293,7 @@ class MainActivityTest {
         Thread.sleep(2*MillisecondsPerSecond)
         Espresso.onView(
             allOf(
-                hasSibling(withText("CLEAR CARD 1")),
+                hasSibling(withText(appContext.getString(R.string.clear_card_timer,1))),
                 hasSibling(withText("1")),
                 withText(containsString(":"))
             )
@@ -296,11 +303,11 @@ class MainActivityTest {
             .perform(ViewActions.click())
         //wait until there's 1 second left on the yellow card, check that the timer is still there
         Thread.sleep(58*MillisecondsPerSecond - 5)
-        Espresso.onView(withText("CLEAR CARD 1"))
+        Espresso.onView(withText(appContext.getString(R.string.clear_card_timer,1)))
             .check(ViewAssertions.matches(isDisplayed()))
         //wait until there's no time left on the timer, and check that it is not present
         Thread.sleep(1* MillisecondsPerSecond)
-        Espresso.onView(withText("CLEAR CARD 1"))
+        Espresso.onView(withText(appContext.getString(R.string.clear_card_timer,1)))
             .check(ViewAssertions.doesNotExist())
     }
 
