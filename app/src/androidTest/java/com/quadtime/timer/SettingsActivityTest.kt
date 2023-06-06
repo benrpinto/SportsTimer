@@ -83,9 +83,23 @@ class SettingsActivityTest {
         Espresso.onView(withId(R.id.settingsButton))
             .perform(ViewActions.click())
         intended(hasComponent(SettingsActivity::class.java.name))
-        //click the back button in the action bar, so we can click reset button in cleanup()
+        //click the back button in the action bar to return to the main activity
         Espresso.onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
             .perform(ViewActions.click())
+        //check that we're on the main activity
+        intended(hasComponent(MainActivity::class.java.name))
+    }
+
+    @Test
+    fun settingsBackPress(){
+        //check that using the settings button gets us to the settings page
+        Espresso.onView(withId(R.id.settingsButton))
+            .perform(ViewActions.click())
+        intended(hasComponent(SettingsActivity::class.java.name))
+        //click the back button in the action bar to return to the main activity
+        Espresso.pressBack()
+        //check that we're on the main activity
+        intended(hasComponent(MainActivity::class.java.name))
     }
 
 }
