@@ -3,6 +3,7 @@ package com.quadtime.timer
 import android.content.Intent
 import androidx.preference.PreferenceManager
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
@@ -62,8 +63,17 @@ class SettingsActivityTest {
 
     @After
     fun cleanup(){
-        Espresso.onView(withId(R.id.resetButton))
-            .perform(ViewActions.click())
+        try {
+            Espresso.onView(withId(R.id.resetButton))
+                .perform(ViewActions.click())
+        }catch(e: NoMatchingViewException){
+            //if the reset button isn't available, then we might be in the settingsActivity
+            //so press back and see if that works.
+            Espresso.onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(ViewActions.click())
+            Espresso.onView(withId(R.id.resetButton))
+                .perform(ViewActions.click())
+        }
         Espresso.onView(withText(R.string.reset_positive))
             .perform(ViewActions.click())
 
