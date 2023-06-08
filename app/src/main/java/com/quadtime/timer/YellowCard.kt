@@ -8,6 +8,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import com.quadtime.timer.constants.YCNotification
+import com.quadtime.timer.constants.timeFormatter
 
 class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: MainActivity){
     private val idNum: Int = inputId
