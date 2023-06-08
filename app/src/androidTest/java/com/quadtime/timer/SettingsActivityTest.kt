@@ -121,7 +121,16 @@ class SettingsActivityTest {
     }
 
     @Test
-    fun settingsApplied(){
+    fun settingsAppliedButton(){
+        settingsApplied(true)
+    }
+
+    @Test
+    fun settingsAppliedBackPress(){
+        settingsApplied(false)
+    }
+
+    private fun settingsApplied(useButton: Boolean){
         val newYC1 = 11
         val newYC2 = 12
         val newFlagTime = 13
@@ -211,125 +220,13 @@ class SettingsActivityTest {
             .check(ViewAssertions.matches(isDisplayed()))
             .perform(ViewActions.click())
 
-        //click the back button in the action bar to return to the main activity
-        Espresso.onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
-            .perform(ViewActions.click())
-
-        Espresso.onView(withId(R.id.yellow1))
-            .check(
-                ViewAssertions.matches(withText(
-                    appContext.resources.getQuantityString(R.plurals.minutes,
-                        newYC1, newYC1
-                    )
-                )))
-
-        Espresso.onView(withId(R.id.yellow2))
-            .check(
-                ViewAssertions.matches(withText(
-                    appContext.resources.getQuantityString(R.plurals.minutes,
-                        newYC2, newYC2
-                    )
-                )))
-
-        Espresso.onView(withId(R.id.flagCountdown))
-            .check(ViewAssertions.matches(withText("$newFlagTime:00.0")))
-        //check that we're on the main activity
-        intended(hasComponent(MainActivity::class.java.name))
-    }
-
-    @Test
-    fun settingsAppliedBackPress(){
-        val newYC1 = 11
-        val newYC2 = 12
-        val newFlagTime = 13
-        //check that the yellow cards and the flag timer are showing their default values
-        Espresso.onView(withId(R.id.yellow1))
-            .check(
-                ViewAssertions.matches(withText(
-                    appContext.resources.getQuantityString(R.plurals.minutes,
-                        defYellow1Length, defYellow1Length
-                    )
-                )))
-        Espresso.onView(withId(R.id.yellow2))
-            .check(
-                ViewAssertions.matches(withText(
-                    appContext.resources.getQuantityString(R.plurals.minutes,
-                        defYellow2Length, defYellow2Length
-                    )
-                )))
-        Espresso.onView(withId(R.id.flagCountdown))
-            .check(ViewAssertions.matches(withText("$defFlagLength:00.0")))
-
-        //go to settings page, and make sure that we're actually there
-        Espresso.onView(withId(R.id.settingsButton))
-            .perform(ViewActions.click())
-        intended(hasComponent(SettingsActivity::class.java.name))
-
-        //click the yellow card 1 setting
-        Espresso.onView(withId(androidx.preference.R.id.recycler_view))
-            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                hasDescendant(withText(R.string.set_length_yellow_card_1_t)),
-                ViewActions.click()
-            ))
-        //put the new value in the dialog box
-        Espresso.onView(allOf(
-            withResourceName("edit"),
-            isAssignableFrom(AppCompatEditText::class.java)
-        ))
-            .inRoot(isDialog())
-            .check(ViewAssertions.matches(isDisplayed()))
-            .perform(ViewActions.clearText())
-            .perform(ViewActions.typeText("$newYC1"))
-        //then click ok
-        Espresso.onView(withText("OK"))
-            .inRoot(isDialog())
-            .check(ViewAssertions.matches(isDisplayed()))
-            .perform(ViewActions.click())
-
-        //click the yellow card 2 setting
-        Espresso.onView(withId(androidx.preference.R.id.recycler_view))
-            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                hasDescendant(withText(R.string.set_length_yellow_card_2_t)),
-                ViewActions.click()
-            ))
-        //put the new value in the dialog box
-        Espresso.onView(allOf(
-            withResourceName("edit"),
-            isAssignableFrom(AppCompatEditText::class.java)
-        ))
-            .inRoot(isDialog())
-            .check(ViewAssertions.matches(isDisplayed()))
-            .perform(ViewActions.clearText())
-            .perform(ViewActions.typeText("$newYC2"))
-        //then click ok
-        Espresso.onView(withText("OK"))
-            .inRoot(isDialog())
-            .check(ViewAssertions.matches(isDisplayed()))
-            .perform(ViewActions.click())
-
-        //click the Secondary timer setting
-        Espresso.onView(withId(androidx.preference.R.id.recycler_view))
-            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                hasDescendant(withText(R.string.set_length_flag_t)),
-                ViewActions.click()
-            ))
-        //put the new value in the dialog box
-        Espresso.onView(allOf(
-            withResourceName("edit"),
-            isAssignableFrom(AppCompatEditText::class.java)
-        ))
-            .inRoot(isDialog())
-            .check(ViewAssertions.matches(isDisplayed()))
-            .perform(ViewActions.clearText())
-            .perform(ViewActions.typeText("$newFlagTime"))
-        //then click ok
-        Espresso.onView(withText("OK"))
-            .inRoot(isDialog())
-            .check(ViewAssertions.matches(isDisplayed()))
-            .perform(ViewActions.click())
-
-        //backPress to get back to main activity
-        Espresso.pressBack()
+        if(useButton) {
+            //click the back button in the action bar to return to the main activity
+            Espresso.onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(ViewActions.click())
+        }else {
+            Espresso.pressBack()
+        }
 
         Espresso.onView(withId(R.id.yellow1))
             .check(
