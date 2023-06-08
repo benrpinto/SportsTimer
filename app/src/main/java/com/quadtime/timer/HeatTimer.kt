@@ -46,7 +46,10 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
                 defHeatLength* MillisecondsPerMinute
             }
         //whenever timerBase is set from an external source, it does not include timerDuration
-        timerBase += newTimerDuration - timerDuration
+        if(newTimerDuration != timerDuration){
+            timerBase += newTimerDuration - timerDuration
+            timerDuration = newTimerDuration
+        }
     }
 
     //This function is used to recreate the heat timer data from saved data
@@ -63,7 +66,7 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
                 defHeatLength* MillisecondsPerMinute
             }
         //whenever timerBase is set from an external source, it does not include timerDuration
-        timerBase += timerDuration
+        timerBase = inputTimerBase + timerDuration
     }
 
     fun tickListener() {
