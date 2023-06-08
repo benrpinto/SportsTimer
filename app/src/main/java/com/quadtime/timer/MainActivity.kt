@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.quadtime.timer.constants.*
 import java.util.*
-import kotlin.math.absoluteValue
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,17 +25,17 @@ class MainActivity : AppCompatActivity() {
     val yellowCards: Vector<YellowCard> = Vector(3,3)
     private var numCards = 0
     var isRunning = false
-    var flagRunning = true
+
     var isTimeout = false
     private var pauseTime: Long = SystemClock.elapsedRealtime()
 
     //timers
     private val mainTimer = Timer()
     private lateinit var heatTimer: HeatTimer
+    private lateinit var flagTimer: FlagTimer
 
     //base
     var mainBase = SystemClock.elapsedRealtime()
-    var flagBase = SystemClock.elapsedRealtime()
     var timeoutBase = SystemClock.elapsedRealtime() + MillisecondsPerMinute
 
     //audio, vibration, and notification handler
@@ -52,29 +51,21 @@ class MainActivity : AppCompatActivity() {
         val vibeOn = myPref.getBoolean(getString(R.string.vibe_on_key),defVibeOn)
         klaxon = Alert(this,audioVol,vibeOn)
         heatTimer = HeatTimer(klaxon, this)
-
-        val seekerFloor =
-            try {
-                (myPref.getString(getString(R.string.flag_length_key), "$defFlagLength")?.toInt()
-                    ?: defFlagLength) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defFlagLength* MillisecondsPerMinute
-            }
+        flagTimer = FlagTimer(klaxon, this)
 
         val inBundle = ActivityChecker.getBundle()
 
         if(!inBundle.isEmpty){
-            restoreFromBundle(inBundle, seekerFloor)
+            restoreFromBundle(inBundle)
         }else if(savedInstanceState != null){
-            restoreFromBundle(savedInstanceState, seekerFloor)
+            restoreFromBundle(savedInstanceState)
         }else{
             val mainChronometer: TextView = findViewById(R.id.chronometer)
-            val flagChronometer: TextView = findViewById(R.id.flagCountdown)
             val tempHolder = SystemClock.elapsedRealtime()
             mainChronometer.text = timeFormatter(0,true)
-            flagChronometer.text = timeFormatter(seekerFloor,true)
+
             mainBase = tempHolder
-            flagBase = tempHolder + seekerFloor
+            flagTimer.sync(mainBase, tempHolder)
             //timeoutChronometer is hidden, doesn't need to be initialised here
             pauseTime = tempHolder
             heatTimer.restoreValues(this,pauseTime, tempHolder)
@@ -86,7 +77,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart(){
         super.onStart()
         val mainChronometer: TextView = findViewById(R.id.chronometer)
-        val flagChronometer: TextView = findViewById(R.id.flagCountdown)
         val timeoutChronometer: TextView = findViewById(R.id.timeoutCounter)
 
         mainTimer.schedule(object: TimerTask() {
@@ -98,11 +88,8 @@ class MainActivity : AppCompatActivity() {
                     mainChronometer.text =
                         timeFormatter(SystemClock.elapsedRealtime() - mainBase,true)
                     heatTimer.tickListener()
-                    if(flagRunning) {
-                        flagChronometer.text =
-                            timeFormatter(flagBase - SystemClock.elapsedRealtime(),true)
-                        flagTickListener()
-                    }
+                    flagTimer.tickListener()
+
                     for(a in yellowCards.indices.reversed()){
                         if(yellowCards[a].isTrash){
                             yellowCards.removeAt(a)
@@ -175,14 +162,12 @@ class MainActivity : AppCompatActivity() {
         outState.putLong("pauseTime",pauseTime)
     }
 
-    private fun restoreFromBundle(savedInstanceState: Bundle, seekerFloor: Long){
+    private fun restoreFromBundle(savedInstanceState: Bundle){
         val mainChronometer: TextView = findViewById(R.id.chronometer)
-        val flagChronometer: TextView = findViewById(R.id.flagCountdown)
         val tempHolder = SystemClock.elapsedRealtime()
         //Set main and flag chronometers
         isRunning = savedInstanceState.getBoolean("isRunning")
         mainBase = savedInstanceState.getLong("mainBase")
-        flagBase = mainBase + seekerFloor
         if(isRunning){
             val buttonPlayPause: ImageButton = findViewById(R.id.playPauseButton)
             buttonPlayPause.setImageResource(R.drawable.pause)
@@ -191,17 +176,9 @@ class MainActivity : AppCompatActivity() {
             pauseTime = savedInstanceState.getLong("pauseTime")
             mainBase += tempHolder - pauseTime
             pauseTime = tempHolder
-            flagBase = mainBase + seekerFloor
-
+            flagTimer.restoreValues(this, mainBase, tempHolder)
         }
         mainChronometer.text = timeFormatter(tempHolder-mainBase,true)
-        if (flagBase - tempHolder >= 0L) {
-            flagRunning = true
-            flagChronometer.text = timeFormatter(flagBase - tempHolder,true)
-        }else{
-            flagRunning = false
-            flagChronometer.text = timeFormatter(0,true)
-        }
 
         //Set yellow cards
         val activeCards = savedInstanceState.getInt("ActiveCards")
@@ -248,90 +225,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun applySettings(){
+        setListeners()
+        val tempHolder = SystemClock.elapsedRealtime()
         val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val seekerFloor =
-            try {
-                (myPref.getString(getString(R.string.flag_length_key), "$defFlagLength")?.toInt()
-                    ?: defFlagLength) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defFlagLength* MillisecondsPerMinute
-            }
 
         val audioVol = myPref.getInt(getString(R.string.audio_vol_key), defAudioVol)
         val vibeOn = myPref.getBoolean(getString(R.string.vibe_on_key),defVibeOn)
 
-        val buttonTimeout: Button = findViewById(R.id.timeout)
-        val timeoutRow: TableRow = findViewById(R.id.timeoutRow)
-        val timeoutLength =
-            try {
-                (myPref.getString(getString(R.string.timeout_length_key),"$defTimeoutLength")?.toInt()
-                    ?: defTimeoutLength) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defTimeoutLength* MillisecondsPerMinute
-            }
+        if(!isRunning){
+            mainBase += tempHolder - pauseTime
+            pauseTime = tempHolder
+        }
+        flagTimer.updateFlagTimer(this, mainBase, tempHolder)
 
-        val buttonYellow1: Button = findViewById(R.id.yellow1)
-        val yellow1Length =
-            try {
-                (myPref.getString(getString(R.string.yellow_1_length_key),"$defYellow1Length")
-                    ?.toInt() ?: defYellow1Length) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defYellow1Length* MillisecondsPerMinute
-            }
-        val y1Num = (yellow1Length/MillisecondsPerMinute).toInt()
-
-        val buttonYellow2: Button = findViewById(R.id.yellow2)
-        val yellow2Length =
-            try {
-                (myPref.getString(getString(R.string.yellow_2_length_key),"$defYellow2Length")
-                    ?.toInt() ?: defYellow2Length) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defYellow2Length* MillisecondsPerMinute
-            }
-        val y2Num = (yellow2Length/MillisecondsPerMinute).toInt()
-
-        val buttonReset: ImageButton = findViewById(R.id.resetButton)
-        val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
-
-        flagBase = mainBase + seekerFloor
         klaxon.updateSettings(audioVol,vibeOn)
 
-        buttonTimeout.setOnClickListener {
-            if (isTimeout) {
-                timeoutBase = SystemClock.elapsedRealtime()
-                buttonTimeout.text = getString(R.string.timeout)
-                timeoutRow.visibility = View.GONE
-            } else {
-                timeoutBase = SystemClock.elapsedRealtime() + timeoutLength
-                buttonTimeout.text = getString(R.string.clear_timeout)
-                timeoutRow.visibility = View.VISIBLE
-            }
-            isTimeout = !isTimeout
-        }
-
-
-        buttonYellow1.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
-        buttonYellow1.setOnClickListener{
-            numCards++
-            yellowCards.add(YellowCard(numCards,klaxon, yellow1Length,this))
-        }
-
-        buttonYellow2.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
-        buttonYellow2.setOnClickListener{
-            numCards++
-            yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
-        }
-
         heatTimer.updateHeatTimer(this)
-
-        buttonReset.setOnClickListener{
-            if (confirmReset) {
-                showConfirmDialog()
-            }else{
-                resetTimer()
-            }
-        }
-
     }
 
     private fun setListeners(){
@@ -358,13 +267,6 @@ class MainActivity : AppCompatActivity() {
 
         //Settings
         val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val seekerFloor =
-            try {
-                (myPref.getString(getString(R.string.flag_length_key), "$defFlagLength")?.toInt()
-                    ?: defFlagLength) * MillisecondsPerMinute
-            }catch(e: NumberFormatException){
-                defFlagLength* MillisecondsPerMinute
-            }
         val scoreIncrement =
             try {
                 (myPref.getString(getString(R.string.score_inc_key),"$defScoreInc")?.toInt()
@@ -423,11 +325,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 heatTimer.pauseTimer()
+                flagTimer.sync(mainBase,SystemClock.elapsedRealtime())
             }else{
                 mainBase += SystemClock.elapsedRealtime() - pauseTime
-                if(flagRunning) {
-                    flagBase = mainBase + seekerFloor
-                }
+                flagTimer.sync(mainBase, SystemClock.elapsedRealtime())
                 for(a in yellowCards.indices.reversed()){
                     if(yellowCards[a].isTrash){
                         yellowCards.removeAt(a)
@@ -546,9 +447,7 @@ class MainActivity : AppCompatActivity() {
             isRunning = false
         }
 
-        flagBase = mainBase
-        flagBase += seekerFloor
-        flagRunning = true
+        flagTimer.restoreValues(this,mainBase, mainBase)
 
         heatTimer.restoreValues(this,mainBase,mainBase)
 
@@ -574,21 +473,6 @@ class MainActivity : AppCompatActivity() {
         numCards = 0
     }
 
-    private fun flagTickListener(){
-        if(flagBase < SystemClock.elapsedRealtime() && flagRunning && isRunning){
-            val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-            val nonZeroSeekerFloor = myPref.getString(getString(R.string.flag_length_key), "$defFlagLength") != "0"
-            //Do not ping if the seeker floor is set to 0
-            if (nonZeroSeekerFloor){
-                klaxon.ping(FlagNotification, getString(R.string.notification_flag_desc))
-            }
-
-            flagBase = SystemClock.elapsedRealtime()
-            flagRunning = false
-            val flagChronometer: TextView = findViewById(R.id.flagCountdown)
-            flagChronometer.text = timeFormatter(0,true)
-        }
-    }
     private fun timeoutTickListener() {
         if (timeoutBase < SystemClock.elapsedRealtime()) {
             val timeoutRow: TableRow = findViewById(R.id.timeoutRow)
@@ -602,30 +486,3 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun timeFormatter(milliTime: Long, inclMilli: Boolean): String{
-    val toReturn = StringBuilder()
-    val myMilli = milliTime.absoluteValue
-    val milli: Long = myMilli.mod(MillisecondsPerSecond)/ MillisecondsPerTenth
-    val sec: Long = (myMilli/ MillisecondsPerSecond).mod(SecondsPerMinute)
-    val min: Long = (myMilli/ MillisecondsPerMinute).mod(MinutesPerHour)
-
-    if(milliTime < 0){
-        toReturn.append("-")
-    }
-
-    if(myMilli > MillisecondsPerHour){
-        val hour: Long = (myMilli/ MillisecondsPerHour)
-        toReturn.append(hour)
-        toReturn.append(":")
-    }
-
-    toReturn.append(min.toString().padStart(2,'0'))
-    toReturn.append(":")
-
-    toReturn.append(sec.toString().padStart(2,'0'))
-    if(inclMilli) {
-        toReturn.append(".")
-        toReturn.append(milli)
-    }
-    return toReturn.toString()
-}
