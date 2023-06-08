@@ -11,7 +11,6 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.quadtime.timer.constants.*
 import java.util.*
@@ -53,14 +52,6 @@ class MainActivity : AppCompatActivity() {
         val vibeOn = myPref.getBoolean(getString(R.string.vibe_on_key),defVibeOn)
         klaxon = Alert(this,audioVol,vibeOn)
         heatTimer = HeatTimer(klaxon, this)
-
-        val darkModeValues: Array<String> = resources.getStringArray(R.array.dark_mode_values)
-        when (myPref.getString(getString(R.string.dark_mode_key), darkModeValues[0])) {
-            darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            darkModeValues[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            darkModeValues[3] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-        }
 
         val seekerFloor =
             try {
@@ -132,6 +123,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         ActivityChecker.activityResumed()
+        applySettings()
     }
 
     override fun onPause() {
@@ -255,6 +247,93 @@ class MainActivity : AppCompatActivity() {
         scoreRightText.text = scoreRight.toString().padStart(3,'0')
     }
 
+    private fun applySettings(){
+        val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val seekerFloor =
+            try {
+                (myPref.getString(getString(R.string.flag_length_key), "$defFlagLength")?.toInt()
+                    ?: defFlagLength) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defFlagLength* MillisecondsPerMinute
+            }
+
+        val audioVol = myPref.getInt(getString(R.string.audio_vol_key), defAudioVol)
+        val vibeOn = myPref.getBoolean(getString(R.string.vibe_on_key),defVibeOn)
+
+        val buttonTimeout: Button = findViewById(R.id.timeout)
+        val timeoutRow: TableRow = findViewById(R.id.timeoutRow)
+        val timeoutLength =
+            try {
+                (myPref.getString(getString(R.string.timeout_length_key),"$defTimeoutLength")?.toInt()
+                    ?: defTimeoutLength) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defTimeoutLength* MillisecondsPerMinute
+            }
+
+        val buttonYellow1: Button = findViewById(R.id.yellow1)
+        val yellow1Length =
+            try {
+                (myPref.getString(getString(R.string.yellow_1_length_key),"$defYellow1Length")
+                    ?.toInt() ?: defYellow1Length) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defYellow1Length* MillisecondsPerMinute
+            }
+        val y1Num = (yellow1Length/MillisecondsPerMinute).toInt()
+
+        val buttonYellow2: Button = findViewById(R.id.yellow2)
+        val yellow2Length =
+            try {
+                (myPref.getString(getString(R.string.yellow_2_length_key),"$defYellow2Length")
+                    ?.toInt() ?: defYellow2Length) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defYellow2Length* MillisecondsPerMinute
+            }
+        val y2Num = (yellow2Length/MillisecondsPerMinute).toInt()
+
+        val buttonReset: ImageButton = findViewById(R.id.resetButton)
+        val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
+
+        flagBase = mainBase + seekerFloor
+        klaxon.updateSettings(audioVol,vibeOn)
+
+        buttonTimeout.setOnClickListener {
+            if (isTimeout) {
+                timeoutBase = SystemClock.elapsedRealtime()
+                buttonTimeout.text = getString(R.string.timeout)
+                timeoutRow.visibility = View.GONE
+            } else {
+                timeoutBase = SystemClock.elapsedRealtime() + timeoutLength
+                buttonTimeout.text = getString(R.string.clear_timeout)
+                timeoutRow.visibility = View.VISIBLE
+            }
+            isTimeout = !isTimeout
+        }
+
+
+        buttonYellow1.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
+        buttonYellow1.setOnClickListener{
+            numCards++
+            yellowCards.add(YellowCard(numCards,klaxon, yellow1Length,this))
+        }
+
+        buttonYellow2.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
+        buttonYellow2.setOnClickListener{
+            numCards++
+            yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
+        }
+
+        heatTimer.updateHeatTimer(this)
+
+        buttonReset.setOnClickListener{
+            if (confirmReset) {
+                showConfirmDialog()
+            }else{
+                resetTimer()
+            }
+        }
+
+    }
+
     private fun setListeners(){
         //timers
         val timeoutRow: TableRow = findViewById(R.id.timeoutRow)
@@ -274,8 +353,8 @@ class MainActivity : AppCompatActivity() {
         val buttonTimeout: Button = findViewById(R.id.timeout)
         val buttonTimeoutMinus: Button = findViewById(R.id.minus1)
         val buttonTimeoutPlus: Button = findViewById(R.id.plus1)
-        val button1Min: Button = findViewById(R.id.yellow1)
-        val button2Min: Button = findViewById(R.id.yellow2)
+        val buttonYellow1: Button = findViewById(R.id.yellow1)
+        val buttonYellow2: Button = findViewById(R.id.yellow2)
 
         //Settings
         val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -319,10 +398,10 @@ class MainActivity : AppCompatActivity() {
         val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
 
         val y1Num = (yellow1Length/MillisecondsPerMinute).toInt()
-        button1Min.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
+        buttonYellow1.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
 
         val y2Num = (yellow2Length/MillisecondsPerMinute).toInt()
-        button2Min.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
+        buttonYellow2.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
 
 
         //button listeners
@@ -412,12 +491,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        button1Min.setOnClickListener{
+        buttonYellow1.setOnClickListener{
             numCards++
             yellowCards.add(YellowCard(numCards,klaxon, yellow1Length,this))
         }
 
-        button2Min.setOnClickListener{
+        buttonYellow2.setOnClickListener{
             numCards++
             yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
         }

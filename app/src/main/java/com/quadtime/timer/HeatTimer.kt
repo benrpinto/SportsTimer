@@ -36,6 +36,19 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
         }
     }
 
+    fun updateHeatTimer(inputContext: MainActivity){
+        val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(inputContext)
+        val newTimerDuration =
+            try {
+                (myPref.getString(inputContext.getString(R.string.heat_length_key), "$defHeatLength")?.toInt()
+                    ?: defHeatLength) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defHeatLength* MillisecondsPerMinute
+            }
+        //whenever timerBase is set from an external source, it does not include timerDuration
+        timerBase += newTimerDuration - timerDuration
+    }
+
     //This function is used to recreate the heat timer data from saved data
     fun restoreValues(inputContext: MainActivity, inputTimerPause: Long, inputTimerBase: Long){
         timerBase = inputTimerBase

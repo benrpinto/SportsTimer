@@ -57,6 +57,12 @@ class Alert(inputContext: MainActivity, audioVol: Int, private var vibeOn: Boole
         auxCord.setVolume(volPercent,volPercent)
     }
 
+    fun updateSettings(audioVol: Int, newVibeOn: Boolean){
+        val volPercent: Float = audioVol.toFloat()/100
+        auxCord.setVolume(volPercent,volPercent)
+        vibeOn = newVibeOn
+    }
+
     fun ping(notificationID:Int, notificationText:String){
         //If activity is in the foreground, then sound the alert and vibrate
         //Otherwise send a notification
