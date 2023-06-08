@@ -2,11 +2,18 @@ package com.quadtime.timer
 
 import android.content.Context
 import android.content.Intent
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -87,6 +94,71 @@ class LongTests {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.quadtime.timer", appContext.packageName)
+    }
+
+    @Test
+    fun heatTimerTestButton(){
+        heatTimerTest(true)
+    }
+
+    @Test
+    fun heatTimerTestBackPress(){
+        heatTimerTest(false)
+    }
+
+    private fun heatTimerTest(useButton: Boolean){
+        val newHeat = 1
+        Espresso.onView(withId(R.id.settingsButton))
+            .perform(ViewActions.click())
+        intended(hasComponent(SettingsActivity::class.java.name))
+
+        //click the heat timer setting
+        Espresso.onView(withId(androidx.preference.R.id.recycler_view))
+            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
+                hasDescendant(withText(R.string.set_length_heat_t)),
+                ViewActions.click()
+            ))
+        //put the new value in the dialog box
+        Espresso.onView(allOf(
+            withResourceName("edit"),
+            isAssignableFrom(AppCompatEditText::class.java)
+        ))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.clearText())
+            .perform(ViewActions.typeText("$newHeat"))
+        //then click ok
+        Espresso.onView(withText("OK"))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
+
+        if(useButton){
+            Espresso.onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(ViewActions.click())
+        }else {
+            Espresso.pressBack()
+        }
+
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(ViewActions.click())
+        Espresso.onView(withText(R.string.heat_message))
+            .check(ViewAssertions.doesNotExist())
+        Thread.sleep(MillisecondsPerMinute)
+        Espresso.onView(withText(R.string.heat_message))
+            .check(ViewAssertions.matches(isDisplayed()))
+        Espresso.onView(withText("OK"))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
+        //wait for the next heat timer to go off
+        Thread.sleep(MillisecondsPerMinute)
+        Espresso.onView(withText(R.string.heat_message))
+            .check(ViewAssertions.matches(isDisplayed()))
+        Espresso.onView(withText("OK"))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
     }
 
 
