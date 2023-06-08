@@ -57,6 +57,7 @@ dependencies {
     // Optional -- UI testing with Espresso
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     // Optional -- UI testing with UI Automator
     androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
     // Optional -- UI testing with Compose
