@@ -313,11 +313,68 @@ class MainActivityTest {
 
     @Test
     fun scores(){
+        //check initial score is 0
         Espresso.onView(withId(R.id.scoreLeft))
             .check(ViewAssertions.matches(withText(R.string.initial_score)))
         Espresso.onView(withId(R.id.scoreRight))
             .check(ViewAssertions.matches(withText(R.string.initial_score)))
 
+        //check that score up left increases score
+        Espresso.onView(withId(R.id.scoreUpLeft))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(withText("010")))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
+
+        //check that score up right increases score
+        Espresso.onView(withId(R.id.scoreUpRight))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(withText("010")))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(withText("010")))
+
+        //check that score down left decreases score
+        Espresso.onView(withId(R.id.scoreDownLeft))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(withText("010")))
+
+        //check that score down right decreases score
+        Espresso.onView(withId(R.id.scoreDownRight))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
+
+        //check that score can't be reduced below 0
+        Espresso.onView(withId(R.id.scoreDownLeft))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
+
+        //check again that score can't be reduced below 0
+        Espresso.onView(withId(R.id.scoreDownRight))
+            .perform(ViewActions.click())
+
+        Espresso.onView(withId(R.id.scoreLeft))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
+        Espresso.onView(withId(R.id.scoreRight))
+            .check(ViewAssertions.matches(withText(R.string.initial_score)))
+
+        //check that the score is actually 0, and not just displaying 0.
+        //check by increasing it to 10
         Espresso.onView(withId(R.id.scoreUpLeft))
             .perform(ViewActions.click())
 
@@ -334,21 +391,6 @@ class MainActivityTest {
         Espresso.onView(withId(R.id.scoreRight))
             .check(ViewAssertions.matches(withText("010")))
 
-        Espresso.onView(withId(R.id.scoreDownLeft))
-            .perform(ViewActions.click())
-
-        Espresso.onView(withId(R.id.scoreLeft))
-            .check(ViewAssertions.matches(withText(R.string.initial_score)))
-        Espresso.onView(withId(R.id.scoreRight))
-            .check(ViewAssertions.matches(withText("010")))
-
-        Espresso.onView(withId(R.id.scoreDownRight))
-            .perform(ViewActions.click())
-
-        Espresso.onView(withId(R.id.scoreLeft))
-            .check(ViewAssertions.matches(withText(R.string.initial_score)))
-        Espresso.onView(withId(R.id.scoreRight))
-            .check(ViewAssertions.matches(withText(R.string.initial_score)))
     }
 
 }
