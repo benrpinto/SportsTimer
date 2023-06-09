@@ -18,11 +18,13 @@
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
+            android:launchMode="singleTask"
             android:theme="@style/PopTheme.ActionBar"
             android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:theme="@style/PopTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
