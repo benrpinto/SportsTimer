@@ -11,6 +11,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.quadtime.timer.constants.*
 import java.util.*
@@ -52,6 +53,14 @@ class MainActivity : AppCompatActivity() {
         klaxon = Alert(this,audioVol,vibeOn)
         heatTimer = HeatTimer(klaxon, this)
         flagTimer = FlagTimer(klaxon, this)
+
+        val darkModeValues: Array<String> = resources.getStringArray(R.array.dark_mode_values)
+        when (myPref.getString(getString(R.string.dark_mode_key), darkModeValues[0])) {
+            darkModeValues[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            darkModeValues[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            darkModeValues[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            darkModeValues[3] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        }
 
         val inBundle = ActivityChecker.getBundle()
 
