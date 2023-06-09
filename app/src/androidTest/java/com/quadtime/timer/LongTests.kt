@@ -1,6 +1,5 @@
 package com.quadtime.timer
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.preference.PreferenceManager
@@ -31,8 +30,6 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class LongTests {
-
-    private val appContext: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
     companion object {
         @JvmStatic
