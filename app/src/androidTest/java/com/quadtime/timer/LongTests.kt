@@ -12,6 +12,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
+import androidx.test.espresso.intent.Intents.times
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -124,6 +125,16 @@ class LongTests {
     @Test
     fun heatTimerTest3BackPress(){
         heatTimerTest3(false)
+    }
+
+    @Test
+    fun heatTimerTest4Button(){
+        heatTimerTest4(true)
+    }
+
+    @Test
+    fun heatTimerTest4BackPress(){
+        heatTimerTest4(false)
     }
 
 
@@ -301,5 +312,74 @@ class LongTests {
             .perform(ViewActions.click())
     }
 
+    //testing that going to the settings and back doesn't create phantom pings
+    private fun heatTimerTest4(useButton: Boolean){
+        val newHeat = 2
+        Espresso.onView(withId(R.id.settingsButton))
+            .perform(ViewActions.click())
+        intended(hasComponent(SettingsActivity::class.java.name))
+
+        //click the heat timer setting
+        Espresso.onView(withId(androidx.preference.R.id.recycler_view))
+            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
+                hasDescendant(withText(R.string.set_length_heat_t)),
+                ViewActions.click()
+            ))
+        //put the new value in the dialog box
+        Espresso.onView(allOf(
+            withResourceName("edit"),
+            isAssignableFrom(AppCompatEditText::class.java)
+        ))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.clearText())
+            .perform(ViewActions.typeText("$newHeat"))
+        //then click ok
+        Espresso.onView(withText("OK"))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
+
+        if(useButton){
+            Espresso.onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(ViewActions.click())
+        }else {
+            Espresso.pressBack()
+        }
+
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(ViewActions.click())
+        Espresso.onView(withText(R.string.heat_message))
+            .check(ViewAssertions.doesNotExist())
+        Thread.sleep(MillisecondsPerMinute)
+        //Go to settings and back
+        Espresso.onView(withId(R.id.settingsButton))
+            .perform(ViewActions.click())
+        intended(hasComponent(SettingsActivity::class.java.name),times(2))
+        if(useButton){
+            Espresso.onView(withContentDescription(androidx.appcompat.R.string.abc_action_bar_up_description))
+                .perform(ViewActions.click())
+        }else {
+            Espresso.pressBack()
+        }
+        //pause the timer
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(ViewActions.click())
+        //wait for when the timer would have gone off if pause wasn't pressed
+        Thread.sleep(MillisecondsPerMinute)
+        //is there a phantom ping?
+        Espresso.onView(withText(R.string.heat_message))
+            .check(ViewAssertions.doesNotExist())
+        //press play and wait for the heat timer to go off
+        Espresso.onView(withId(R.id.playPauseButton))
+            .perform(ViewActions.click())
+        Thread.sleep(MillisecondsPerMinute)
+        Espresso.onView(withText(R.string.heat_message))
+            .check(ViewAssertions.matches(isDisplayed()))
+        Espresso.onView(withText("OK"))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
+    }
 
 }
