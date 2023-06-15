@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.quadtime.timer.constants.YCNotification
 import com.quadtime.timer.constants.timeFormatter
 
-class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: MainActivity){
+class FoulCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: MainActivity){
     private val idNum: Int = inputId
     private val cardRow: TableRow = TableRow(inputContext)
     private val id: TextView = TextView(inputContext)
@@ -19,7 +19,7 @@ class YellowCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: 
     private var timerPause: Long = SystemClock.elapsedRealtime()
     private val timerClear: Button = Button(inputContext)
     private val siren: Alert = inputAlert
-    private val notificationText: String = inputContext.getString(R.string.notification_yc_desc,inputId)
+    private val notificationText: String = inputContext.getString(R.string.notification_fc_desc,inputId)
     var isTrash: Boolean = false
 
     init {

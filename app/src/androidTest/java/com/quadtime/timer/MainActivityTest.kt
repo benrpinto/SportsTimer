@@ -36,8 +36,9 @@ class MainActivityTest {
             //timer lengths
             preferencesEditor.putString(appContext.getString(R.string.flag_length_key), "$defFlagLength")
             preferencesEditor.putString(appContext.getString(R.string.timeout_length_key), "$defTimeoutLength")
-            preferencesEditor.putString(appContext.getString(R.string.yellow_1_length_key), "$defYellow1Length")
-            preferencesEditor.putString(appContext.getString(R.string.yellow_2_length_key), "$defYellow2Length")
+            preferencesEditor.putString(appContext.getString(R.string.blue_length_key), "$defBlueLength")
+            preferencesEditor.putString(appContext.getString(R.string.yellow_length_key), "$defYellowLength")
+            preferencesEditor.putString(appContext.getString(R.string.red_length_key), "$defRedLength")
             preferencesEditor.putString(appContext.getString(R.string.heat_length_key), "$defHeatLength")
 
             //other settings
@@ -178,27 +179,32 @@ class MainActivityTest {
     }
 
     @Test
-    fun yellowCards(){
-        //Check that the yellow card buttons are there and that there aren't any yellow cards
-        Espresso.onView(withId(R.id.yellow1))
+    fun foulCards(){
+        //Check that the foul card buttons are there and that there aren't any fouls
+        Espresso.onView(withId(R.id.blue))
             .check(ViewAssertions.matches(withText(
-                appContext.resources.getQuantityString(R.plurals.minutes,defYellow1Length, defYellow1Length)
+                appContext.resources.getQuantityString(R.plurals.minutes,defBlueLength, defBlueLength)
             )))
 
-        Espresso.onView(withId(R.id.yellow2))
+        Espresso.onView(withId(R.id.yellow))
             .check(ViewAssertions.matches(withText(
-                appContext.resources.getQuantityString(R.plurals.minutes,defYellow2Length, defYellow2Length)
+                appContext.resources.getQuantityString(R.plurals.minutes,defYellowLength, defYellowLength)
+            )))
+
+        Espresso.onView(withId(R.id.red))
+            .check(ViewAssertions.matches(withText(
+                appContext.resources.getQuantityString(R.plurals.minutes,defRedLength, defRedLength)
             )))
         Espresso.onView(withText(containsString("CLEAR CARD")))
             .check(ViewAssertions.doesNotExist())
 
         //start a 1 minute yellow card timer
-        Espresso.onView(withId(R.id.yellow1))
+        Espresso.onView(withId(R.id.yellow))
             .perform(ViewActions.click())
 
-        //check that the yellow card ID, timer, and clear card button is created
+        //check that the foul card ID, timer, and clear card button is created
         //click the clear card button
-        //check that the yellow card does not exist
+        //check that the foul card does not exist
         Espresso.onView(
             allOf(
                 hasSibling(withText(appContext.getString(R.string.clear_card_timer,1))),
@@ -218,9 +224,8 @@ class MainActivityTest {
             .perform(ViewActions.click())
             .check(ViewAssertions.doesNotExist())
 
-
         //start a 1 minute yellow card timer
-        Espresso.onView(withId(R.id.yellow1))
+        Espresso.onView(withId(R.id.yellow))
             .perform(ViewActions.click())
 
         //check that the yellow card is created with an id of 2
@@ -256,7 +261,7 @@ class MainActivityTest {
             .perform(ViewActions.click())
 
         //start a 1 minute yellow card timer
-        Espresso.onView(withId(R.id.yellow1))
+        Espresso.onView(withId(R.id.yellow))
             .perform(ViewActions.click())
 
         //wait 5 milliseconds so it's definitely 59 seconds

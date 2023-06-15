@@ -184,29 +184,46 @@
     </TableRow>
 
     <Button
-        android:id="@+id/yellow1"
-        android:text="@string/yellow_1"
+        android:id="@+id/blue"
+        android:text="@string/blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?blueButton"
+        android:contentDescription="@string/blue_card_button"
         android:padding="20dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintEnd_toStartOf="@+id/timeout"
+        app:layout_constraintEnd_toStartOf="@+id/yellow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeoutRow"/>
 
     <Button
-        android:id="@+id/yellow2"
-        android:text="@string/yellow_2"
+        android:id="@+id/yellow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
         android:layout_marginTop="5dp"
+        android:background="?yellowButton"
+        android:contentDescription="@string/yellow_card_button"
+        android:padding="20dp"
+        android:text="@string/yellow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/timeout"
-        app:layout_constraintTop_toBottomOf="@+id/timeoutRow"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeoutRow" />
+
+    <Button
+        android:id="@+id/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="?redButton"
+        android:contentDescription="@string/red_card_button"
+        android:padding="20dp"
+        android:text="@string/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/yellow"
+        app:layout_constraintTop_toBottomOf="@+id/timeoutRow" />
 
     <ScrollView
-        android:contentDescription="@string/yellow_card"
+        android:contentDescription="@string/foul_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -216,7 +233,7 @@
         app:layout_constrainedHeight="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yellow1"
+        app:layout_constraintTop_toBottomOf="@+id/yellow"
         app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout

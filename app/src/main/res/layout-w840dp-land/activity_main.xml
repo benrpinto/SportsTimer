@@ -269,31 +269,48 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/yellow1"
+                android:id="@+id/blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?blueButton"
+                android:contentDescription="@string/blue_card_button"
                 android:padding="20dp"
                 android:layout_weight="0"
-                android:text="@string/yellow_1" />
+                android:text="@string/yellow" />
+            <Space
+                android:layout_width="5dp"
+                android:layout_height="60sp"
+                android:layout_weight="4"/>
+            <Button
+                android:id="@+id/yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?yellowButton"
+                android:contentDescription="@string/yellow_card_button"
+                android:padding="20dp"
+                android:layout_weight="0"
+                android:text="@string/yellow" />
 
             <Space
-                android:layout_width="30dp"
+                android:layout_width="5dp"
                 android:layout_height="60sp"
                 android:layout_weight="4"/>
 
             <Button
-                android:id="@+id/yellow2"
+                android:id="@+id/red"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="?redButton"
+                android:contentDescription="@string/red_card_button"
                 android:padding="20dp"
                 android:layout_weight="0"
-                android:text="@string/yellow_2" />
+                android:text="@string/red" />
         </TableRow>
 
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:contentDescription="@string/yellow_card">
+            android:contentDescription="@string/foul_card">
 
             <LinearLayout
                 android:layout_width="match_parent"

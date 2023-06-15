@@ -3,10 +3,16 @@
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
+    <color name="blue_200">#FF6D8AE0</color>
+    <color name="blue_700">#FF1D3785</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF017C7C</color>
+    <color name="yellow_200">#FFE0D26D</color>
+    <color name="yellow_700">#FF85781D</color>
     <color name="gold_200">#FFE0C56E</color>
     <color name="gold_700">#FF856B1D</color>
+    <color name="red_200">#FFE06D6D</color>
+    <color name="red_700">#FF851D1D</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

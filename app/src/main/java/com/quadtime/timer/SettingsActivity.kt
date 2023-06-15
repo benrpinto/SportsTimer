@@ -78,12 +78,17 @@ class SettingsActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferen
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }
 
-            numberPreference = findPreference(getString(R.string.yellow_1_length_key))
+            numberPreference = findPreference(getString(R.string.blue_length_key))
             numberPreference?.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }
 
-            numberPreference = findPreference(getString(R.string.yellow_2_length_key))
+            numberPreference = findPreference(getString(R.string.yellow_length_key))
+            numberPreference?.setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
+            }
+
+            numberPreference = findPreference(getString(R.string.red_length_key))
             numberPreference?.setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
             }

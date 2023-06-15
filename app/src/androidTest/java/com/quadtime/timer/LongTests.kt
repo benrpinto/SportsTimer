@@ -41,8 +41,9 @@ class LongTests {
             //timer lengths
             preferencesEditor.putString(appContext.getString(R.string.flag_length_key), "$defFlagLength")
             preferencesEditor.putString(appContext.getString(R.string.timeout_length_key), "$defTimeoutLength")
-            preferencesEditor.putString(appContext.getString(R.string.yellow_1_length_key), "$defYellow1Length")
-            preferencesEditor.putString(appContext.getString(R.string.yellow_2_length_key), "$defYellow2Length")
+            preferencesEditor.putString(appContext.getString(R.string.blue_length_key), "$defBlueLength")
+            preferencesEditor.putString(appContext.getString(R.string.yellow_length_key), "$defYellowLength")
+            preferencesEditor.putString(appContext.getString(R.string.red_length_key), "$defRedLength")
             preferencesEditor.putString(appContext.getString(R.string.heat_length_key), "$defHeatLength")
 
             //other settings

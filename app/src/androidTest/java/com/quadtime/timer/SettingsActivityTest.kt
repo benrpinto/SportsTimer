@@ -42,8 +42,9 @@ class SettingsActivityTest {
             //timer lengths
             preferencesEditor.putString(appContext.getString(R.string.flag_length_key), "$defFlagLength")
             preferencesEditor.putString(appContext.getString(R.string.timeout_length_key), "$defTimeoutLength")
-            preferencesEditor.putString(appContext.getString(R.string.yellow_1_length_key), "$defYellow1Length")
-            preferencesEditor.putString(appContext.getString(R.string.yellow_2_length_key), "$defYellow2Length")
+            preferencesEditor.putString(appContext.getString(R.string.blue_length_key), "$defBlueLength")
+            preferencesEditor.putString(appContext.getString(R.string.yellow_length_key), "$defYellowLength")
+            preferencesEditor.putString(appContext.getString(R.string.red_length_key), "$defRedLength")
             preferencesEditor.putString(appContext.getString(R.string.heat_length_key), "$defHeatLength")
 
             //other settings
@@ -131,22 +132,30 @@ class SettingsActivityTest {
     }
 
     private fun settingsApplied(useButton: Boolean){
-        val newYC1 = 11
-        val newYC2 = 12
-        val newFlagTime = 13
+        val newBlue = 11
+        val newYellow = 12
+        val newRed = 13
+        val newFlagTime = 14
         //check that the yellow cards and the flag timer are showing their default values
-        Espresso.onView(withId(R.id.yellow1))
+        Espresso.onView(withId(R.id.blue))
             .check(
                 ViewAssertions.matches(withText(
                     appContext.resources.getQuantityString(R.plurals.minutes,
-                        defYellow1Length, defYellow1Length
+                        defBlueLength, defBlueLength
                     )
                 )))
-        Espresso.onView(withId(R.id.yellow2))
+        Espresso.onView(withId(R.id.yellow))
             .check(
                 ViewAssertions.matches(withText(
                     appContext.resources.getQuantityString(R.plurals.minutes,
-                        defYellow2Length, defYellow2Length
+                        defYellowLength, defYellowLength
+                    )
+                )))
+        Espresso.onView(withId(R.id.red))
+            .check(
+                ViewAssertions.matches(withText(
+                    appContext.resources.getQuantityString(R.plurals.minutes,
+                        defRedLength, defRedLength
                     )
                 )))
         Espresso.onView(withId(R.id.flagCountdown))
@@ -157,31 +166,10 @@ class SettingsActivityTest {
             .perform(ViewActions.click())
         intended(hasComponent(SettingsActivity::class.java.name))
 
-        //click the yellow card 1 setting
+        //click the blue card setting
         Espresso.onView(withId(androidx.preference.R.id.recycler_view))
             .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                hasDescendant(withText(R.string.set_length_yellow_card_1_t)),
-                ViewActions.click()
-            ))
-        //put the new value in the dialog box
-        Espresso.onView(allOf(
-                        withResourceName("edit"),
-                        isAssignableFrom(AppCompatEditText::class.java)
-                        ))
-            .inRoot(isDialog())
-            .check(ViewAssertions.matches(isDisplayed()))
-            .perform(ViewActions.clearText())
-            .perform(ViewActions.typeText("$newYC1"))
-        //then click ok
-        Espresso.onView(withText("OK"))
-            .inRoot(isDialog())
-            .check(ViewAssertions.matches(isDisplayed()))
-            .perform(ViewActions.click())
-
-        //click the yellow card 2 setting
-        Espresso.onView(withId(androidx.preference.R.id.recycler_view))
-            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
-                hasDescendant(withText(R.string.set_length_yellow_card_2_t)),
+                hasDescendant(withText(R.string.set_length_blue_card_t)),
                 ViewActions.click()
             ))
         //put the new value in the dialog box
@@ -192,7 +180,49 @@ class SettingsActivityTest {
             .inRoot(isDialog())
             .check(ViewAssertions.matches(isDisplayed()))
             .perform(ViewActions.clearText())
-            .perform(ViewActions.typeText("$newYC2"))
+            .perform(ViewActions.typeText("$newBlue"))
+        //then click ok
+        Espresso.onView(withText("OK"))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
+
+        //click the yellow card setting
+        Espresso.onView(withId(androidx.preference.R.id.recycler_view))
+            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
+                hasDescendant(withText(R.string.set_length_yellow_card_t)),
+                ViewActions.click()
+            ))
+        //put the new value in the dialog box
+        Espresso.onView(allOf(
+                        withResourceName("edit"),
+                        isAssignableFrom(AppCompatEditText::class.java)
+                        ))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.clearText())
+            .perform(ViewActions.typeText("$newYellow"))
+        //then click ok
+        Espresso.onView(withText("OK"))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.click())
+
+        //click the red card setting
+        Espresso.onView(withId(androidx.preference.R.id.recycler_view))
+            .perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(
+                hasDescendant(withText(R.string.set_length_red_card_t)),
+                ViewActions.click()
+            ))
+        //put the new value in the dialog box
+        Espresso.onView(allOf(
+            withResourceName("edit"),
+            isAssignableFrom(AppCompatEditText::class.java)
+        ))
+            .inRoot(isDialog())
+            .check(ViewAssertions.matches(isDisplayed()))
+            .perform(ViewActions.clearText())
+            .perform(ViewActions.typeText("$newRed"))
         //then click ok
         Espresso.onView(withText("OK"))
             .inRoot(isDialog())
@@ -228,19 +258,27 @@ class SettingsActivityTest {
             Espresso.pressBack()
         }
 
-        Espresso.onView(withId(R.id.yellow1))
+        Espresso.onView(withId(R.id.blue))
             .check(
                 ViewAssertions.matches(withText(
                     appContext.resources.getQuantityString(R.plurals.minutes,
-                        newYC1, newYC1
+                        newBlue, newBlue
                     )
                 )))
 
-        Espresso.onView(withId(R.id.yellow2))
+        Espresso.onView(withId(R.id.yellow))
             .check(
                 ViewAssertions.matches(withText(
                     appContext.resources.getQuantityString(R.plurals.minutes,
-                        newYC2, newYC2
+                        newYellow, newYellow
+                    )
+                )))
+
+        Espresso.onView(withId(R.id.red))
+            .check(
+                ViewAssertions.matches(withText(
+                    appContext.resources.getQuantityString(R.plurals.minutes,
+                        newRed, newRed
                     )
                 )))
 

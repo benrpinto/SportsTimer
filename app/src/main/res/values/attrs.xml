@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="blueButton" format="reference" />
+    <attr name="yellowButton" format="reference" />
+    <attr name="redButton" format="reference" />
+</resources>

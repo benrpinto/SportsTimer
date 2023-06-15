@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private var scoreRight: Int = 0
 
     //state trackers
-    val yellowCards: Vector<YellowCard> = Vector(3,3)
+    val foulCards: Vector<FoulCard> = Vector(3,3)
     private var numCards = 0
     var isRunning = false
 
@@ -99,11 +99,11 @@ class MainActivity : AppCompatActivity() {
                     heatTimer.tickListener()
                     flagTimer.tickListener()
 
-                    for(a in yellowCards.indices.reversed()){
-                        if(yellowCards[a].isTrash){
-                            yellowCards.removeAt(a)
+                    for(a in foulCards.indices.reversed()){
+                        if(foulCards[a].isTrash){
+                            foulCards.removeAt(a)
                         }else{
-                            yellowCards[a].tickListener()
+                            foulCards[a].tickListener()
                         }
                     }
                 }
@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
         ActivityChecker.setBundle(outBundle)
 
         mainTimer.cancel()
-        yellowCards.clear()
+        foulCards.clear()
         klaxon.release()
     }
 
@@ -144,19 +144,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveToBundle(outState: Bundle){
-        //yellow cards
+        //foul cards
         //clean up cards first
-        for(a in yellowCards.indices.reversed()){
-            if(yellowCards[a].isTrash){
-                yellowCards.removeAt(a)
+        for(a in foulCards.indices.reversed()){
+            if(foulCards[a].isTrash){
+                foulCards.removeAt(a)
             }
         }
 
-        outState.putInt("ActiveCards",yellowCards.size)
-        for(a in 0 until yellowCards.size){
-            outState.putInt("YC-ID$a",yellowCards[a].getID())
-            outState.putLong("YC-Pause$a",yellowCards[a].getPause())
-            outState.putLong("YC-Base$a",yellowCards[a].getBase())
+        outState.putInt("ActiveCards",foulCards.size)
+        for(a in 0 until foulCards.size){
+            outState.putInt("YC-ID$a",foulCards[a].getID())
+            outState.putLong("YC-Pause$a",foulCards[a].getPause())
+            outState.putLong("YC-Base$a",foulCards[a].getBase())
         }
 
         outState.putLong("mainBase",mainBase)
@@ -189,22 +189,22 @@ class MainActivity : AppCompatActivity() {
         }
         mainChronometer.text = timeFormatter(tempHolder-mainBase,true)
 
-        //Set yellow cards
+        //Set foul cards
         val activeCards = savedInstanceState.getInt("ActiveCards")
         for(a in 0 until activeCards){
             val inputId = savedInstanceState.getInt("YC-ID$a")
             var inputCardPause = savedInstanceState.getLong("YC-Pause$a")
             var cardBase = savedInstanceState.getLong("YC-Base$a")
 
-            //this is to prevent the yellow card timer from displaying a lower value
+            //this is to prevent the foul card timer from displaying a lower value
             //when pausing the timer and restoring the activity
             if(!isRunning){
-                //it has to be done here, and not in yellowCard
-                //because yellowCard doesn't know if it's paused or not
+                //it has to be done here, and not in foulCard
+                //because foulCard doesn't know if it's paused or not
                 cardBase += tempHolder - inputCardPause
                 inputCardPause = tempHolder
             }
-            yellowCards.add(YellowCard(inputId,klaxon,this,inputCardPause,cardBase))
+            foulCards.add(FoulCard(inputId,klaxon,this,inputCardPause,cardBase))
         }
         numCards = savedInstanceState.getInt("numCards")
 
@@ -271,8 +271,9 @@ class MainActivity : AppCompatActivity() {
         val buttonTimeout: Button = findViewById(R.id.timeout)
         val buttonTimeoutMinus: Button = findViewById(R.id.minus1)
         val buttonTimeoutPlus: Button = findViewById(R.id.plus1)
-        val buttonYellow1: Button = findViewById(R.id.yellow1)
-        val buttonYellow2: Button = findViewById(R.id.yellow2)
+        val buttonBlue: Button = findViewById(R.id.blue)
+        val buttonYellow: Button = findViewById(R.id.yellow)
+        val buttonRed: Button = findViewById(R.id.red)
 
         //Settings
         val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -291,28 +292,39 @@ class MainActivity : AppCompatActivity() {
                 defTimeoutLength* MillisecondsPerMinute
             }
 
-        val yellow1Length =
+        val blueLength =
             try {
-                (myPref.getString(getString(R.string.yellow_1_length_key),"$defYellow1Length")
-                    ?.toInt() ?: defYellow1Length) * MillisecondsPerMinute
+                (myPref.getString(getString(R.string.blue_length_key),"$defBlueLength")
+                    ?.toInt() ?: defBlueLength) * MillisecondsPerMinute
             }catch(e: NumberFormatException){
-                defYellow1Length* MillisecondsPerMinute
+                defBlueLength* MillisecondsPerMinute
             }
 
-        val yellow2Length =
+        val yellowLength =
             try {
-                (myPref.getString(getString(R.string.yellow_2_length_key),"$defYellow2Length")
-                    ?.toInt() ?: defYellow2Length) * MillisecondsPerMinute
+                (myPref.getString(getString(R.string.yellow_length_key),"$defYellowLength")
+                    ?.toInt() ?: defYellowLength) * MillisecondsPerMinute
             }catch(e: NumberFormatException){
-                defYellow2Length* MillisecondsPerMinute
+                defYellowLength* MillisecondsPerMinute
+            }
+
+        val redLength =
+            try {
+                (myPref.getString(getString(R.string.red_length_key),"$defRedLength")
+                    ?.toInt() ?: defRedLength) * MillisecondsPerMinute
+            }catch(e: NumberFormatException){
+                defRedLength* MillisecondsPerMinute
             }
         val confirmReset = myPref.getBoolean(getString(R.string.confirm_reset_key),defConfirmReset)
 
-        val y1Num = (yellow1Length/MillisecondsPerMinute).toInt()
-        buttonYellow1.text = resources.getQuantityString(R.plurals.minutes, y1Num, y1Num)
+        val blueNum = (blueLength/MillisecondsPerMinute).toInt()
+        buttonBlue.text = resources.getQuantityString(R.plurals.minutes, blueNum, blueNum)
 
-        val y2Num = (yellow2Length/MillisecondsPerMinute).toInt()
-        buttonYellow2.text = resources.getQuantityString(R.plurals.minutes, y2Num, y2Num)
+        val yellowNum = (yellowLength/MillisecondsPerMinute).toInt()
+        buttonYellow.text = resources.getQuantityString(R.plurals.minutes, yellowNum, yellowNum)
+
+        val redNum = (redLength/MillisecondsPerMinute).toInt()
+        buttonRed.text = resources.getQuantityString(R.plurals.minutes, redNum, redNum)
 
 
         //button listeners
@@ -326,11 +338,11 @@ class MainActivity : AppCompatActivity() {
                 pauseTime = SystemClock.elapsedRealtime()
                 buttonPlayPause.setImageResource(R.drawable.play)
                 buttonPlayPause.contentDescription = getString(R.string.play_button)
-                for(a in yellowCards.indices.reversed()){
-                    if(yellowCards[a].isTrash){
-                        yellowCards.removeAt(a)
+                for(a in foulCards.indices.reversed()){
+                    if(foulCards[a].isTrash){
+                        foulCards.removeAt(a)
                     }else{
-                        yellowCards[a].pauseTimer()
+                        foulCards[a].pauseTimer()
                     }
                 }
                 heatTimer.pauseTimer()
@@ -338,11 +350,11 @@ class MainActivity : AppCompatActivity() {
             }else{
                 mainBase += SystemClock.elapsedRealtime() - pauseTime
                 flagTimer.sync(mainBase, SystemClock.elapsedRealtime())
-                for(a in yellowCards.indices.reversed()){
-                    if(yellowCards[a].isTrash){
-                        yellowCards.removeAt(a)
+                for(a in foulCards.indices.reversed()){
+                    if(foulCards[a].isTrash){
+                        foulCards.removeAt(a)
                     }else{
-                        yellowCards[a].resumeTimer()
+                        foulCards[a].resumeTimer()
                     }
                 }
                 heatTimer.resumeTimer()
@@ -401,14 +413,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        buttonYellow1.setOnClickListener{
+        buttonBlue.setOnClickListener{
             numCards++
-            yellowCards.add(YellowCard(numCards,klaxon, yellow1Length,this))
+            foulCards.add(FoulCard(numCards,klaxon, blueLength,this))
         }
 
-        buttonYellow2.setOnClickListener{
+        buttonYellow.setOnClickListener{
             numCards++
-            yellowCards.add(YellowCard(numCards,klaxon, yellow2Length,this))
+            foulCards.add(FoulCard(numCards,klaxon, yellowLength,this))
+        }
+
+        buttonRed.setOnClickListener{
+            numCards++
+            foulCards.add(FoulCard(numCards,klaxon, redLength,this))
         }
     }
 
@@ -475,10 +492,10 @@ class MainActivity : AppCompatActivity() {
             timeoutRow.visibility = View.GONE
         }
 
-        for(a in yellowCards){
+        for(a in foulCards){
             a.clearTimer()
         }
-        yellowCards.clear()
+        foulCards.clear()
         numCards = 0
     }
 

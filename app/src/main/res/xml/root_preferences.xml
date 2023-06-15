@@ -16,14 +16,20 @@
             app:defaultValue="1"/>
 
         <EditTextPreference
-            app:key="@string/yellow_1_length_key"
-            app:title="@string/set_length_yellow_card_1_t"
+            app:key="@string/blue_length_key"
+            app:title="@string/set_length_blue_card_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="1"/>
 
         <EditTextPreference
-            app:key="@string/yellow_2_length_key"
-            app:title="@string/set_length_yellow_card_2_t"
+            app:key="@string/yellow_length_key"
+            app:title="@string/set_length_yellow_card_t"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="1"/>
+
+        <EditTextPreference
+            app:key="@string/red_length_key"
+            app:title="@string/set_length_red_card_t"
             app:useSimpleSummaryProvider="true"
             app:defaultValue="2"/>
 
