@@ -242,8 +242,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
-                android:paddingVertical="15sp">
-            </TableLayout>
+                android:paddingVertical="15sp"/>
         </LinearLayout>
     </ScrollView>
 
