@@ -1,6 +1,5 @@
 package com.quadtime.timer
 
-import android.os.SystemClock
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -15,8 +14,8 @@ class FoulCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: Ma
     private val cardRow: TableRow = TableRow(inputContext)
     private val id: TextView = TextView(inputContext)
     private val timerChronometer: TextView = TextView(inputContext)
-    private var timerBase: Long = SystemClock.elapsedRealtime()
-    private var timerPause: Long = SystemClock.elapsedRealtime()
+    private var timerBase: Long = System.currentTimeMillis()
+    private var timerPause: Long = System.currentTimeMillis()
     private val timerClear: Button = Button(inputContext)
     private val siren: Alert = inputAlert
     private val notificationText: String = inputContext.getString(R.string.notification_fc_desc,inputId)
@@ -54,7 +53,7 @@ class FoulCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: Ma
         )
         timerChronometer.textSize = 30.toFloat()
         timerChronometer.text = timeFormatter(inputDur,false)
-        timerBase = SystemClock.elapsedRealtime() + inputDur
+        timerBase = System.currentTimeMillis() + inputDur
 
 
         //card clear button content
@@ -75,8 +74,8 @@ class FoulCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: Ma
         inputAlert: Alert,
         inputContext: MainActivity,
         inputCardPause: Long,
-        inputCardBase: Long):this(inputId,inputAlert,inputCardBase- SystemClock.elapsedRealtime(),inputContext){
-        val tempHolder = SystemClock.elapsedRealtime()
+        inputCardBase: Long):this(inputId,inputAlert,inputCardBase- System.currentTimeMillis(),inputContext){
+        val tempHolder = System.currentTimeMillis()
         timerBase = inputCardBase
         timerPause = inputCardPause
         timerChronometer.text = timeFormatter(timerBase-tempHolder,false)
@@ -90,8 +89,8 @@ class FoulCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: Ma
     }
 
     fun tickListener() {
-        timerChronometer.text = timeFormatter(timerBase - SystemClock.elapsedRealtime(),false)
-        if (timerBase < SystemClock.elapsedRealtime()){
+        timerChronometer.text = timeFormatter(timerBase - System.currentTimeMillis(),false)
+        if (timerBase < System.currentTimeMillis()){
             siren.ping(YCNotification + idNum, notificationText)
             clearOut()
         }
@@ -99,12 +98,12 @@ class FoulCard(inputId: Int, inputAlert: Alert, inputDur: Long, inputContext: Ma
 
     fun pauseTimer(){
         if(!isTrash) {
-            timerPause = SystemClock.elapsedRealtime()
+            timerPause = System.currentTimeMillis()
         }
     }
     fun resumeTimer(){
         if(!isTrash) {
-            timerBase += SystemClock.elapsedRealtime() - timerPause
+            timerBase += System.currentTimeMillis() - timerPause
         }
     }
     fun clearTimer(){

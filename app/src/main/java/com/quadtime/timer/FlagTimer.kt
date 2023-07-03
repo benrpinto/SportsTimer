@@ -1,7 +1,6 @@
 package com.quadtime.timer
 
 import android.content.SharedPreferences
-import android.os.SystemClock
 import android.widget.TextView
 import androidx.preference.PreferenceManager
 import com.quadtime.timer.constants.FlagNotification
@@ -11,7 +10,7 @@ import com.quadtime.timer.constants.timeFormatter
 import kotlin.math.max
 
 class FlagTimer(inputAlert: Alert, inputContext: MainActivity){
-    private var timerBase: Long = SystemClock.elapsedRealtime()
+    private var timerBase: Long = System.currentTimeMillis()
     private val siren: Alert = inputAlert
     private val notificationText: String = inputContext.getString(R.string.notification_flag_desc)
     private var timerDuration: Long
@@ -70,8 +69,8 @@ class FlagTimer(inputAlert: Alert, inputContext: MainActivity){
     }
 
     fun tickListener() {
-        flagChronometer.text = timeFormatter(max(timerBase - SystemClock.elapsedRealtime(),0), true)
-        if ((timerDuration != 0L) && (flagRunning) && (timerBase < SystemClock.elapsedRealtime())){
+        flagChronometer.text = timeFormatter(max(timerBase - System.currentTimeMillis(),0), true)
+        if ((timerDuration != 0L) && (flagRunning) && (timerBase < System.currentTimeMillis())){
             siren.ping(FlagNotification, notificationText)
             flagRunning = false
         }

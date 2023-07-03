@@ -3,7 +3,6 @@ package com.quadtime.timer
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.SystemClock
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -28,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     var isRunning = false
 
     var isTimeout = false
-    private var pauseTime: Long = SystemClock.elapsedRealtime()
+    private var pauseTime: Long = System.currentTimeMillis()
 
     //timers
     private val mainTimer = Timer()
@@ -36,8 +35,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var flagTimer: FlagTimer
 
     //base
-    var mainBase = SystemClock.elapsedRealtime()
-    var timeoutBase = SystemClock.elapsedRealtime() + MillisecondsPerMinute
+    var mainBase = System.currentTimeMillis()
+    var timeoutBase = System.currentTimeMillis() + MillisecondsPerMinute
 
     //audio, vibration, and notification handler
     private lateinit var klaxon: Alert
@@ -70,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             restoreFromBundle(savedInstanceState)
         }else{
             val mainChronometer: TextView = findViewById(R.id.chronometer)
-            val tempHolder = SystemClock.elapsedRealtime()
+            val tempHolder = System.currentTimeMillis()
             mainChronometer.text = timeFormatter(0,true)
 
             mainBase = tempHolder
@@ -95,7 +94,7 @@ class MainActivity : AppCompatActivity() {
             fun updateTimers() {
                 if(isRunning) {
                     mainChronometer.text =
-                        timeFormatter(SystemClock.elapsedRealtime() - mainBase,true)
+                        timeFormatter(System.currentTimeMillis() - mainBase,true)
                     heatTimer.tickListener()
                     flagTimer.tickListener()
 
@@ -109,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 if(isTimeout) {
                     timeoutChronometer.text =
-                        timeFormatter(timeoutBase - SystemClock.elapsedRealtime(),false)
+                        timeFormatter(timeoutBase - System.currentTimeMillis(),false)
                     timeoutTickListener()
                 }
             }
@@ -173,7 +172,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun restoreFromBundle(savedInstanceState: Bundle){
         val mainChronometer: TextView = findViewById(R.id.chronometer)
-        val tempHolder = SystemClock.elapsedRealtime()
+        val tempHolder = System.currentTimeMillis()
         //Set main and flag chronometers
         isRunning = savedInstanceState.getBoolean("isRunning")
         mainBase = savedInstanceState.getLong("mainBase")
@@ -235,7 +234,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun applySettings(){
         setListeners()
-        val tempHolder = SystemClock.elapsedRealtime()
+        val tempHolder = System.currentTimeMillis()
         val myPref: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         val audioVol = myPref.getInt(getString(R.string.audio_vol_key), defAudioVol)
@@ -335,7 +334,7 @@ class MainActivity : AppCompatActivity() {
 
         buttonPlayPause.setOnClickListener {
             if(isRunning) {
-                pauseTime = SystemClock.elapsedRealtime()
+                pauseTime = System.currentTimeMillis()
                 buttonPlayPause.setImageResource(R.drawable.play)
                 buttonPlayPause.contentDescription = getString(R.string.play_button)
                 for(a in foulCards.indices.reversed()){
@@ -346,10 +345,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 heatTimer.pauseTimer()
-                flagTimer.sync(mainBase,SystemClock.elapsedRealtime())
+                flagTimer.sync(mainBase,System.currentTimeMillis())
             }else{
-                mainBase += SystemClock.elapsedRealtime() - pauseTime
-                flagTimer.sync(mainBase, SystemClock.elapsedRealtime())
+                mainBase += System.currentTimeMillis() - pauseTime
+                flagTimer.sync(mainBase, System.currentTimeMillis())
                 for(a in foulCards.indices.reversed()){
                     if(foulCards[a].isTrash){
                         foulCards.removeAt(a)
@@ -391,11 +390,11 @@ class MainActivity : AppCompatActivity() {
 
         buttonTimeout.setOnClickListener {
             if (isTimeout) {
-                timeoutBase = SystemClock.elapsedRealtime()
+                timeoutBase = System.currentTimeMillis()
                 buttonTimeout.text = getString(R.string.timeout)
                 timeoutRow.visibility = View.GONE
             } else {
-                timeoutBase = SystemClock.elapsedRealtime() + timeoutLength
+                timeoutBase = System.currentTimeMillis() + timeoutLength
                 buttonTimeout.text = getString(R.string.clear_timeout)
                 timeoutRow.visibility = View.VISIBLE
             }
@@ -464,7 +463,7 @@ class MainActivity : AppCompatActivity() {
                 defFlagLength* MillisecondsPerMinute
             }
 
-        mainBase = SystemClock.elapsedRealtime()
+        mainBase = System.currentTimeMillis()
         pauseTime = mainBase
 
         if(isRunning){
@@ -486,7 +485,7 @@ class MainActivity : AppCompatActivity() {
         scoreRightText.text = scoreRight.toString().padStart(3,'0')
 
         if (isTimeout) {
-            timeoutBase = SystemClock.elapsedRealtime()
+            timeoutBase = System.currentTimeMillis()
             buttonTimeout.text = getString(R.string.timeout)
             isTimeout = false
             timeoutRow.visibility = View.GONE
@@ -500,11 +499,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun timeoutTickListener() {
-        if (timeoutBase < SystemClock.elapsedRealtime()) {
+        if (timeoutBase < System.currentTimeMillis()) {
             val timeoutRow: TableRow = findViewById(R.id.timeoutRow)
             val buttonTimeout: Button = findViewById(R.id.timeout)
             klaxon.ping(TimeoutNotification,getString(R.string.notification_timeout_desc))
-            timeoutBase = SystemClock.elapsedRealtime()
+            timeoutBase = System.currentTimeMillis()
             isTimeout = false
             buttonTimeout.text = getString(R.string.timeout)
             timeoutRow.visibility = View.GONE

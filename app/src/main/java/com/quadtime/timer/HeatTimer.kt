@@ -1,7 +1,6 @@
 package com.quadtime.timer
 
 import android.content.SharedPreferences
-import android.os.SystemClock
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
 import com.quadtime.timer.constants.HeatNotification
@@ -9,8 +8,8 @@ import com.quadtime.timer.constants.MillisecondsPerMinute
 import com.quadtime.timer.constants.defHeatLength
 
 class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
-    private var timerBase: Long = SystemClock.elapsedRealtime()
-    private var timerPause: Long = SystemClock.elapsedRealtime()
+    private var timerBase: Long = System.currentTimeMillis()
+    private var timerPause: Long = System.currentTimeMillis()
     private val siren: Alert = inputAlert
     private val notificationText: String = inputContext.getString(R.string.notification_heat_desc)
     private var timerDuration: Long
@@ -70,12 +69,12 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
     }
 
     fun tickListener() {
-        if ((timerDuration != 0L) && (timerBase < SystemClock.elapsedRealtime())){
+        if ((timerDuration != 0L) && (timerBase < System.currentTimeMillis())){
             siren.ping(HeatNotification, notificationText)
             // ElapsedRealTime() used instead of timerBase because timer can go off "late"
             // e.g. By shortening the timer length to a length of time that has already expired
             // We want the next ping to be judged off when the timer actually goes off.
-            timerBase = SystemClock.elapsedRealtime() + timerDuration
+            timerBase = System.currentTimeMillis() + timerDuration
             if(ActivityChecker.isActivityVisible) {
                 alertDialog.create().show()
             }
@@ -83,11 +82,11 @@ class HeatTimer(inputAlert: Alert, inputContext: MainActivity){
     }
 
     fun pauseTimer(){
-        timerPause = SystemClock.elapsedRealtime()
+        timerPause = System.currentTimeMillis()
     }
 
     fun resumeTimer(){
-        timerBase += SystemClock.elapsedRealtime() - timerPause
+        timerBase += System.currentTimeMillis() - timerPause
     }
 
     fun getPause(): Long{
