@@ -221,6 +221,9 @@ class MainActivity : AppCompatActivity() {
             val timeoutRow: TableRow = findViewById(R.id.timeoutRow)
             buttonTimeout.text = getString(R.string.clear_timeout)
             timeoutRow.visibility = View.VISIBLE
+            if(isRunning){
+                buttonTimeout.visibility = View.INVISIBLE
+            }
         }
 
         //Set Scores
@@ -346,6 +349,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 heatTimer.pauseTimer()
                 flagTimer.sync(mainBase,System.currentTimeMillis())
+                buttonTimeout.visibility = View.VISIBLE
             }else{
                 mainBase += System.currentTimeMillis() - pauseTime
                 flagTimer.sync(mainBase, System.currentTimeMillis())
@@ -359,6 +363,7 @@ class MainActivity : AppCompatActivity() {
                 heatTimer.resumeTimer()
                 buttonPlayPause.setImageResource(R.drawable.pause)
                 buttonPlayPause.contentDescription = getString(R.string.pause_button)
+                buttonTimeout.visibility = View.INVISIBLE
             }
             isRunning = !isRunning
         }
@@ -484,6 +489,7 @@ class MainActivity : AppCompatActivity() {
         scoreLeftText.text = scoreLeft.toString().padStart(3,'0')
         scoreRightText.text = scoreRight.toString().padStart(3,'0')
 
+        buttonTimeout.visibility = View.VISIBLE
         if (isTimeout) {
             timeoutBase = System.currentTimeMillis()
             buttonTimeout.text = getString(R.string.timeout)
