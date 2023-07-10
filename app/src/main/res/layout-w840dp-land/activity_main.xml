@@ -276,7 +276,7 @@
                 android:contentDescription="@string/blue_card_button"
                 android:padding="20dp"
                 android:layout_weight="0"
-                android:text="@string/yellow" />
+                android:text="@string/blue" />
             <Space
                 android:layout_width="5dp"
                 android:layout_height="60sp"
