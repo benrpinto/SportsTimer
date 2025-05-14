@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace 'com.quadtime.timer'
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.quadtime.timer"
         minSdk 24
-        targetSdk 33
-        versionCode 13
-        versionName "1.13"
+        targetSdk 35
+        versionCode 16
+        versionName "1.16"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
