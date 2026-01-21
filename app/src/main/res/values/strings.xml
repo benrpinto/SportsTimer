@@ -100,7 +100,7 @@
     <string name="version">Version</string>
     <!-- version_name is defined in build.gradle -->
     <string name="IQA">What is Quadball?</string>
-    <string name="IQA_link">https://iqasport.org/how-to-play</string>
+    <string name="IQA_link">https://iqasport.org/play</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_link">https://benrpinto.github.io/benrpinto/quadball_timer_privacy_policy/index.html</string>
     <string name="donation">Support me on Ko-fi</string>
